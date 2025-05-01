@@ -1,0 +1,128 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
+}
+body {
+	font-family: "Tagesschrift", serif !important;
+	background-color: #fdf5e6 !important;
+}
+header {
+	background-color: #3f2a14;
+	border-radius: 500px;
+	height: 4.5rem;
+}
+.nav-link{
+	color: #AAAAAA;
+	font-size: 1.3rem !important;
+}
+.nav-link:hover {
+       color: #FFFFFF;
+       text-decoration: underline;
+}
+.navbar-brand {
+	height: 4rem;
+	width: auto;
+	border-radius: 1000px;
+}
+.front-holder {
+	margin-top: 2rem;
+}
+.front-page {
+	background-image: url("https://img.freepik.com/premium-photo/stack-cookies-with-blurry-background-lights-them_662214-117383.jpg");	
+	background-size: cover;
+	background-position: center;
+	min-height: 60vh;
+	width: 90%;
+	border-radius:50px;
+}
+.welcome {
+	font-size: 4rem;
+}
+.btn-cookie {
+	color: white !important;
+	background-color: #3f2a14 !important;
+}
+.rhombus {
+	display: inline-block;
+	background: linear-gradient(90deg,#A00000,#700000); /* Background color of the rhombus */
+	clip-path: polygon(7% 10%, 97% 10%, 92% 100%, 2% 100%); /* Rhombus shape */
+        color:#fffdfd;
+	padding: 20px 40px;
+	font-size: 24px;
+	z-index: 1;
+}
+
+.image-caption{
+	font-size: 2.5rem;
+}
+[class*="button-"]{
+	margin-right: 3rem;
+}
+.second-button{
+	float: left;
+}
+
+footer {
+	height: 5rem;
+	color: white;
+	font-family: sans-serif;
+	background-color: #3f2a14 ;
+}
+
+@media (max-width: 991px) {
+	.rhombus{
+		display: none;
+		margin: none;
+		padding: none;
+	}
+	.front-page{
+		width: 100%;
+		height: 100%;
+		min-height: 30vh;
+		border-radius: 0;
+		background-image: none;
+	}
+	.welcome{
+		font-size: 8rem;
+	}
+	.subwelcome{
+		font-size: 2rem;
+	}
+	.btn-lg{
+		padding: 1rem 2rem 1rem 2rem !important;
+		font-size:3rem !important;
+	}
+	header{
+		height: 10rem;
+		border-radius: 0;
+		margin: 0;
+		display: flex;
+		align-content: center;
+		width: 100vw !important;
+	}
+	.navbar{
+		width: 100vw !important;
+	}
+	.nav-link{
+		font-size: 3rem !important;
+	}
+	.navbar-brand{
+		display: none;
+	}
+	.front-holder {
+		margin-top: 0;
+	}
+	[class*="col-"]{
+		width: 100% !important;
+	}
+	.image-caption{
+		margin-top: 2rem;
+	}
+	.second-button{
+		float: right;
+	}
+	footer{
+		font-size: 2rem;
+	}
+}
