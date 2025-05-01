@@ -14,7 +14,7 @@ RewriteRule ^ - [L]
 
 
 
-# Rewrite everything else to Controller.php
+# Rewrite everything else to index.php
 
 RewriteRule ^(.*)$ /index.php [L]
 
