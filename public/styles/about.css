@@ -1,0 +1,99 @@
+/* ABOUT US PAGE (au2- namespace) */
+.au2-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  box-sizing: border-box;
+}
+
+/* Rows for Caroline sections */
+.au2-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+.au2-row--reverse {
+  flex-direction: row-reverse;
+}
+
+/* Image wrapper */
+.au2-image-wrap {
+  flex: 1 1 50%;
+  padding: 0 1rem;
+}
+.au2-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Text wrapper */
+.au2-text-wrap {
+  flex: 1 1 50%;
+  padding: 0 1rem;
+}
+.au2-heading {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #3f2a14;
+}
+.au2-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Rob section */
+.au2-dev {
+  display: flex;
+  align-items: center;
+  background-color: #fdf5e6;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.au2-dev-image-wrap {
+  flex: 0 0 200px;
+  margin-right: 2rem;
+}
+.au2-dev-image {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.au2-dev-text {
+  flex: 1;
+}
+.au2-dev-heading {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: #3f2a14;
+}
+.au2-dev-textbody {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Responsive: stack on mobile */
+@media (max-width: 768px) {
+  .au2-row,
+  .au2-dev {
+    flex-direction: column;
+    text-align: center;
+  }
+  .au2-row--reverse {
+    flex-direction: column;
+  }
+  .au2-image-wrap,
+  .au2-text-wrap,
+  .au2-dev-image-wrap {
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
+  .au2-dev {
+    padding: 1.5rem;
+  }
+}

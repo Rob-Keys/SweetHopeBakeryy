@@ -22,6 +22,9 @@ class Controller {
 			case "/order":
 				$this->showOrder();
 				break;
+			case "/contact":
+				$this->showContact();
+				break;	
 			case "/home":	
 			default:
 				$this->showHome();
@@ -34,19 +37,32 @@ class Controller {
 	public function showAbout(){
 		include("/home/bitnami/bakehouse/private/pages/about.php");
 	}
+	public function showContact(){
+		include("/home/bitnami/bakehouse/private/pages/contact.php");
+	}
 	public function showOrder(){
 		// Handle form submissions
-		if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+		if (isset($_POST['action'])) {
 			if($_POST['action']==='add'){
-				$id = $_POST['id'];
-				$name = $_POST['name'];
-				$opt_qty = intval($_POST['opt_qty']);
-				$pricePerPack = floatval($_POST['price']);
-				$this->add_to_cart($id, $name, $opt_qty, $pricePerPack);
+				$quant_price = explode("_",$_POST['quantity']);
+				$quantity = $quant_price[0];
+				$price = $quant_price[1];
+				echo json_encode([
+					    'id' => $_POST['id'],
+					    'name' => $_POST['name'],
+					    'quantity' => $quantity,
+					    'price'=> $price
+				]);
+				$this->add_to_cart($_POST['id'],$_POST['name'],$quantity,$price);
+				exit;
 			}
 			else if($_POST['action']==='clear'){
 				$_SESSION['cart']=[];
 			}
+			else if($_POST['action']==='remove'){
+				unset($_SESSION['cart'][$_SESSION['item_id']]);
+			}
+			
 
 			$_SESSION['cart_total']= $this->cart_total();
 			header("Location: /order");
@@ -64,15 +80,14 @@ class Controller {
 	 * @param float $price
 	 */
 	function add_to_cart($id, $name, $qty, $price) {
-		$key = $id . "_" . $qty;
-		if (isset($_SESSION['cart'][$key])) {
-			$_SESSION['cart'][$key]['quantity'] += 1;
+		if (isset($_SESSION['cart'][$id])) {
+			$_SESSION['cart'][$id]['quantity'] += $qty;
+			$_SESSION['cart'][$id]['price'] += $price;
 		} else {
-			$_SESSION['cart'][$key] = [
+			$_SESSION['cart'][$id] = [
 				'id' => $id,
 				'name' => $name,
-				'quantity' => 1,
-				'option_qty' => $qty,
+				'quantity' => $qty,
 				'price' => $price
 			];
 		}
@@ -84,7 +99,7 @@ class Controller {
 	function cart_total() {
 		$total = 0;
 		foreach ($_SESSION['cart'] as $item) {
-			$total += $item['price'] * $item['quantity'];
+			$total += $item['price'];
 		}
 		return $total;
 	}
