@@ -1,21 +1,17 @@
 RewriteEngine On
 
-RewriteBase /
+# 1. Redirect non-www to www
+RewriteCond %{HTTP_HOST} ^703bakehouse\.com$ [NC]
+RewriteRule ^(.*)$ https://www.703bakehouse.com/$1 [R=301,L]
 
+# 2. Let sitemap.xml load directly
+RewriteCond %{REQUEST_URI} ^/sitemap\.xml$ [NC]
+RewriteRule ^sitemap\.xml$ sitemap.xml [L]
 
-
-# Don't rewrite requests for existing files or directories
-
+# 3. Allow access to real files or folders
 RewriteCond %{REQUEST_FILENAME} -f [OR]
-
 RewriteCond %{REQUEST_FILENAME} -d
-
 RewriteRule ^ - [L]
 
-
-
-# Rewrite everything else to index.php
-
-RewriteRule ^(.*)$ /index.php [L]
-
-
+# 4. Route everything else to index.php
+RewriteRule ^ index.php [L]

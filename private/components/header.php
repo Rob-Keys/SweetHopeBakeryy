@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex flex-row justify-content-evenly w-100">
                 <li class="nav-item">
-                    <a class="nav-link text-light active" aria-current="page" href="/home">Home</a>
+                    <a class="nav-link text-light active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/about">About Us</a>
@@ -17,7 +17,7 @@
                 </li>
             </ul>
             <!-- Brand logo on the left -->
-            <a href="/home" class="pe-2 float-end"><img class="navbar-brand" src="images/pfp.jpg"></a>
+            <a href="/" class="pe-2 float-end"><img class="navbar-brand" src="https://703bakehouse.s3.us-east-1.amazonaws.com/pfp.jpg"></a>
         </div>
     </nav>
 </header>

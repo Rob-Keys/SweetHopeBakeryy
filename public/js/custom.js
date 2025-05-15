@@ -14,25 +14,23 @@ document.addEventListener('DOMContentLoaded', () => {
 				.then(response => response.json())
 				.then(data => {
 					let existing = false;
-					const cart = document.getElementById("cart-list");
 					const items = document.querySelectorAll("#cart-list li");
-					const total_price = document.getElementById("total-price");
 					for(let i=0; i<items.length; i++){
 						let item = items[i];
 						for (let node of item.childNodes) {
-							if(node.nodeType===Node.TEXT_NODE && node.textContent.trim() !== "Added Successfully!"){
-								let trimmed_text = node.textContent.trim();
-								const price_container = node.parentNode.querySelector(".price-container").querySelector(".price");
-								if(trimmed_text.startsWith(data["name"])){
-									let qty = trimmed_text.match(/\d+/);
-									const newText = node.textContent.replace(qty[0],parseInt(qty[0])+parseInt(data["quantity"]));
-									node.textContent = newText;
+							if(node.nodeType===Node.TEXT_NODE){
+								let product_name_and_qty = node.textContent.trim();
+								if(product_name_and_qty.startsWith(data["name"])){
+									let qty = product_name_and_qty.match(/\d+/);
+									node.textContent = node.textContent.replace(qty[0],parseInt(qty[0])+parseInt(data["quantity"]));
 									existing = true;
-									const old_price = parseFloat(price_container.textContent.replace(/[^\d.-]/g,""));
-									const new_price = old_price + parseFloat(data["price"]);
-									total_price.textContent = "Total: $" + (parseFloat(total_price.textContent.replace(/[^\d.-]/g,"")) + parseFloat(data["price"])).toFixed(2);
-									price_container.textContent = "$"+new_price.toFixed(2);
 								}
+							}
+							else if(node.nodeType===Node.ELEMENT_NODE && existing){
+								const price_container = node.querySelector(".price");
+								const old_price = parseFloat(price_container.textContent.replace(/[^\d.-]/g,""));
+								const new_price = old_price + parseFloat(data["price"]);
+								price_container.textContent = "$"+new_price.toFixed(2);
 							}
 						}
 				 	}
@@ -40,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
 						const newItemHTML =`
 						<li class="list-group-item d-flex justify-content-between align-items-center">
 							${data["name"]} : (${data["quantity"]})
-							<div class="d-flex justify-content-end align-items-center">
-								<span class="me-3">$${parseFloat(data["price"]).toFixed(2)}</span>
+							<div class="d-flex justify-content-end align-items-center price-container">
+								<span class="me-3 price">$${parseFloat(data["price"]).toFixed(2)}</span>
 								<span><form method="post" action="/order">
 										<input type="hidden" name="item_id" value="${data["id"]}">
 										<button type="submit" name="action" value="remove" style="color: red; background: none; border: none;">X</button>
@@ -49,8 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
 							</div>
 						</li>
 						`;
+						const cart = document.getElementById("cart-list");
 						cart.insertAdjacentHTML('beforeend', newItemHTML);
+						let empty_cart_text = document.getElementById("empty-cart");
+						if(empty_cart_text){
+							empty_cart_text.remove();
+						}
 					}
+
+					const total_price = document.getElementById("total-price");
+					total_price.textContent = "Total: $" + (parseFloat(total_price.textContent.replace(/[^\d.-]/g,"")) + parseFloat(data["price"])).toFixed(2);
+
 					const message = document.createElement('div');
 					message.textContent = "Added Successfully!";
 					message.classList.add('fade-in-out');
@@ -72,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}	
 
+	//just for mobile cart button and cart
 	document.getElementById("dropdownButton").addEventListener("click", () => {
 		document.getElementById("dropdownContent").classList.toggle("show");
 		document.querySelector(".total-background").classList.toggle("show");

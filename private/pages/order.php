@@ -2,14 +2,26 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>703 Bakehouse</title>
+        <title>Order from 703 Bakehouse</title>
+        <meta name="description" content="703 Bakehouse offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
+        <meta property="og:title" content="Order from 703 Bakehouse">
+        <meta property="og:description" content="Custom cakes and cookies in Northern Virginia.">
+        <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
+        <meta property="og:url" content="https://703bakehouse.com/order">
+        <link rel="icon" type="image/x-icon" href="/images/bakehouselogo.ico">
+        <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
+        <link rel="canonical" href="https://www.703bakehouse.com/order" />
 
-        <link rel="stylesheet" href="styles/custom.css">
+        <link rel="stylesheet" href="styles/shared.css">
+        <link rel="stylesheet" href="styles/order.css">
         <script src="js/custom.js"></script>
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+        
         <script src="https://kit.fontawesome.com/21730f7c7c.js" crossorigin="anonymous"></script>
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
@@ -19,27 +31,20 @@
             <div class="row order-content">
                 <div class="col-md-8 border rounded bg-light">
                     <?php
-                    $products = [
-                        ['id' => 'cupcake', 'name' => 'Cupcakes', 'prices' => [1 => 2.50, 3 => 7.00, 6 => 13.00, 12 => 24.00], 'image'=>'cupcakes.jpg',' customizations' => ['frosting' => ['yellow','red','swirled']]],
-                        ['id' => 'donut', 'name' => 'Donuts', 'prices' => [1 => 1.75, 3 => 5.00, 6 => 9.50, 12 => 18.00], 'image'=>'oreo.jpg', 'customizations' => ['glaze' => ['yes','no']]],
-                        ['id' => 'cookie', 'name' => 'Cookies', 'prices' => [1 => 1.25, 3 => 3.50, 6 => 6.50, 12 => 12.00], 'image'=>'smore_bar.jpg', 'customizations' => ['gluten-free' => ['yes','no'],'chocolate'=>['semi-sweet','dark','white','peppermint']]],
-                        ['id' => 'brownie', 'name' => 'Gourmet Brownies', 'prices' => [1 => 3.00, 3 => 8.00, 6 => 15.00, 12 => 28.00], 'image'=>'cupcakes.jpg', 'customizations' => ['gluten-free' => ['yes','no'],'chocolate'=>['semi-sweet','dark','white','peppermint']]],
-                        ['id' => 'macaron', 'name' => 'French Macarons', 'prices' => [3 => 9.00, 6 => 17.00, 12 => 32.00], 'image'=>'cupcakes.jpg', 'customizations' => ['gluten-free' => ['yes','no'],'chocolate'=>['semi-sweet','dark','white','peppermint']]],
-                    ];
-                    for($i=0; $i<sizeof($products)-1; $i++) { ?>
-                    <div class='row'>
-                        <div class='col-6'>
-                            <?php include("/home/bitnami/bakehouse/private/components/print_product_i.php"); ?>
+                    for($i=0; $i<sizeof($_SESSION["products"])-1; $i++) { ?>
+                        <div class='row'>
+                            <div class='col-6'>
+                                <?php include("/home/bitnami/bakehouse/private/components/product.php"); ?>
+                            </div>
+                            <?php $i++; ?>
+                            <div class='col-6'>
+                                <?php include("/home/bitnami/bakehouse/private/components/product.php"); ?>
+                            </div>
                         </div>
-                        <?php $i++; ?>
-                        <div class='col-6'>
-                            <?php include("/home/bitnami/bakehouse/private/components/print_product_i.php"); ?>
-                        </div>
-                    </div>
                     <?php }
-                    if(sizeof($products)%2===1){
+                    if(sizeof($_SESSION["products"])%2===1){
                         echo "<div class='row'><div class='col-3'></div><div class='col-6'>";
-                        include("/home/bitnami/bakehouse/private/components/print_product_i.php");
+                        include("/home/bitnami/bakehouse/private/components/product.php");
                         echo "</div></div>";
                     }
                     ?>
@@ -63,7 +68,8 @@
                                     </span>
                                 </div>
                             </li>
-                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                        <?= sizeof($_SESSION['cart']) == 0 ? "<p id='empty-cart' class='text-center mt-2 text-muted'>Currently Empty</p>" : "" ?>
                         </ul>
                         <div class="float-end">
                             <h5 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
@@ -85,7 +91,7 @@
                 <div class="cart-container border rounded bg-light">
                         <h2>Your Cart</h2>
                         <ul class="list-group mb-3" id="cart-list">
-                            <?php foreach ($_SESSION['cart'] as $item): ?>
+                            <?php if($_SESSION['cart']): foreach ($_SESSION['cart'] as $item): ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <?= $item['name'].": (".$item['quantity'].")"?>
                                     <div class="d-flex justify-content-end align-items-center price-container">
@@ -100,7 +106,7 @@
                                         </span>
                                     </div>
                                 </li>
-                                <?php endforeach; ?>
+                                <?php endforeach; endif; ?>
                             </ul>
                             <div class="float-end">
                                 <h5 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
