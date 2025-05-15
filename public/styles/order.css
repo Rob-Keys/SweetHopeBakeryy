@@ -15,9 +15,6 @@
 	top: 6rem;
 	padding: 1rem;
 }
-.dropdown{
-	display: none;
-}
 .total-background{
 	display: none;
 	background-color: white;
@@ -32,6 +29,11 @@
 .product-image{
 	width: 95%;
 	border: 8px #3f2a14 solid;
+}
+@media (min-width: 991px) {
+	#dropdownButton{
+		display: none;
+	}
 }
 @media (max-width: 991px) {
 	.product-quantity{
@@ -70,14 +72,11 @@
 	.border.rounded.bg-light {
 		background-color: none;
 	}
-	#normal-cart{
-		display: none;
-	}
 	.dropdown {
 		display: inline-block;
 		position: fixed !important;
-		top: 8.5vh;
-		right: 13vw;
+		top: 7vh;
+		right: -80vw;
 		padding:5rem;
 		z-index: 10;
 	}
@@ -95,7 +94,7 @@
 	.cart-container{
 		top:23vh;
 		right:10vw;
-		width: 70vw;
+		width: 80vw !important;
 	}
 	#dropdownButton{
 		position: absolute;

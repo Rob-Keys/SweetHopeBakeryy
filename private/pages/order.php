@@ -50,78 +50,47 @@
                     ?>
                 </div>
                 <div class="col-1"></div>
-                <div id="normal-cart" class="col-md-3 cart-container border rounded bg-light">
-                    <h2>Your Cart</h2>
-                    <ul class="list-group mb-3" id="cart-list">
-                        <?php foreach ($_SESSION['cart'] as $item): ?>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <?= $item['name'].": (".$item['quantity'].")"?>
-                                <div class="d-flex justify-content-end align-items-center price-container">
-                                    <span class="me-3 price">
-                                        <?php echo "\$" . number_format($item['price'], 2); ?>
-                                    </span>
-                                    <span>
-                                        <form method="post" action="/order">
-                                            <input type="hidden" name="item_id" value="<?= $item['id']  ?>">
-                                            <button type="submit" name="action" value="remove" style="color: red; background: none; border: none;">X</button>
-                                        </form>
-                                    </span>
+                <div class="total-background"></div>
+                <div class="dropdown">
+                    <button id="dropdownButton"><i class="fa-solid fa-cart-shopping"></i></button>
+                    <div id="dropdownContent" class="dropdown-content">
+                        <div id="normal-cart" class="col-md-3 cart-container border rounded bg-light">
+                            <h2>Your Cart</h2>
+                            <ul class="list-group mb-3" id="cart-list">
+                                <?php foreach ($_SESSION['cart'] as $item): ?>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <?= $item['name'].": (".$item['quantity'].")"?>
+                                        <div class="d-flex justify-content-end align-items-center price-container">
+                                            <span class="me-3 price">
+                                                <?php echo "\$" . number_format($item['price'], 2); ?>
+                                            </span>
+                                            <span>
+                                                <form method="post" action="/order">
+                                                    <input type="hidden" name="item_id" value="<?= $item['id']  ?>">
+                                                    <button type="submit" name="action" value="remove" style="color: red; background: none; border: none;">X</button>
+                                                </form>
+                                            </span>
+                                        </div>
+                                    </li>
+                                <?php endforeach; ?>
+                                <?= sizeof($_SESSION['cart']) == 0 ? "<p id='empty-cart' class='text-center mt-2 text-muted'>Currently Empty</p>" : "" ?>
+                                </ul>
+                                <div class="float-end">
+                                    <h5 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
+                                    <form class="d-flex justify-content-end" method="post" action="">
+                                        <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
+                                    </form>
+                                    <form class="d-flex justify-content-end" method="post" action="/order">
+                                        <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear Cart</button>
+                                    </form>
                                 </div>
-                            </li>
-                        <?php endforeach; ?>
-                        <?= sizeof($_SESSION['cart']) == 0 ? "<p id='empty-cart' class='text-center mt-2 text-muted'>Currently Empty</p>" : "" ?>
-                        </ul>
-                        <div class="float-end">
-                            <h5 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
-                            <form class="d-flex justify-content-end" method="post" action="">
-                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
-                            </form>
-                            <form class="d-flex justify-content-end" method="post" action="/order">
-                                <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear Cart</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <div class="total-background"></div>
-        <div class="dropdown">
-            <button id="dropdownButton"><i class="fa-solid fa-cart-shopping"></i></button>
-            <div id="dropdownContent" class="dropdown-content">
-                <div class="cart-container border rounded bg-light">
-                        <h2>Your Cart</h2>
-                        <ul class="list-group mb-3" id="cart-list">
-                            <?php if($_SESSION['cart']): foreach ($_SESSION['cart'] as $item): ?>
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <?= $item['name'].": (".$item['quantity'].")"?>
-                                    <div class="d-flex justify-content-end align-items-center price-container">
-                                        <span class="me-3 price">
-                                            <?php echo "\$" . number_format($item['price'], 2); ?>
-                                        </span>
-                                        <span>
-                                            <form method="post" action="/order">
-                                                <input type="hidden" name="item_id" value="<?= $item['id']  ?>">
-                                                <button type="submit" name="action" value="remove" style="color: red; background: none; border: none;">X</button>
-                                            </form>
-                                        </span>
-                                    </div>
-                                </li>
-                                <?php endforeach; endif; ?>
-                            </ul>
-                            <div class="float-end">
-                                <h5 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
-                                <form class="d-flex justify-content-end" method="post" action="">
-                                    <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
-                                </form>
-                                <form class="d-flex justify-content-end" method="post" action="/order">
-                                    <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear Cart</button>
-                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
+        
         <?php include("/home/bitnami/bakehouse/private/components/footer.php"); ?>
     </body>
 </html>
