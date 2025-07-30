@@ -13,7 +13,7 @@
         <input type="hidden" name="name" value="<?=$name?>">
         <div class="mb-2 product-quantity"><label>Quantity:</label> 
             <select name="quantity" class="form-select d-inline-block w-auto product-select">;
-                <?php    
+                <?php
                     foreach ($prices as $qty => $price) {
                         echo "<option value='".$qty."_".$price."' style='font-family: sans-serif'>".$qty." for $".number_format($price,2)."</option>";
                     }

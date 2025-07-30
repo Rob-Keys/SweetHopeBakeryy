@@ -77,7 +77,7 @@
                                 </ul>
                                 <div class="float-end">
                                     <h5 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
-                                    <form class="d-flex justify-content-end" method="post" action="">
+                                    <form class="d-flex justify-content-end" method="post" action="/checkout">
                                         <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
                                     </form>
                                     <form class="d-flex justify-content-end" method="post" action="/order">

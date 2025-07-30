@@ -27,9 +27,8 @@
         <div class="wrapper">
             <div class="content mt-5 mb-5">
                 <h2 class="subtitle">Get in Touch</h2>
-                <p class="description">For custom orders, please email or DM us with a detailed description of your request, the desired delivery date, and any urgency. </p>
+                <p class="description">For custom orders, please email or DM us with a detailed description of your request, the desired delivery date, and your preferred method of payment (Paypal, Venmo, Zelle, Cash). </p>
                 <p class="description">For general inquiries, don't hesitate to connect with us on Instagram!</p>
-                    
                 <div class="contact-info">
                     <p class="contact-info-email"><strong>Email:</strong> <a href="mailto:703bakehouse@gmail.com" class="contact-page-link">703bakehouse@gmail.com</a></p>
                     <p class="contact-info-instagram"><strong>Instagram:</strong> <a href="https://www.instagram.com/703bakehouse/" target="_blank" class="contact-page-link">Follow us on Instagram <i class="fa-brands fa-instagram"></i></a></p>
