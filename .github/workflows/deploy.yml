@@ -1,0 +1,37 @@
+name: Deploy to Lightsail
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  deploy:
+    name: Deploy to Lightsail
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        env:
+          SSH_KEY: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+          HOST: ${{ secrets.LIGHTSAIL_HOST }}
+        run: |
+          # Setup SSH key
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          # Add host to known_hosts
+          ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
+
+          # Execute deployment
+          ssh -i ~/.ssh/deploy_key bitnami@$HOST << 'EOF'
+            cd ~/bakehouse
+
+            # Pull latest code
+            git fetch origin prod
+            git reset --hard origin/prod
+            git pull origin prod --force
+
+            echo "Deployment completed at $(date)"
+          EOF
