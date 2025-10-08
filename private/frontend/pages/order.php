@@ -14,7 +14,7 @@
 
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/order.css">
-        <script src="js/custom.js"></script>
+        <script src="js/order.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,58 +25,60 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php include("/home/bitnami/bakehouse/private/components/header.php"); ?>
-        <main class="container py-5">
-            <h1 class="mb-4 order-title">Order Your Sweet Treats</h1>
-            <div class="row order-content">
-                <div class="col-md-8 border rounded bg-light">
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
+        <div>
+            <div>
+                <h1 class="col-md-8 order-title">Order Your Sweet Treats</h1>
+            </div>
+            <div class="order-content">
+                <div class="col-md-8 border rounded bg-light products mb-3">
                     <?php
                     for($i=0; $i<sizeof($_SESSION["products"])-1; $i++) { ?>
                         <div class='row'>
                             <div class='col-6'>
-                                <?php include("/home/bitnami/bakehouse/private/components/product.php"); ?>
+                                <?php include("/home/bitnami/bakehouse/private/frontend/components/product.php"); ?>
                             </div>
                             <?php $i++; ?>
                             <div class='col-6'>
-                                <?php include("/home/bitnami/bakehouse/private/components/product.php"); ?>
+                                <?php include("/home/bitnami/bakehouse/private/frontend/components/product.php"); ?>
                             </div>
                         </div>
                     <?php }
                     if(sizeof($_SESSION["products"])%2===1){
                         echo "<div class='row'><div class='col-3'></div><div class='col-6'>";
-                        include("/home/bitnami/bakehouse/private/components/product.php");
+                        include("/home/bitnami/bakehouse/private/frontend/components/product.php");
                         echo "</div></div>";
                     }
                     ?>
                 </div>
                 <div class="col-1"></div>
                 <div class="total-background"></div>
-                <div class="dropdown">
+                <div class="cart-dropdown d-flex justify-content-end me-5">
                     <button id="dropdownButton"><i class="fa-solid fa-cart-shopping"></i></button>
                     <div id="dropdownContent" class="dropdown-content">
                         <div id="normal-cart" class="col-md-3 cart-container border rounded bg-light">
-                            <h2>Your Cart</h2>
+                            <h3>Your Cart</h3>
                             <ul class="list-group mb-3" id="cart-list">
-                                <?php foreach ($_SESSION['cart'] as $item): ?>
+                                <?php foreach ($_SESSION['cart'] as $name => $item): ?>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?= $item['name'].": (".$item['quantity'].")"?>
+                                        <p><?= $name . " : (".$item['quantity'].")"?></p>
                                         <div class="d-flex justify-content-end align-items-center price-container">
-                                            <span class="me-3 price">
+                                            <p class="me-3 price">
                                                 <?php echo "\$" . number_format($item['price'], 2); ?>
-                                            </span>
-                                            <span>
+                                            </p>
+                                            <p>
                                                 <form method="post" action="/order">
-                                                    <input type="hidden" name="item_id" value="<?= $item['id']  ?>">
-                                                    <button type="submit" name="action" value="remove" style="color: red; background: none; border: none;">X</button>
+                                                    <input type="hidden" name="removed_name" value="<?= $name ?>">
+                                                    <button type="submit" name="action" value="remove" style="color: red; background: none; border: none;"><p>X</p></button>
                                                 </form>
-                                            </span>
+                                            </p>
                                         </div>
                                     </li>
                                 <?php endforeach; ?>
                                 <?= sizeof($_SESSION['cart']) == 0 ? "<p id='empty-cart' class='text-center mt-2 text-muted'>Currently Empty</p>" : "" ?>
                                 </ul>
                                 <div class="float-end">
-                                    <h5 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
+                                    <h4 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h4>
                                     <form class="d-flex justify-content-end" method="post" action="/checkout">
                                         <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
                                     </form>
@@ -89,8 +91,8 @@
                     </div>
                 </div>
             </div>
-        </main>
-        
-        <?php include("/home/bitnami/bakehouse/private/components/footer.php"); ?>
+        </div>
+   
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
     </body>
 </html>

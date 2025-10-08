@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Order Successful</title>
+
+        <link rel="stylesheet" href="styles/shared.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
+
+        <div class="row m-5">
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Order Summary</h2>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <?php foreach ($_SESSION['cart'] as $name => $item): ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong><?=$item['quantity']." ".$name ?></strong>
+                                </div>
+                                <span><?= "$" . number_format($item['price'], 2) ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <div class="card-body">
+                        <h5 class="card-title">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <p> Thanks for your order! </p>
+            </div>
+        </div>
+
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
+    </body>
+</html>

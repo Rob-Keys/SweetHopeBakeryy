@@ -1,0 +1,62 @@
+[
+    {
+        "itemName": "Cupcakes",
+        "description": "Some cupcakes with yellow cake and chocolate frosting",
+        "prices": {
+            "3": 10,
+            "6": 15,
+            "12": 20
+        },
+        "customizations": {
+            "Gluten Free": 3,
+            "Dairy Free": 2,
+            "Rainbow Sprinkles": 0
+        },
+        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cupcakes.jpg"
+    },
+    {
+        "itemName": "Cookies & Cream Cupcakes",
+        "prices": {
+            "6": 25,
+            "12": 40
+        },
+        "customizations": {
+            "Gluten Free": 45,
+            "Dairy Free": 45
+        },
+        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cookies_&_Cream_Cupcakes.jpg"
+    },
+    {
+        "itemName": "Cake Doughnuts",
+        "prices": {
+            "6": 20,
+            "12": 38
+        },
+        "customizations": {
+            "Gluten Free": 45,
+            "Dairy Free": 45
+        },
+        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cake_Doughnuts.jpg"
+    },
+    {
+        "itemName": "Snickerdoodles",
+        "prices": {
+            "12": 20
+        },
+        "customizations": {
+            "Gluten Free & Dairy Free": 26
+        },
+        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Snickerdoodles.jpg"
+    },
+    {
+        "itemName": "S’mores Bars",
+        "prices": {
+            "6": 20,
+            "12": 35
+        },
+        "customizations": {
+            "Dairy Free": 10
+        },
+        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/S’mores_Bars.jpg"
+    }
+]

@@ -15,16 +15,19 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php include("/home/bitnami/bakehouse/private/components/header.php"); ?>
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
         <div class="wrapper">
-            <div class="content mt-5 mb-5">
+            <div class="content ms-5 mt-5 mb-5">
                 <h2 class="subtitle">Provide your password to access this page</h2>
-                <form method="post" action="/customize">
-                    <input type="password" name="password"></input>
+                <form method="post" action="<?=isset($_SESSION["desired_page"]) ? $_SESSION["desired_page"] : "/mail" ?>">
+                    <!-- Dummy username field -->    
+                    <input type="text" name="username" autocomplete="username" style="display:none">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required></input>
                     <button type="submit" class="btn btn-cookie button-2 mt-2">Submit Password</button>
                 </form>
             </div>
         </div>
-        <?php include("/home/bitnami/bakehouse/private/components/footer.php"); ?>
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
     </body>
 </html>

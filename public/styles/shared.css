@@ -2,16 +2,39 @@ html, body {
 	margin: 0;
 	padding: 0;
 	overflow-x: hidden;
+	height: 100%;
 }
 body {
 	font-family: "Tagesschrift", serif !important;
 	background-color: #fdf5e6 !important;
+	display: flex;
+	flex-direction: column;
 }
 header {
 	background-color: #3f2a14;
 	border-radius: 500px;
-	height: 4.5rem;
+	position: relative;
 }
+header, footer {
+  flex: 0 0 auto; /* fixed height based on content */
+}
+main {
+	flex: 1 0 auto;   /* take remaining space */
+}
+footer {
+	margin: 0 !important;
+	background-color: #3f2a14 !important;
+	flex-shrink: 0;
+	p {
+		color: white !important;
+		font-family: sans-serif !important;
+		display: inline !important;
+	}
+	.footer-socials{
+		text-align: end;
+	}
+}
+
 .nav-link{
 	color: #AAAAAA;
 	font-size: 1.3rem !important;
@@ -25,18 +48,47 @@ header {
 	width: auto;
 	border-radius: 1000px;
 }
+
 .btn-cookie {
 	color: white !important;
 	background-color: #3f2a14 !important;
 }
-footer {
-	height: 5rem;
-	color: white;
-	font-family: sans-serif;
-	background-color: #3f2a14 ;
+
+h1 {
+	font-size: 4rem !important;
+}
+h2 {
+	font-size: 3rem !important;
+}
+h3 {
+	font-size: 2rem !important;
+}
+h4 {
+	font-size: 1.5rem !important;
+}
+p {
+	font-size: 1rem !important;
 }
 
 @media (max-width: 991px) {
+	h1 {
+		font-size: 10rem !important;
+	}
+	h2 {
+		font-size: 8rem !important;
+	}
+	h3 {
+		font-size: 6rem !important;
+	}
+	h4 {
+		font-size: 4rem !important;
+	}
+	p {
+		font-size: 3rem !important;
+	}
+	.small-text {
+		font-size: 2rem !important;
+	}
 	.btn-lg{
 		padding: 1rem 2rem 1rem 2rem !important;
 		font-size:3rem !important;
@@ -54,22 +106,13 @@ footer {
 	}
 	.nav-link{
 		font-size: 3rem !important;
+		padding-top: 2px;
+		padding-bottom: 2px;
 	}
 	.navbar-brand{
 		display: none;
 	}
 	[class*="col-"]{
 		width: 100% !important;
-	}
-	footer{
-		height: auto;
-		font-size: 2rem;
-		padding: 0 !important;
-		div {
-			margin: 0 !important;
-		}
-	}
-	main{
-		margin: 0 !important;
 	}
 }

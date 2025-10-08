@@ -14,7 +14,6 @@
 
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/contact.css">
-        <script src="js/custom.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,18 +22,17 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php include("/home/bitnami/bakehouse/private/components/header.php"); ?>
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
         <div class="wrapper">
             <div class="content mt-5 mb-5">
-                <h2 class="subtitle">Get in Touch</h2>
-                <p class="description">For custom orders, please email or DM us with a detailed description of your request, the desired delivery date, and your preferred method of payment (Paypal, Venmo, Zelle, Cash). </p>
-                <p class="description">For general inquiries, don't hesitate to connect with us on Instagram!</p>
+                <h2 class="subtitle"><?= $_SESSION['contact_page_sections'][0]['headerText']?></h2>
+                <p class="description"><?= $_SESSION['contact_page_sections'][0]['bodyText']?></p>
                 <div class="contact-info">
-                    <p class="contact-info-email"><strong>Email:</strong> <a href="mailto:703bakehouse@gmail.com" class="contact-page-link">703bakehouse@gmail.com</a></p>
-                    <p class="contact-info-instagram"><strong>Instagram:</strong> <a href="https://www.instagram.com/703bakehouse/" target="_blank" class="contact-page-link">Follow us on Instagram <i class="fa-brands fa-instagram"></i></a></p>
+                    <p class="contact-info-email"><strong><?= $_SESSION['contact_page_sections'][1]['headerText']?>:</strong> <a href="mailto:<?= $_SESSION['contact_page_sections'][1]['bodyText']?>" class="contact-page-link"><?= $_SESSION['contact_page_sections'][1]['bodyText']?></a></p>
+                    <p class="contact-info-instagram"><strong><?= $_SESSION['contact_page_sections'][2]['headerText']?>:</strong> <a href="https://www.instagram.com/703bakehouse/" target="_blank" class="contact-page-link"><?= $_SESSION['contact_page_sections'][2]['bodyText']?> <i class="fa-brands fa-instagram"></i></a></p>
                 </div>
             </div>
         </div>
-        <?php include("/home/bitnami/bakehouse/private/components/footer.php"); ?>
+        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
     </body>
 </html>

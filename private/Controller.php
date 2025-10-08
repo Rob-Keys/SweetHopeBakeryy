@@ -1,10 +1,14 @@
 <?php
-require_once '/home/bitnami/bakehouse/private/aws/DDB.php';
-require_once '/home/bitnami/bakehouse/private/aws/S3.php';
+require_once '/home/bitnami/bakehouse/private/backend/db/Database.php';
+require_once '/home/bitnami/bakehouse/private/backend/aws/S3.php';
+require_once '/home/bitnami/bakehouse/private/backend/aws/SES.php';
+require_once '/home/bitnami/bakehouse/private/backend/stripe/stripe.php';
 
 class Controller {
 	private $db;
 	private $s3;
+	private $ses;
+	private $stripe;
 	private $config;
 
 	public function __construct() {
@@ -14,15 +18,17 @@ class Controller {
 		}
 		$this->db = new Database();
 		$this->s3 = new Bucket();
-		$this->config = include('/home/bitnami/bakehouse/private/config.php');
+		$this->ses = new SES();
+		$this->stripe = new Stripe();
+		$this->config = include('/home/bitnami/bakehouse/private/backend/config.php');
 	}
 
 	public function run(){
 		$command = "/home";
 		if(isset($_SERVER['REQUEST_URI'])){
-			$command = $_SERVER['REQUEST_URI'];
+			$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 		}
-		switch($command){
+		switch($uri){
 			case "/about":
 				$this->showAbout();
 				break;
@@ -34,18 +40,24 @@ class Controller {
 				break;
 			case "/checkout":
 				$this->showCheckout();
-				break;	
-			case "/process_order":
-				$this->sendBakehouseEmailAndRedirect();
+				break;
+			case "/checkoutAPI":
+				$this->getCheckoutAPI();
 				break;
 			case "/customize":
-				$this->authenticate();
+				$this->showCustomize();
 				break;
 			case "/customize_remove_item":
 				$this->customizeRemoveItem();
 				break;
 			case "/customize_add_item":
 				$this->customizeAddItem();
+				break;
+			case "/mail":
+				$this->showMail();
+				break;
+			case strpos($uri, '/return') === 0:   // catches /return and any query string after
+				$this->showReturn();
 				break;
 			case "/dev_clear_session":
 				session_destroy();
@@ -57,42 +69,91 @@ class Controller {
 	}
 
 	public function showHome(){
-		include("/home/bitnami/bakehouse/private/pages/home.php");
+		if(!isset($_SESSION['home_page_sections'])){ $this->get_page_sections_from_database('home_page'); }
+		include("/home/bitnami/bakehouse/private/frontend/pages/home.php");
 	}
 	public function showAbout(){
-		include("/home/bitnami/bakehouse/private/pages/about.php");
+		if(!isset($_SESSION['about_sections']))		{ $this->get_page_sections_from_database('about_page'); }
+		include("/home/bitnami/bakehouse/private/frontend/pages/about.php");
 	}
 	public function showContact(){
-		include("/home/bitnami/bakehouse/private/pages/contact.php");
+		if(!isset($_SESSION['contact_sections'])){ $this->get_page_sections_from_database('contact_page'); }
+		include("/home/bitnami/bakehouse/private/frontend/pages/contact.php");
 	}
 	public function showCheckout(){
 		$_SESSION['cart_total'] = $this->cart_total();
-		include("/home/bitnami/bakehouse/private/pages/checkout.php");
+		$this->stripe->checkout();
+		include("/home/bitnami/bakehouse/private/frontend/pages/checkout.php");
+	}
+	public function getCheckoutAPI(){
+		echo $this->stripe->create_stripe_checkout();
 	}
 	public function showAuthenticationPage(){
-		include("/home/bitnami/bakehouse/private/pages/authenticate.php");
+		include("/home/bitnami/bakehouse/private/frontend/pages/authenticate.php");
+	}
+	public function showReturn(){
+		if($this->stripe->did_checkout_succeed()){
+			include("/home/bitnami/bakehouse/private/frontend/pages/return.php");
+			$_SESSION['cart'] = [];
+		} else {
+			header("Location: /checkout", true, 303);
+		}
 	}
 
-	public function authenticate(){
+	private function isAuthenticated(){
 		if(isset($_POST['password'])){
 			$_SESSION['customize_pw'] = hash('sha256', $_POST['password']);
 		}
 		if(isset($_SESSION['customize_pw'])){
 			if($_SESSION['customize_pw'] == hash('sha256', $this->config['customize_pw'])){
-				$this->showCustomize();
+				return true;
 			} else {
-				echo "Wrong password";
-				$this->showAuthenticationPage();
+				return false;
 			}
 		}
 		else {
-			echo "No session token;";
-			$this->showAuthenticationPage();
+			return false;
 		}
 	}
+
 	public function showCustomize(){
-		if(!isset($_SESSION['products'])){ $this->get_products_from_database(); }
-		include("/home/bitnami/bakehouse/private/pages/customize.php");
+		if($this->isAuthenticated()){
+			if(!isset($_SESSION['products']))					{ $this->get_products_from_database(); }
+			if(!isset($_SESSION['home_page_sections']))			{ $this->get_page_sections_from_database('home_page'); }
+			if(!isset($_SESSION['about_page_sections']))		{ $this->get_page_sections_from_database('about_page'); }
+			if(!isset($_SESSION['contact_page_sections']))		{ $this->get_page_sections_from_database('contact_page'); }
+			include("/home/bitnami/bakehouse/private/frontend/pages/customize.php");
+		}
+		else {
+			$_SESSION["desired_page"] = "/customize";
+			include("/home/bitnami/bakehouse/private/frontend/pages/authenticate.php");
+		}
+	}
+
+	public function showMail(){
+		if(isset($_POST['send-mail'])){
+			$email = [
+				"from" => $_POST["sender"],
+				"to" => [$_POST["recipients"]],
+				"subject" => $_POST["subject"],
+				"body" => $_POST["body"],
+				"date" => time()
+			];
+			$this->ses->sendEmail($email);
+			unset($_POST['send-mail']);
+			header("Location: /mail", true, 303);
+			exit;
+		}
+
+		else if($this->isAuthenticated()){
+			$_SESSION['inbox'] = $this->s3->getInbox();
+			$_SESSION['outbox'] = $this->s3->getOutbox(); 
+			include("/home/bitnami/bakehouse/private/frontend/pages/mail.php");
+		}
+		else {
+			$_SESSION["desired_page"] = "/mail";
+			include("/home/bitnami/bakehouse/private/frontend/pages/authenticate.php");
+		}
 	}
 
 	public function showOrder(){
@@ -106,20 +167,19 @@ class Controller {
 				$price = $quant_price[1];
 				// For javascript to display
 				echo json_encode([
-					    'id' => $_POST['id'],
 					    'name' => $_POST['name'],
 					    'quantity' => $quantity,
 					    'price'=> $price
 				]);
 				// To actually upate cart
-				$this->add_to_cart($_POST['id'],$_POST['name'],$quantity,$price);
+				$this->add_to_cart($_POST['name'],$quantity,$price);
 				exit;
 			}
 			else if($_POST['action']==='clear'){
 				$_SESSION['cart']=[];
 			}
 			else if($_POST['action']==='remove'){
-				unset($_SESSION['cart'][$_SESSION['item_id']]);
+				unset($_SESSION['cart'][$_POST['removed_name']]);
 			}
 			
 			$_SESSION['cart_total']= $this->cart_total();
@@ -129,7 +189,7 @@ class Controller {
 		// If this is not the first GET of the session, simplest case
 		if (isset($_SESSION["products"])) {
 			if(sizeof($_SESSION["products"])!=0){
-				include("/home/bitnami/bakehouse/private/pages/order.php");
+				include("/home/bitnami/bakehouse/private/frontend/pages/order.php");
 				exit;
 			}
 		}
@@ -138,14 +198,14 @@ class Controller {
 		//Populate the session variable from the database
 		$this->get_products_from_database();
 		
-		include("/home/bitnami/bakehouse/private/pages/order.php");
+		include("/home/bitnami/bakehouse/private/frontend/pages/order.php");
 	}
 
 	public function customizeRemoveItem(){
 		$this->s3->deleteImage($this->get_s3_image_name($_POST['partitionKeyValue']));
-		$this->db->removeItem($_POST['tableName'], [$_POST['partitionKey'] => $_POST['partitionKeyValue']]);
-		$this->get_products_from_database();
-		include("/home/bitnami/bakehouse/private/pages/customize.php");
+		$this->db->removeItem($_POST['tableName'], $_POST['partitionKeyValue']);
+		$this->refresh_db_session($_POST['tableName']);
+		include("/home/bitnami/bakehouse/private/frontend/pages/customize.php");
 	}
 
 	public function customizeAddItem(){
@@ -154,6 +214,14 @@ class Controller {
 
 		$item = [];
 		$item[$_POST['partitionKey']] = $_POST['partitionKeyValue'];
+		$item['imageURL'] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+
+		if(isset($_POST['headerText'])){
+			$item['headerText'] = $_POST['headerText'];
+		}
+		if(isset($_POST['bodyText'])){
+			$item['bodyText'] = $_POST['bodyText'];
+		}
 		if(isset($_POST['csvPrices'])){
 			$pairs = explode(",",$_POST['csvPrices']);
 			$prices = [];
@@ -172,31 +240,32 @@ class Controller {
 			}
 			$item['customizations'] = $customizations;
 		}
-		$item['imageURL'] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
 
 		$this->db->putItem($_POST['tableName'], $item);
-		$this->get_products_from_database();
-		include("/home/bitnami/bakehouse/private/pages/customize.php");
+		$this->refresh_db_session($_POST['tableName']);
+		include("/home/bitnami/bakehouse/private/frontend/pages/customize.php");
 	}
 
 	function get_s3_image_name($rootName){
-		return str_replace(' ', '_', $rootName) . '.jpg';
+		return $_POST['tableName'] . '/'. str_replace(' ', '_', $rootName) . '.jpg';
 	}
 
 	function get_products_from_database(){
-		$results = $this->db->scanTable('bakehouse_menu');
+		$results = $this->db->getTable('products');
 
 		$_SESSION["products"] = [];
 		foreach ($results as $product) {
 			$product_name = $product['itemName'];
 			$product_image = $product['imageURL'];
+			$product_description = isset($product['description']) ? $product['description'] : "";
 
 			$prices = $product['prices'];
 			$price_array = [];
 			foreach ($prices as $quantity => $price) {
 				$price_array[$quantity] = $price;
 			}
-
+			ksort($price_array);
+			
 			$customizations = $product['customizations'];
 			$customization_array = [];
 			foreach ($customizations as $name => $price) {
@@ -204,29 +273,60 @@ class Controller {
 			}
 
 			$_SESSION["products"][] = [
-				'name' => $product_name,
+				'itemName' => $product_name,
+				'description' => $product_description,
+				'imageURL' => $product_image,
 				'prices' => $price_array,
-				'image' => $product_image,
 				'customizations' => $customization_array
 			];
+		}
+	}
+
+	function get_page_sections_from_database($pageName){
+		$_SESSION[$pageName.'_sections'] = [];
+		$results = $this->db->getTable($pageName);
+		ksort($results);
+		
+		foreach($results as $section){
+			$_SESSION[$pageName.'_sections'][] = [
+				"sectionIndex" => $section['sectionIndex'],
+				"headerText" => $section['headerText'],
+				"bodyText" => $section['bodyText'],
+				"imageURL" => $section['imageURL']
+			];
+		}
+	}
+
+	function refresh_db_session($tableName){
+		$_POST = [];
+		switch($tableName){
+			case "products":
+				$this->get_products_from_database();
+				break;
+			case "home_page":
+				$this->get_page_sections_from_database('home_page');
+				break;
+			case "about_page":
+				$this->get_page_sections_from_database('about_page');
+				break;
+			case "contact_page":
+				$this->get_page_sections_from_database('contact_page');
+				break;
 		}
 	}
 	
 	/**
 	 * Add item to cart
-	 * @param int $id
 	 * @param string $name
 	 * @param int $qty
 	 * @param float $price
 	 */
-	function add_to_cart($id, $name, $qty, $price) {
-		if (isset($_SESSION['cart'][$id])) {
-			$_SESSION['cart'][$id]['quantity'] += $qty;
-			$_SESSION['cart'][$id]['price'] += $price;
+	function add_to_cart($name, $qty, $price) {
+		if (isset($_SESSION['cart'][$name])) {
+			$_SESSION['cart'][$name]['quantity'] += $qty;
+			$_SESSION['cart'][$name]['price'] += $price;
 		} else {
-			$_SESSION['cart'][$id] = [
-				'id' => $id,
-				'name' => $name,
+			$_SESSION['cart'][$name] = [
 				'quantity' => $qty,
 				'price' => $price
 			];
@@ -242,76 +342,5 @@ class Controller {
 			$total += $item['price'];
 		}
 		return $total;
-	}
-
-	/**
-	 * Send an email notification, then redirect to Venmo or PayPal to collect payment.
-	 *
-	 * @param string $customerEmail   Email address of the customer (will appear as “From”).
-	 * @param string $paymentMethod   'venmo' or 'paypal'.
-	 * @param float  $amount          Amount to charge.
-	 * @param string $recipientId     Venmo username or PayPal merchant ID/email.
-	 */
-	function sendBakehouseEmailAndRedirect() {
-		$customerEmail = $_POST['email'];
-		$paymentMethod = $_POST['payment_method'];
-		$amount = $_POST['price'];
-		$recipientId = "RobKeys";
-		$headers = [];
-		$headers[] = 'From: 703bakehouse@gmail.com';
-		// MIME and content-type for HTML email
-		$headers[] = 'MIME-Version: 1.0';
-		$headers[] = 'Content-type: text/html; charset=UTF-8';
-
-		// Send email
-		$subject = "New Order";
-		$body = "Order from ".$customerEmail.". Order:\n";
-		foreach($_SESSION['cart'] as $item){
-			$body .= $item['name'] . ": ". $item['quantity'] ."\n";
-		}
-		if (!mail('703bakehouse@gmail.com', $subject, $body, implode("\r\n", $headers))) {
-			// If mail fails, you might want to log or show an error
-			echo "Failed to send email";
-			$err = error_get_last();
-    		echo 'Mail failed: ' . print_r($err, true);
-			error_log('Failed to send email to Bakehouse.');
-			exit;
-		} else {
-			echo "sent email";
-		}
-
-		// 2. Build the payment redirect URL
-		switch (strtolower($paymentMethod)) {
-			case 'venmo':
-				// Venmo deep link (mobile) or web link fallback
-				// recipients: Venmo username; amount in USD
-				$venmoLink = sprintf(
-					'https://venmo.com/%s?txn=pay&amount=%.2f',
-					urlencode($recipientId),
-					$amount
-				);
-				$redirectUrl = $venmoLink;
-				break;
-
-			case 'paypal':
-				// PayPal payment link (checkout for fixed amount)
-				// Replace CLIENT_ID and RETURN_URL with your PayPal settings if using PayPal Checkout SDK.
-				// Here’s the easiest non-SDK approach: a PayPal.Me link:
-				$paypalMeLink = sprintf(
-					'https://www.paypal.me/%s/%.2f',
-					urlencode($recipientId),
-					$amount
-				);
-				$redirectUrl = $paypalMeLink;
-				break;
-
-			default:
-				// Unknown payment method
-				throw new InvalidArgumentException('Unsupported payment method: ' . $paymentMethod);
-		}
-
-		// Redirect to the payment provider
-		header('Location: ' . $redirectUrl);
-		exit;
 	}
 }

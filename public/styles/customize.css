@@ -3,3 +3,11 @@
     border: black 1px solid;
     padding: 1rem 0 1rem 0;
 }
+.btn-danger{
+	color: white !important;
+	background-color: #AA0000 !important;
+}
+.demo-photo{
+    width: 100%;
+    height: auto;
+}
