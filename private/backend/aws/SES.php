@@ -1,6 +1,6 @@
 <?php
-require_once '/home/bitnami/vendor/autoload.php';
-require_once '/home/bitnami/bakehouse/private/backend/aws/S3.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
+require_once __DIR__ . '/S3.php';
 
 use Aws\Ses\SesClient;
 use Aws\Exception\AwsException;
@@ -11,7 +11,7 @@ Class SES {
     private $s3;
 
     public function __construct() {
-		$this->config = include('/home/bitnami/bakehouse/private/backend/config.php');
+        $this->config = include(__DIR__ . '/../config.php');
 		$this->client = new SesClient([
 			'region' => 'us-east-1',
 			'version' => 'latest',

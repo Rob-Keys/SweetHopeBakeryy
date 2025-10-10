@@ -1,8 +1,8 @@
 <?php
-require_once '/home/bitnami/bakehouse/private/backend/db/Database.php';
-require_once '/home/bitnami/bakehouse/private/backend/aws/S3.php';
-require_once '/home/bitnami/bakehouse/private/backend/aws/SES.php';
-require_once '/home/bitnami/bakehouse/private/backend/stripe/stripe.php';
+require_once __DIR__ . '/backend/db/Database.php';
+require_once __DIR__ . '/backend/aws/S3.php';
+require_once __DIR__ . '/backend/aws/SES.php';
+require_once __DIR__ . '/backend/stripe/stripe.php';
 
 class Controller {
 	private $db;
@@ -20,7 +20,7 @@ class Controller {
 		$this->s3 = new Bucket();
 		$this->ses = new SES();
 		$this->stripe = new Stripe();
-		$this->config = include('/home/bitnami/bakehouse/private/backend/config.php');
+		$this->config = include(__DIR__ . '/backend/config.php');
 	}
 
 	public function run(){
@@ -70,30 +70,30 @@ class Controller {
 
 	public function showHome(){
 		if(!isset($_SESSION['home_page_sections'])){ $this->get_page_sections_from_database('home_page'); }
-		include("/home/bitnami/bakehouse/private/frontend/pages/home.php");
+		include(__DIR__ . "/frontend/pages/home.php");
 	}
 	public function showAbout(){
 		if(!isset($_SESSION['about_sections']))		{ $this->get_page_sections_from_database('about_page'); }
-		include("/home/bitnami/bakehouse/private/frontend/pages/about.php");
+		include(__DIR__ . "/frontend/pages/about.php");
 	}
 	public function showContact(){
 		if(!isset($_SESSION['contact_sections'])){ $this->get_page_sections_from_database('contact_page'); }
-		include("/home/bitnami/bakehouse/private/frontend/pages/contact.php");
+		include(__DIR__ . "/frontend/pages/contact.php");
 	}
 	public function showCheckout(){
 		$_SESSION['cart_total'] = $this->cart_total();
 		$this->stripe->checkout();
-		include("/home/bitnami/bakehouse/private/frontend/pages/checkout.php");
+		include(__DIR__ . "/frontend/pages/checkout.php");
 	}
 	public function getCheckoutAPI(){
 		echo $this->stripe->create_stripe_checkout();
 	}
 	public function showAuthenticationPage(){
-		include("/home/bitnami/bakehouse/private/frontend/pages/authenticate.php");
+		include(__DIR__ . "/frontend/pages/authenticate.php");
 	}
 	public function showReturn(){
 		if($this->stripe->did_checkout_succeed()){
-			include("/home/bitnami/bakehouse/private/frontend/pages/return.php");
+			include(__DIR__ . "/frontend/pages/return.php");
 			$_SESSION['cart'] = [];
 		} else {
 			header("Location: /checkout", true, 303);
@@ -122,11 +122,11 @@ class Controller {
 			if(!isset($_SESSION['home_page_sections']))			{ $this->get_page_sections_from_database('home_page'); }
 			if(!isset($_SESSION['about_page_sections']))		{ $this->get_page_sections_from_database('about_page'); }
 			if(!isset($_SESSION['contact_page_sections']))		{ $this->get_page_sections_from_database('contact_page'); }
-			include("/home/bitnami/bakehouse/private/frontend/pages/customize.php");
+			include(__DIR__ . "/frontend/pages/customize.php");
 		}
 		else {
 			$_SESSION["desired_page"] = "/customize";
-			include("/home/bitnami/bakehouse/private/frontend/pages/authenticate.php");
+			include(__DIR__ . "/frontend/pages/authenticate.php");
 		}
 	}
 
@@ -148,11 +148,11 @@ class Controller {
 		else if($this->isAuthenticated()){
 			$_SESSION['inbox'] = $this->s3->getInbox();
 			$_SESSION['outbox'] = $this->s3->getOutbox(); 
-			include("/home/bitnami/bakehouse/private/frontend/pages/mail.php");
+			include(__DIR__ . "/frontend/pages/mail.php");
 		}
 		else {
 			$_SESSION["desired_page"] = "/mail";
-			include("/home/bitnami/bakehouse/private/frontend/pages/authenticate.php");
+			include(__DIR__ . "/frontend/pages/authenticate.php");
 		}
 	}
 
@@ -189,7 +189,7 @@ class Controller {
 		// If this is not the first GET of the session, simplest case
 		if (isset($_SESSION["products"])) {
 			if(sizeof($_SESSION["products"])!=0){
-				include("/home/bitnami/bakehouse/private/frontend/pages/order.php");
+				include(__DIR__ . "/frontend/pages/order.php");
 				exit;
 			}
 		}
@@ -198,14 +198,14 @@ class Controller {
 		//Populate the session variable from the database
 		$this->get_products_from_database();
 		
-		include("/home/bitnami/bakehouse/private/frontend/pages/order.php");
+		include(__DIR__ . "/frontend/pages/order.php");
 	}
 
 	public function customizeRemoveItem(){
 		$this->s3->deleteImage($this->get_s3_image_name($_POST['partitionKeyValue']));
 		$this->db->removeItem($_POST['tableName'], $_POST['partitionKeyValue']);
 		$this->refresh_db_session($_POST['tableName']);
-		include("/home/bitnami/bakehouse/private/frontend/pages/customize.php");
+		include(__DIR__ . "/frontend/pages/customize.php");
 	}
 
 	public function customizeAddItem(){
@@ -243,7 +243,7 @@ class Controller {
 
 		$this->db->putItem($_POST['tableName'], $item);
 		$this->refresh_db_session($_POST['tableName']);
-		include("/home/bitnami/bakehouse/private/frontend/pages/customize.php");
+		include(__DIR__ . "/frontend/pages/customize.php");
 	}
 
 	function get_s3_image_name($rootName){

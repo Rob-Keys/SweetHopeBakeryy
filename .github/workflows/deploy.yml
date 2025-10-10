@@ -33,5 +33,7 @@ jobs:
             git reset --hard origin/prod
             git pull origin prod --force
 
+            composer install --no-dev --optimize-autoloader
+
             echo "Deployment completed at $(date)"
           EOF

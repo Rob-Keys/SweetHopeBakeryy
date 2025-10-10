@@ -18,7 +18,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
+        <?php include(__DIR__ . "/../components/header.php"); ?>
         <div class="wrapper">
             <div class="m-5">
                 <h2 class="subtitle">Edit Menu</h2>
@@ -96,16 +96,16 @@
             </div>
             <?php
                 $pageName = 'home_page';
-                include("/home/bitnami/bakehouse/private/frontend/components/customize_page.php");
+                include(__DIR__ . "/../components/customize_page.php");
                 $pageName = 'about_page';
-                include("/home/bitnami/bakehouse/private/frontend/components/customize_page.php");
+                include(__DIR__ . "/../components/customize_page.php");
                 $pageName = 'contact_page';
-                include("/home/bitnami/bakehouse/private/frontend/components/customize_page.php");
+                include(__DIR__ . "/../components/customize_page.php");
             ?>
         </div>
         <div class="confirm-delete-form">
             <!-- TODO: Confirm Delete Item page -->
         </div>
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
+        <?php include(__DIR__ . "/../components/footer.php"); ?>
     </body>
 </html>

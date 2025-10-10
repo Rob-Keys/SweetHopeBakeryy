@@ -25,7 +25,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
+        <?php include(__DIR__ . "/../components/header.php"); ?>
         <div>
             <div>
                 <h1 class="col-md-8 order-title">Order Your Sweet Treats</h1>
@@ -36,17 +36,17 @@
                     for($i=0; $i<sizeof($_SESSION["products"])-1; $i++) { ?>
                         <div class='row'>
                             <div class='col-6'>
-                                <?php include("/home/bitnami/bakehouse/private/frontend/components/product.php"); ?>
+                                <?php include(__DIR__ . "/../components/product.php"); ?>
                             </div>
                             <?php $i++; ?>
                             <div class='col-6'>
-                                <?php include("/home/bitnami/bakehouse/private/frontend/components/product.php"); ?>
+                                <?php include(__DIR__ . "/../components/product.php"); ?>
                             </div>
                         </div>
                     <?php }
                     if(sizeof($_SESSION["products"])%2===1){
                         echo "<div class='row'><div class='col-3'></div><div class='col-6'>";
-                        include("/home/bitnami/bakehouse/private/frontend/components/product.php");
+                        include(__DIR__ . "/../components/product.php");
                         echo "</div></div>";
                     }
                     ?>
@@ -93,6 +93,6 @@
             </div>
         </div>
    
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
+        <?php include(__DIR__ . "/../components/footer.php"); ?>
     </body>
 </html>

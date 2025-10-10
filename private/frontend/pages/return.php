@@ -12,7 +12,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
+        <?php include(__DIR__ . "/../components/header.php"); ?>
 
         <div class="row m-5">
             <div class="col-md-5">
@@ -41,6 +41,6 @@
             </div>
         </div>
 
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
+        <?php include(__DIR__ . "/../components/footer.php"); ?>
     </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-require_once '/home/bitnami/vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use Aws\S3\S3Client;
 use Aws\Sdk;
@@ -11,7 +11,7 @@ Class Bucket {
     private $mailBucketName;
 
     public function __construct() {
-		$this->config = include('/home/bitnami/bakehouse/private/backend/config.php');
+		$this->config = include(__DIR__ . '/../config.php');
 		$this->client = new S3Client([
 			'region' => 'us-east-1',
 			'version' => 'latest',

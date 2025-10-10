@@ -15,7 +15,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/header.php"); ?>
+        <?php include(__DIR__ . "/../components/header.php"); ?>
         <div class="wrapper">
             <div class="content ms-5 mt-5 mb-5">
                 <h2 class="subtitle">Provide your password to access this page</h2>
@@ -28,6 +28,6 @@
                 </form>
             </div>
         </div>
-        <?php include("/home/bitnami/bakehouse/private/frontend/components/footer.php"); ?>
+        <?php include(__DIR__ . "/../components/footer.php"); ?>
     </body>
 </html>

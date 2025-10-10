@@ -22,7 +22,6 @@ itemName: {
 */
 
 Class Database {
-	private $config;
 	private $products;
     private $home_page;
 	private $about_page;
@@ -30,7 +29,6 @@ Class Database {
     private $orders;
 
     public function __construct() {
-		$this->config = include('/home/bitnami/bakehouse/private/backend/config.php');
 		$this->products = $this->getTable("products");
 		$this->home_page = $this->getTable("home_page");
 		$this->about_page = $this->getTable("about_page");
@@ -40,7 +38,7 @@ Class Database {
 
 	public function getTable($tableName) {
         try {
-			$jsonData = file_get_contents("/home/bitnami/bakehouse/private/backend/db/data/".$tableName.".json");
+			$jsonData = file_get_contents(__DIR__ . "/data/" . $tableName . ".json");
 			$data = json_decode($jsonData, true);
 			if (!is_array($data)) {
 				$data = [];
@@ -72,7 +70,7 @@ Class Database {
 
 	private function writeTableToFile($tableName){
 		$jsonData = json_encode($this->{$tableName}, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-		file_put_contents("/home/bitnami/bakehouse/private/backend/db/data/".$tableName.".json", $jsonData);
+		file_put_contents(__DIR__ . "/data/" . $tableName . ".json", $jsonData);
 	}
 }
 
