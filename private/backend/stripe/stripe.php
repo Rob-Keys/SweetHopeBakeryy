@@ -54,6 +54,9 @@ Class Stripe{
     }
 
     public function did_checkout_succeed(){
+        if(!isset($_GET['session_id'])){
+            return false;
+        }
         $session = $this->client->checkout->sessions->retrieve($_GET['session_id']);
         if ($session->payment_status === 'paid') {
             return true;
