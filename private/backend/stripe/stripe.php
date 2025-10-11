@@ -47,7 +47,7 @@ Class Stripe{
             'line_items' => $stripe_line_items,
             'mode' => 'payment',
             'ui_mode' => 'custom',
-            'return_url' => 'https://703bakehouse.com/return?session_id={CHECKOUT_SESSION_ID}'
+            'return_url' => $this->config['app_env'] === 'development' ? 'http://localhost:8080/return?session_id={CHECKOUT_SESSION_ID}' : 'https://703bakehouse.com/return?session_id={CHECKOUT_SESSION_ID}',
         ]);
 
         return json_encode(array('clientSecret' => $checkout_session->client_secret));
@@ -59,6 +59,7 @@ Class Stripe{
         }
         $session = $this->client->checkout->sessions->retrieve($_GET['session_id']);
         if ($session->payment_status === 'paid') {
+            $_SESSION['customer_email'] = $session->customer_details->email;
             return true;
         } else {
             return false;
