@@ -20,6 +20,11 @@
     <body>
         <?php include(__DIR__ . "/../components/header.php"); ?>
         <h2> Inbox: </h2>
+        <?php // Sort the inbox by date, newest first
+        usort($_SESSION['inbox'], function($a, $b) {
+            return $b['date'] <=> $a['date'];
+        });
+        ?>
         <?php foreach ($_SESSION['inbox'] as $mail){
             echo "<div class='bg-light m-3'>";
                 echo "<div>"."from: ".$mail["from"]."</div>";
@@ -31,6 +36,11 @@
         }
         ?>
 
+        <?php // Sort the outbox by date, newest first
+        usort($_SESSION['outbox'], function($a, $b) {
+            return $b['date'] <=> $a['date'];
+        });
+        ?>
         <h2> Sent: </h2>
         <?php foreach ($_SESSION['outbox'] as $mail){
             echo "<div class='bg-light m-3'>";
