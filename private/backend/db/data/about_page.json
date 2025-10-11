@@ -1,20 +1,20 @@
-{
-    "0": {
+[
+    {
         "sectionIndex": 0,
         "bodyText": "Growing up in Arlington, Caroline spent every Saturday in her grandmother’s kitchen, learning the art of scratch baking. From rolling out pie dough to piping perfect buttercream roses, she found joy in every swirl and sprinkle.",
         "headerText": "A love for baking from Day One",
         "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_about/0.jpg"
     },
-    "1": {
+    {
         "sectionIndex": 1,
         "bodyText": "Two years after graduating college with a Business &amp; Entrepreneurship degree, Caroline pooled her savings and vision to launch 703 Bakehouse. She built her first brick-and-mortar pop-up at the local farmers market, selling out her almond croissants every week.",
         "headerText": "From Diploma to Dough!",
         "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_about/1.jpg"
     },
-    "2": {
+    {
         "sectionIndex": 2,
         "bodyText": "Whether it’s hosting seasonal pop-up tastings or collaborating with local farms on new flavors, Caroline’s mission is simple: bring people together through wholesome, handcrafted treats. Every loaf tells a story of hometown warmth.",
         "headerText": "Baking with Heart and Community",
         "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_about/2.jpg"
     }
-}
+]
