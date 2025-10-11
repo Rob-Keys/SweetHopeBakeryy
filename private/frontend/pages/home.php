@@ -12,6 +12,7 @@
         <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
         <link rel="canonical" href="https://www.703bakehouse.com/" />
 
+        <base href="/">
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/home.css">
 
