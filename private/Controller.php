@@ -12,6 +12,10 @@ class Controller {
 	private $config;
 
 	public function __construct() {
+		set_exception_handler(function($e) {
+			include(__DIR__ . '/frontend/pages/error.php');
+			exit;
+		});
 		session_start();
 		if (!isset($_SESSION['cart'])) {
 			$_SESSION['cart'] = [];
