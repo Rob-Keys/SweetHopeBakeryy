@@ -36,17 +36,18 @@
                         </div>
                     </div>
             <?php } ?>
-            <div class="row rob-card">
+            <!-- Make the anchor the card itself so the whole card is clickable and CSS can target the anchor directly -->
+            <a href="https://www.linkedin.com/in/rob-keys/" class="row rob-card" target="_blank" rel="noopener noreferrer" aria-label="Rob — LinkedIn profile">
                 <div class="col-3">
-                    <img src="https://placehold.co/300" alt="Rob, Web Developer" class="rob-image">
+                    <img src="/images/rob.jpg" alt="Rob, Web Developer" class="rob-image">
                 </div>
                 <div class="col-9">
                     <h2>Meet Rob</h2>
-                    <p>
+                    <h4>
                     Caroline’s brother Rob is the tech brain behind 703 Bakehouse’s online home. He designed and developed this site to give you a seamless ordering experience—so you can focus on enjoying the pastries, not the click-throughs.
-                    </p>
+                    </h4>
                 </div>
-            </div>
+            </a>
         </div>
         <?php include(__DIR__ . "/../components/footer.php"); ?>
     </body>
