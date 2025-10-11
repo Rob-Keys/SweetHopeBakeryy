@@ -6,6 +6,7 @@ return [
     'aws_db_secret' => getenv('AWS_SECRET_KEY'),
     'customize_pw' => getenv('ADMIN_PASSWORD'),
     'stripe_secret' => getenv('STRIPE_SECRET_KEY'),
+    'stripe_public_key' => getenv('STRIPE_PUBLIC_KEY'),
     'caroline_email_address' => getenv('CAROLINE_EMAIL_ADDRESS'),
 ];
 ?>

@@ -13,6 +13,8 @@ In the project root, create a .env file with the following format:
 AWS_KEY=abc
 AWS_SECRET_KEY=xyz
 STRIPE_SECRET_KEY=sk_abc
+STRIPE_PUBLIC_KEY=pk_xyz
+CAROLINE_EMAIL_ADDRESS=address@gmail.com
 ```
 
 ### Docker

@@ -1,12 +1,13 @@
-// This is your test publishable API key.
-const stripe = Stripe("pk_test_51RxF9FAWoXsqgnLkvyCFTvJ47fnc2bwoDrhtjSM23x5ZPr0XV74O2CkRPx2I0k10GUV2b52Ry5hraJBFRZD4087x00j6WkDT3l");
-
 document.addEventListener('DOMContentLoaded', () => {
   initialize();
 });
 
 // Create a Checkout Session
 async function initialize() {
+  // Get public key from server for development/prod switching
+  const stripe_public_key = await fetch('/get_stripe_public_key').then((r) => r.text());
+  const stripe = Stripe(stripe_public_key);
+
   const fetchClientSecret = async () => {
     const response = await fetch("/checkoutAPI", {
       method: "POST",

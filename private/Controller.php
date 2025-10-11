@@ -66,6 +66,9 @@ class Controller {
 			case "/log_customer_info_api":
 				$this->log_customer_info_api();
 				break;
+			case "/get_stripe_public_key":
+				echo $this->config['stripe_public_key'];
+				break;
 			case "/dev_clear_session": // remove in production
 				session_destroy();
 			case "/":
