@@ -1,4 +1,15 @@
 .selected{
-    transform: scale(1.1);
+    /* transform: scale(1.1); */
     background-color: #FFFFFF;
+}
+.pickup-details-container{
+    background-color: white;
+    border: black 1px solid;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+}
+@media (max-width: 991px) {
+    .left-side{
+        margin-bottom: 2rem;
+    }
 }
