@@ -23,10 +23,10 @@
                     <ul class="list-group list-group-flush">
                         <?php foreach ($_SESSION['cart'] as $name => $item): ?>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
+                                <p>
                                     <strong><?=$item['quantity']." ".$name ?></strong>
-                                </div>
-                                <span><?= "$" . number_format($item['price'], 2) ?></span>
+                                </p>
+                                <p><?= "$" . number_format($item['price'], 2) ?></p>
                             </li>
                         <?php endforeach; ?>
                     </ul>

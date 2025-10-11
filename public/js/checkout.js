@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const pickup_button = document.getElementById('pickup-button');
-    const delivery_button = document.getElementById('delivery-button');
-    const method_container = document.getElementById('method-container');
+    // const delivery_button = document.getElementById('delivery-button');
+    // const method_container = document.getElementById('method-container');
     const pay_button = document.getElementById('pay-button');
     let acquisition_method = "pickup"; // default
 
@@ -24,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Named validation handlers so removeEventListener works
     function validatePickup(e) {
         const pickupDateInput = document.getElementById('pickup-date');
-        if (!pickupDateInput || !isDateValid(pickupDateInput, 4)) {
+        if (!pickupDateInput || !isDateValid(pickupDateInput, 2)) {
             e.preventDefault();
-            alert('Pickup date must be at least 5 days from today.');
+            alert('Pickup date must be at least 3 days from today.');
         }
     }
-
+    /*
     function validateDelivery(e) {
         const deliveryDateInput = document.getElementById('delivery-date');
         if (!deliveryDateInput || !isDateValid(deliveryDateInput, 6)) {
@@ -37,35 +37,44 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Delivery date must be at least 7 days from today.');
         }
     }
+    */
 
-    const pickup_handler = () => {
-        delivery_button.classList.remove('selected');
-        pickup_button.classList.add('selected');
-        acquisition_method = "pickup";
-
-        method_container.innerHTML = `
-            <p> Picking up from 123 Main St, Arlington, VA </p>
-            <div class="row">
-                <p class="col-md-6">Pickup Date:</p>
-                <input type="date" id="pickup-date" class="col-md-6" required>
-            </div>
-        `;
-
-        // Set minimum date to 5 days from today
-        const pickupDateInput = document.getElementById('pickup-date');
-        pickupDateInput.min = getFutureDate(5);
-        pickupDateInput.addEventListener('change', () => {
+    const log_customer_info = () => {
             fetch('/log_customer_info_api', {
                 method: 'POST',
                 body: JSON.stringify({
                     acquisition_method: acquisition_method,
-                    acquisition_date: pickupDateInput.value,
+                    acquisition_date: document.getElementById('pickup-date').value,
+                    customer_phone: document.getElementById('phone').value
                 }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
-        });
+        };
+
+    const pickup_handler = () => {
+        // delivery_button.classList.remove('selected');
+        // pickup_button.classList.add('selected');
+        acquisition_method = "pickup";
+
+        /*
+        method_container.innerHTML = `
+            <p> Picking up from <a href="https://www.google.com/maps/search/?api=1&query=22207+USA" target="_blank"><strong>Arlington, VA, 22207</strong></a> </p>
+            <div class="row">
+                <p class="col-md-6">Pickup Date:</p>
+                <input type="date" id="pickup-date" class="col-md-6" required>
+            </div>
+        `;
+        */
+
+        // Set minimum date to 3 days from today
+        const pickupDateInput = document.getElementById('pickup-date');
+        pickupDateInput.min = getFutureDate(3);
+        pickupDateInput.addEventListener('change', log_customer_info);
+
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('change', log_customer_info);
 
         // Replace any existing validation handler with the pickup validator
         if (currentValidationHandler) {
@@ -75,9 +84,10 @@ document.addEventListener('DOMContentLoaded', () => {
         pay_button.addEventListener('click', currentValidationHandler);
     }
 
-    pickup_button.addEventListener('click', pickup_handler);
+    //pickup_button.addEventListener('click', pickup_handler);
     pickup_handler();
 
+    /*
     delivery_button.addEventListener('click', () => {
         pickup_button.classList.remove('selected');
         delivery_button.classList.add('selected');
@@ -132,5 +142,5 @@ document.addEventListener('DOMContentLoaded', () => {
         currentValidationHandler = validateDelivery;
         pay_button.addEventListener('click', currentValidationHandler);
     });
-
+    */
 });

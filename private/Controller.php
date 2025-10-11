@@ -251,6 +251,9 @@ class Controller {
 		if (isset($data['delivery_address'])) {
 			$_SESSION['delivery_address'] = $data['delivery_address'];
 		}
+		if (isset($data['customer_phone'])) {
+			$_SESSION['customer_phone'] = $data['customer_phone'];
+		}
 		exit;
 	}
 
@@ -414,21 +417,23 @@ class Controller {
 	}
 
 	function send_email_receipt(){
-		$emailBody = "<h3>Thank you for your order! Here are the details:</h3>\n\n";
-		foreach ($_SESSION['cart'] as $name => $item) {
-			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
-		}
-		$emailBody .= "<p>Total: $" . number_format($this->cart_total(), 2) . "</p>";
+		$emailBody = "<h3>Thank you for your order!</h3>\n\n";
 		if($_SESSION['acquisition_method'] === "delivery"){
 			$emailBody .= "<h4>Delivery Details:</h4>";
 			$emailBody .= "<p>Delivery Address: " . htmlspecialchars($_SESSION['delivery_address']) . "</p>";
 			$emailBody .= "<p>Delivery on " . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
 		} else {
 			$emailBody .= "<h4>Pickup Details:</h4>";
+			$emailBody .= "<p>" . htmlspecialchars($this->config['pickup_address']) . "</p>";
 			$emailBody .= "<p>" . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
-			$emailBody .= "<p>703 Bakehouse, 123 Main St, Anytown, USA</p>";
+			$emailBody .= "<p> Coordinate a pickup time on your chosen day by texting 703-996-9846.</p>";
 		}
-		$emailBody .= "<br><p>We appreciate your business!</p>";
+		$emailBody .= "<h4>Order Summary:</h4>";
+		foreach ($_SESSION['cart'] as $name => $item) {
+			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
+		}
+		$emailBody .= "<p>Total: $" . number_format($this->cart_total(), 2) . "</p>";
+		$emailBody .= "<hr><p>We appreciate your business!</p>";
 		$emailBody .= "<p>For any questions, please contact support@703bakehouse.com</p>";
 		$emailBody .= "<img src='https://703bakehouse.s3.us-east-1.amazonaws.com/header/bakehouse_pfp.jpg' alt='703 Bakehouse Logo' style='width:200px;height:auto;'/>";
 
@@ -444,6 +449,7 @@ class Controller {
 		$caroline_email_body = "<h3>New order received with the following details:</h3>\n\n";
 		$caroline_email_body .= "<h4>Customer Contact Info:</h4>";
 		$caroline_email_body .= "<p>Email: " . htmlspecialchars($_SESSION['customer_email']) . "</p>";
+		$caroline_email_body .= "<p>Phone: " . htmlspecialchars($_SESSION['customer_phone']) . "</p>";
 		$caroline_email_body .= $emailBody;
 		$caroline_email = [
 			"from" => "support@703bakehouse.com",
