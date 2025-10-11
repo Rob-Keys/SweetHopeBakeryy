@@ -13,9 +13,5 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# 4. Gracefully handle unknown errors
-ErrorDocument 500 /private/frontend/pages/error.php
-ErrorDocument 404 /private/frontend/pages/error.php
-
 # 4. Route everything else to index.php
 RewriteRule ^ index.php [L]
