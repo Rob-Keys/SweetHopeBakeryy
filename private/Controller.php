@@ -63,6 +63,9 @@ class Controller {
 			case strpos($uri, '/return') === 0:   // catches /return and any query string after, preserves Stripe session id
 				$this->showReturn();
 				break;
+			case "/log_customer_info_api":
+				$this->log_customer_info_api();
+				break;
 			case "/dev_clear_session": // remove in production
 				session_destroy();
 			case "/":
@@ -85,12 +88,16 @@ class Controller {
 		include(__DIR__ . "/frontend/pages/contact.php");
 	}
 	public function showCheckout(){
-		if(!isset($_SESSION['line_items']) || !isset($_SESSION['cart'])){
+		if(!isset($_SESSION['cart']) || sizeof($_SESSION['cart'])==0){
 			header("Location: /order", true, 303);
 			exit;
 		}
 		$_SESSION['cart_total'] = $this->cart_total();
 		$this->stripe->checkout();
+		if(!isset($_SESSION['line_items']) || sizeof($_SESSION['line_items'])==0){
+			header("Location: /order", true, 303);
+			exit;
+		}
 		include(__DIR__ . "/frontend/pages/checkout.php");
 	}
 	public function getCheckoutAPI(){
@@ -111,7 +118,9 @@ class Controller {
 		}
 		if($this->stripe->did_checkout_succeed()){
 			include(__DIR__ . "/frontend/pages/return.php");
+			$this->send_email_receipt();
 			$_SESSION['cart'] = [];
+			unset($_SESSION['line_items']);
 		} else {
 			header("Location: /checkout", true, 303);
 		}
@@ -215,6 +224,31 @@ class Controller {
 		$this->get_products_from_database();
 		
 		include(__DIR__ . "/frontend/pages/order.php");
+	}
+
+	function log_customer_info_api(){
+		// Support both traditional form-encoded POSTs (in $_POST)
+		// and JSON POST bodies (Content-Type: application/json).
+		$data = $_POST;
+
+		if (empty($data)) {
+			$raw = file_get_contents('php://input');
+			$decoded = json_decode($raw, true);
+			if (is_array($decoded)) {
+				$data = $decoded;
+			}
+		}
+
+		if (isset($data['acquisition_method'])) {
+			$_SESSION['acquisition_method'] = $data['acquisition_method'];
+		}
+		if (isset($data['acquisition_date'])) {
+			$_SESSION['acquisition_date'] = $data['acquisition_date'];
+		}
+		if (isset($data['delivery_address'])) {
+			$_SESSION['delivery_address'] = $data['delivery_address'];
+		}
+		exit;
 	}
 
 
@@ -361,5 +395,47 @@ class Controller {
 			$total += $item['price'];
 		}
 		return $total;
+	}
+
+	/**
+	 * Format an ISO date (YYYY-MM-DD or any parsable date) to MM-DD-YYYY for display
+	 * Returns original value if it cannot be parsed.
+	 * @param string $isoDate
+	 * @return string
+	 */
+	private function formatDateForDisplay($isoDate){
+		if(empty($isoDate)) return '';
+		$dt = date_create($isoDate);
+		if($dt === false) return htmlspecialchars($isoDate);
+		return $dt->format('m-d-Y');
+	}
+
+	function send_email_receipt(){
+		$emailBody = "<h3>Thank you for your order! Here are the details:</h3>\n\n";
+		foreach ($_SESSION['cart'] as $name => $item) {
+			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
+		}
+		$emailBody .= "<p>Total: $" . number_format($this->cart_total(), 2) . "</p>";
+		if($_SESSION['acquisition_method'] === "delivery"){
+			$emailBody .= "<h4>Delivery Details:</h4>";
+			$emailBody .= "<p>Delivery Address: " . htmlspecialchars($_SESSION['delivery_address']) . "</p>";
+			$emailBody .= "<p>Delivery on " . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
+		} else {
+			$emailBody .= "<h4>Pickup Details:</h4>";
+			$emailBody .= "<p>" . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
+			$emailBody .= "<p>703 Bakehouse, 123 Main St, Anytown, USA</p>";
+		}
+		$emailBody .= "<p></p><p>We appreciate your business!</p>";
+		$emailBody .= "<p>For any questions, please contact support@703bakehouse.com</p>";
+		$emailBody .= "<img src='https://703bakehouse.s3.us-east-1.amazonaws.com/header/bakehouse_pfp.jpg' alt='703 Bakehouse Logo' style='width:200px;height:auto;'/>";
+
+		$email = [
+			"from" => "support@703bakehouse.com",
+			"to" => [$_SESSION['customer_email']],
+			"subject" => "Your 703 Bakehouse Receipt",
+			"body" => $emailBody,
+			"date" => time()
+		];
+		$this->ses->sendEmail($email);
 	}
 }

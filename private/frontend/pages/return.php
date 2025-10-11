@@ -38,6 +38,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <p> Thanks for your order! </p>
+                <p> A receipt has been sent to <?= $_SESSION['customer_email']; ?>. </p>
             </div>
         </div>
 
