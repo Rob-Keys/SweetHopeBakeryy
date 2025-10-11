@@ -258,10 +258,10 @@ class Controller {
 	// Helper functions only below
 
 	public function customizeRemoveItem(){
-		$this->s3->deleteImage($this->get_s3_image_name($_POST['partitionKeyValue']));
-		$this->db->removeItem($_POST['tableName'], $_POST['partitionKeyValue']);
+		$this->s3->deleteImage($this->get_s3_image_name($_POST['db_key_value']));
+		$this->db->removeItem($_POST['tableName'], $_POST['db_key_value']);
 		$this->refresh_db_session($_POST['tableName']);
-		include(__DIR__ . "/frontend/pages/customize.php");
+		header("Location: /customize", true, 303);
 	}
 
 	public function customizeAddItem(){

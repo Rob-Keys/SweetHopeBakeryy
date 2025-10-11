@@ -35,9 +35,9 @@
                 <div class='col-2'>
                     <form method="post" action="/customize_remove_item">
                         <input type="hidden" name="tableName" value="<?=$pageName?>"></input>
-                        <input type="hidden" name="partitionKey" value="sectionIndex"></input>
-                        <input type="hidden" name="partitionKeyValue" value="<?= $_SESSION[$pageName."_sections"][$i]["sectionIndex"] ?>"></input>
-                        <button type="submit" class="btn btn-cookie button-2 mt-2">Remove Item</button>
+                        <input type="hidden" name="db_key" value="sectionIndex"></input>
+                        <input type="hidden" name="db_key_value" value="<?= $_SESSION[$pageName."_sections"][$i]["sectionIndex"] ?>"></input>
+                        <button type="submit" class="btn btn-danger button-2 mt-2">Remove Item</button>
                     </form>
                 </div>
             </div>
