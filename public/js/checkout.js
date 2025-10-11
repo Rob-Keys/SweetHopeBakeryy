@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Named validation handlers so removeEventListener works
     function validatePickup(e) {
         const pickupDateInput = document.getElementById('pickup-date');
-        if (!pickupDateInput || !isDateValid(pickupDateInput, 5)) {
+        if (!pickupDateInput || !isDateValid(pickupDateInput, 4)) {
             e.preventDefault();
             alert('Pickup date must be at least 5 days from today.');
         }
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function validateDelivery(e) {
         const deliveryDateInput = document.getElementById('delivery-date');
-        if (!deliveryDateInput || !isDateValid(deliveryDateInput, 7)) {
+        if (!deliveryDateInput || !isDateValid(deliveryDateInput, 6)) {
             e.preventDefault();
             alert('Delivery date must be at least 7 days from today.');
         }
