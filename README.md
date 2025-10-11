@@ -40,3 +40,12 @@ If you need to create the vendor/ directory locally for some reason:
 ```
 composer install
 ```
+
+### Developing on Windows
+Due to Windows poor I/O speeds, it is HIGHLY RECOMMENDED to use WSL to run docker. Cloning the repo to the ~/ root and not within the windows mnt/ system.
+To open a VS code window:
+```
+wsl
+cd ~/703bakehouse
+code .
+```
