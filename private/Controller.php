@@ -56,10 +56,10 @@ class Controller {
 			case "/mail":
 				$this->showMail();
 				break;
-			case strpos($uri, '/return') === 0:   // catches /return and any query string after
+			case strpos($uri, '/return') === 0:   // catches /return and any query string after, preserves Stripe session id
 				$this->showReturn();
 				break;
-			case "/dev_clear_session":
+			case "/dev_clear_session": // remove in production
 				session_destroy();
 			case "/":
 			default:
@@ -81,17 +81,30 @@ class Controller {
 		include(__DIR__ . "/frontend/pages/contact.php");
 	}
 	public function showCheckout(){
+		if(!isset($_SESSION['line_items']) || !isset($_SESSION['cart'])){
+			header("Location: /order", true, 303);
+			exit;
+		}
 		$_SESSION['cart_total'] = $this->cart_total();
 		$this->stripe->checkout();
 		include(__DIR__ . "/frontend/pages/checkout.php");
 	}
 	public function getCheckoutAPI(){
+		if(!isset($_SESSION['cart'])){
+			header("Location: /order", true, 303);
+			exit;
+		}
 		echo $this->stripe->create_stripe_checkout();
 	}
-	public function showAuthenticationPage(){
+	public function showAuthenticationPage($desiredPage){
+		$_SESSION["desired_page"] = $desiredPage;
 		include(__DIR__ . "/frontend/pages/authenticate.php");
 	}
 	public function showReturn(){
+		if(!isset($_SESSION['cart']) || !isset($_SESSION['cart_total'])){
+			header("Location: /order", true, 303);
+			exit;
+		}
 		if($this->stripe->did_checkout_succeed()){
 			include(__DIR__ . "/frontend/pages/return.php");
 			$_SESSION['cart'] = [];
@@ -125,8 +138,7 @@ class Controller {
 			include(__DIR__ . "/frontend/pages/customize.php");
 		}
 		else {
-			$_SESSION["desired_page"] = "/customize";
-			include(__DIR__ . "/frontend/pages/authenticate.php");
+			$this->showAuthenticationPage("/customize");
 		}
 	}
 
@@ -151,12 +163,12 @@ class Controller {
 			include(__DIR__ . "/frontend/pages/mail.php");
 		}
 		else {
-			$_SESSION["desired_page"] = "/mail";
-			include(__DIR__ . "/frontend/pages/authenticate.php");
+			$this->showAuthenticationPage("/mail");
 		}
 	}
 
 	public function showOrder(){
+		if(!isset($_SESSION['cart'])){ $_SESSION['cart'] = []; }
 		$_SESSION['cart_total']= $this->cart_total();
 		
 		//if its a POST request
@@ -200,6 +212,9 @@ class Controller {
 		
 		include(__DIR__ . "/frontend/pages/order.php");
 	}
+
+
+	// Helper functions only below
 
 	public function customizeRemoveItem(){
 		$this->s3->deleteImage($this->get_s3_image_name($_POST['partitionKeyValue']));

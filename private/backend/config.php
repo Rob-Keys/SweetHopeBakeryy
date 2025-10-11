@@ -1,4 +1,5 @@
 <?php
+// Load environment variables in one place to show developers what's available
 return [
     'aws_db_key' => getenv('AWS_KEY'),
     'aws_db_secret' => getenv('AWS_SECRET_KEY'),
