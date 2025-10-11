@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const deliveryDateInput = document.getElementById('delivery-date');
         deliveryDateInput.min = getFutureDate(7);
         const deliveryAddressInput = document.getElementById('delivery-address');
-        deliveryDateInput.addEventListener('change', () => {
+        deliveryDateInput.addEventListener('input', () => {
             fetch('/log_customer_info_api', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
-        deliveryAddressInput.addEventListener('change', () => {
+        deliveryAddressInput.addEventListener('input', () => {
             fetch('/log_customer_info_api', {
                 method: 'POST',
                 body: JSON.stringify({

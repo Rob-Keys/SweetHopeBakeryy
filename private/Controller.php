@@ -425,7 +425,7 @@ class Controller {
 			$emailBody .= "<p>" . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
 			$emailBody .= "<p>703 Bakehouse, 123 Main St, Anytown, USA</p>";
 		}
-		$emailBody .= "<p></p><p>We appreciate your business!</p>";
+		$emailBody .= "<br><p>We appreciate your business!</p>";
 		$emailBody .= "<p>For any questions, please contact support@703bakehouse.com</p>";
 		$emailBody .= "<img src='https://703bakehouse.s3.us-east-1.amazonaws.com/header/bakehouse_pfp.jpg' alt='703 Bakehouse Logo' style='width:200px;height:auto;'/>";
 
@@ -437,5 +437,18 @@ class Controller {
 			"date" => time()
 		];
 		$this->ses->sendEmail($email);
+
+		$caroline_email_body = "<h3>New order received with the following details:</h3>\n\n";
+		$caroline_email_body .= "<h4>Customer Contact Info:</h4>";
+		$caroline_email_body .= "<p>Email: " . htmlspecialchars($_SESSION['customer_email']) . "</p>";
+		$caroline_email_body .= $emailBody;
+		$caroline_email = [
+			"from" => "support@703bakehouse.com",
+			"to" => [$this->config['caroline_email_address']],
+			"subject" => "New Order: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"body" => $caroline_email_body,
+			"date" => time()
+		];
+		$this->ses->sendEmail($caroline_email);
 	}
 }
