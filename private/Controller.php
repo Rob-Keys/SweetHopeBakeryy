@@ -453,5 +453,14 @@ class Controller {
 			"date" => time()
 		];
 		$this->ses->sendEmail($caroline_email);
+
+		$documentation_email = [
+			"from" => "support@703bakehouse.com",
+			"to" => ["703bakehouse@gmail.com"],
+			"subject" => "New Order Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"body" => $caroline_email_body,
+			"date" => time()
+		];
+		$this->ses->sendEmail($documentation_email);
 	}
 }
