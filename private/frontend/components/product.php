@@ -6,11 +6,11 @@
     $customizations = $_SESSION["products"][$i]['customizations'];
 ?>
 <div class="product-card mb-4 p-3 rounded">
-    <h3 class="product-name"><?=$name?></h3>
+    <h2 class="product-name"><?=$name?></h2>
     <img src="<?=$image?>" class="product-image mb-2">
     <?php 
     if($description != ""){
-        echo "<p>".$description."</p>";
+        echo "<h5>".$description."</h5>";
     }
     ?>
     <form class="add-to-cart-form" method="POST" action="/order">

@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>About 703 Bakehouse</title>
         <meta name="description" content="703 Bakehouse offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
         <meta property="og:title" content="703 Bakehouse">
@@ -32,8 +33,9 @@
                         </div>
                         <div class="col-6 d-flex flex-column justify-content-center">
                             <h2><?=$section['headerText']?></h2>
-                            <p><?=$section['bodyText']?></p>
+                            <h5><?=$section['bodyText']?></h5>
                         </div>
+                        <hr class="mobile-divider">
                     </div>
             <?php } ?>
             <!-- Make the anchor the card itself so the whole card is clickable and CSS can target the anchor directly -->

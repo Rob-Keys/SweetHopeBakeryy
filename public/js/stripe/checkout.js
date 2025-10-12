@@ -41,6 +41,20 @@ async function initialize() {
       // Clear any validation errors
       errors.textContent = '';
       phoneErrors.textContent = '';
+      emailErrors.textContent = '';
+
+      // Basic email validation (require something@something.something)
+      const emailValue = (emailInput.value || '').trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailValue)) {
+        if (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+        }
+        emailErrors.textContent = 'Please enter a valid email address.';
+        emailInput.focus();
+        return;
+      }
 
       // Validate phone contains at least 10 numerical characters
       const phoneValue = phoneInput.value || '';

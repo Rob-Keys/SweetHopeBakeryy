@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>703 Bakehouse</title>
         <meta name="description" content="703 Bakehouse offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
         <meta property="og:title" content="703 Bakehouse">
@@ -44,8 +45,8 @@
                             <img style="width: 100%;" src=<?= $section['imageURL'] ?>>
                         </div>
                         <div class="col-7 d-flex align-items-center">
-                            <h3 class="ms-5 me-5 pe-5 image-caption"><?= $section['bodyText'] ?></p>
-                            <a href="/order" class="btn btn-lg btn-cookie float-end button-1">Order Now</a>
+                            <h3 class="image-caption"><?= $section['bodyText'] ?></p>
+                            <a href="/order" class="btn btn-lg btn-cookie">Order Now</a>
                         </div>
                     </div>
             <?php } ?>

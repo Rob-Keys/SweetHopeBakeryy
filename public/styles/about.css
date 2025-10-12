@@ -62,6 +62,9 @@
   align-items: center;
   justify-content: center;
 }
+.mobile-divider {
+  display: none; /* hidden by default, shown on mobile */
+}
 
 @media (max-width: 991px) {
   div > h2{
@@ -76,5 +79,9 @@
   .rob-card > .col-3 {
     display: flex;
     justify-content: center;
+  }
+  .mobile-divider {
+    width: 100vw;
+    display: inline; /* hidden by default, shown on mobile */
   }
 }

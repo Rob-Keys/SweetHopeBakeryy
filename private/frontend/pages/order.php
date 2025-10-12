@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Order from 703 Bakehouse</title>
         <meta name="description" content="703 Bakehouse offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
         <meta property="og:title" content="Order from 703 Bakehouse">
@@ -53,7 +54,7 @@
                 </div>
                 <div class="col-1"></div>
                 <div class="total-background"></div>
-                <div class="cart-dropdown d-flex justify-content-end me-5">
+                <div class="cart-dropdown d-flex justify-content-end me-2">
                     <button id="dropdownButton"><i class="fa-solid fa-cart-shopping"></i></button>
                     <div id="dropdownContent" class="dropdown-content">
                         <div id="normal-cart" class="col-md-3 cart-container border rounded bg-light">

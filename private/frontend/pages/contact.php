@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Contact the 703 Bakehouse</title>
         <meta name="description" content="703 Bakehouse offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
         <meta property="og:title" content="Contact the 703 Bakehouse">
@@ -26,7 +27,7 @@
         <div class="wrapper">
             <div class="content mt-5 mb-5">
                 <h2 class="subtitle"><?= $_SESSION['contact_page_sections'][0]['headerText']?></h2>
-                <p class="description"><?= $_SESSION['contact_page_sections'][0]['bodyText']?></p>
+                <h5 class="description"><?= $_SESSION['contact_page_sections'][0]['bodyText']?></h5>
                 <div class="contact-info">
                     <p class="contact-info-email"><strong><?= $_SESSION['contact_page_sections'][1]['headerText']?>:</strong> <a href="mailto:<?= $_SESSION['contact_page_sections'][1]['bodyText']?>" class="contact-page-link"><?= $_SESSION['contact_page_sections'][1]['bodyText']?></a></p>
                     <p class="contact-info-instagram"><strong><?= $_SESSION['contact_page_sections'][2]['headerText']?>:</strong> <a href="https://www.instagram.com/703bakehouse/" target="_blank" class="contact-page-link"><?= $_SESSION['contact_page_sections'][2]['bodyText']?> <i class="fa-brands fa-instagram"></i></a></p>
