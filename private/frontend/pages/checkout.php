@@ -29,7 +29,7 @@
     <body>
         <?php include(__DIR__ . "/../components/header.php"); ?>
 
-        <div class="row m-5">
+        <div class="row mx-2 my-4">
             <div class="col-md-5 left-side">
                 <div class="card">
                     <div class="card-header">

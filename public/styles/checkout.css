@@ -8,6 +8,24 @@
     padding: 1rem 1.5rem;
     margin-bottom: 1rem;
 }
+/* iOS date input can create a native picker that overflows its container.
+   Make date inputs responsive and allow visible overflow on the container. */
+.pickup-details-container,
+.pickup-details-container input[type="date"] {
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Constrain date input width and ensure it doesn't force container width on iOS */
+input[type="date"] {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Allow visible overflow so the native picker isn't clipped oddly */
+.pickup-details-container {
+    overflow: visible;
+}
 @media (max-width: 991px) {
     .left-side{
         margin-bottom: 2rem;

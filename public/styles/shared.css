@@ -74,6 +74,10 @@ p {
 }
 
 @media (max-width: 991px) {
+	.btn-lg{
+		padding: 0.2rem 0.4rem !important;
+		font-size:1.5rem !important;
+	}
 	/*
 	h1 {
 		font-size: 10rem !important;
@@ -95,10 +99,6 @@ p {
 	}
 	.small-text {
 		font-size: 2rem !important;
-	}
-	.btn-lg{
-		padding: 1rem 2rem 1rem 2rem !important;
-		font-size:3rem !important;
 	}
 	header{
 		height: 10rem;
