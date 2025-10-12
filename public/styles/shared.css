@@ -75,7 +75,7 @@ p {
 
 @media (max-width: 991px) {
 	.btn-lg{
-		padding: 0.2rem 0.4rem !important;
+		padding: 0.4rem 0.8rem !important;
 		font-size:1.5rem !important;
 	}
 	/*

@@ -29,7 +29,7 @@
         <?php include(__DIR__ . "/../components/header.php"); ?>
         <div>
             <div>
-                <h1 class="col-md-8 order-title">Order Your Sweet Treats</h1>
+                <h2 class="col-md-8 order-title">Order Your Sweet Treats</h2>
             </div>
             <div class="order-content">
                 <div class="col-md-8 border rounded bg-light products mb-3">
