@@ -2,9 +2,11 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Order Successful</title>
 
         <link rel="stylesheet" href="styles/shared.css">
+        <link rel="stylesheet" href="styles/return.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,8 +39,8 @@
             </div>
             <div class="col-md-1"></div>
             <div class="col-md-5">
-                <p> Thanks for your order! </p>
-                <p> A receipt has been sent to <?= $_SESSION['customer_email']; ?>. </p>
+                <h2> Thanks for your order! </h2>
+                <h4> A receipt has been sent to <?= $_SESSION['customer_email']; ?>. </h4>
             </div>
         </div>
 
