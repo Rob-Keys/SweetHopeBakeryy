@@ -6,7 +6,7 @@
     $customizations = $_SESSION["products"][$i]['customizations'];
 ?>
 <div class="product-card mb-4 p-3 rounded">
-    <h2 class="product-name"><?=$name?></h2>
+    <h3 class="product-name"><?=$name?></h3>
     <img src="<?=$image?>" class="product-image mb-2">
     <?php 
     if($description != ""){
