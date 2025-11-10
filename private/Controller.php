@@ -421,7 +421,7 @@ class Controller {
 	 */
 	private function add_to_cart($name, $qty, $price) {
 		// Get the menu item real data
-		$menuItem = $this->getTable('menu', $name);
+		$menuItem = $this->db->getTable('products', $name);
 		
 		// Validate the price matches expected price
 		if ($price != $menuItem['prices'][$qty]) {
