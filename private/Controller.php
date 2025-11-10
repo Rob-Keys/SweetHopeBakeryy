@@ -420,6 +420,15 @@ class Controller {
 	 * @param float $price
 	 */
 	private function add_to_cart($name, $qty, $price) {
+		// Get the menu item real data
+		$menuItem = $this->getTable('menu', $name);
+		
+		// Validate the price matches expected price
+		if ($price != $menuItem['prices'][$qty]) {
+			throw new Exception("Price mismatch detected");
+		}
+		
+		// Price is valid, add to cart
 		if (isset($_SESSION['cart'][$name])) {
 			$_SESSION['cart'][$name]['quantity'] += $qty;
 			$_SESSION['cart'][$name]['price'] += $price;
