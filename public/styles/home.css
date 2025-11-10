@@ -10,12 +10,6 @@
 	border-radius:50px;
 }
 
-/*
-.welcome {
-	font-size: 4rem;
-}
-*/
-
 .rhombus {
 	display: inline-block;
 	background: linear-gradient(90deg,#A00000,#700000); /* Background color of the rhombus */
@@ -25,12 +19,6 @@
 	font-size: 24px;
 	z-index: 1;
 }
-
-/*
-.image-caption{
-	font-size: 2.5rem;
-}
-	*/
 
 [class*="button-"]{
 	margin-right: 3rem;
@@ -54,14 +42,6 @@
 		border-radius: 0;
 		background-image: none;
 	}
-	/*
-	.welcome{
-		font-size: 8rem;
-	}
-	.subwelcome{
-		font-size: 2rem;
-	}
-		*/
     .front-holder {
 		margin-top: 0;
 	}

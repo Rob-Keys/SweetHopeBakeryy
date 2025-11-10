@@ -26,23 +26,32 @@ Class Database {
     private $home_page;
 	private $about_page;
 	private $contact_page;
-    private $orders;
 
     public function __construct() {
 		$this->products = $this->getTable("products");
 		$this->home_page = $this->getTable("home_page");
 		$this->about_page = $this->getTable("about_page");
         $this->contact_page = $this->getTable("contact_page");
-        $this->orders = $this->getTable("orders");
 	}
 
-	public function getTable($tableName) {
+	public function getTable($tableName, $partitionKeyValue = null) {
         try {
 			$jsonData = file_get_contents(__DIR__ . "/data/" . $tableName . ".json");
 			$data = json_decode($jsonData, true);
 			if (!is_array($data)) {
 				$data = [];
 			}
+
+			// If the second optional parameter is set, return the specific item from the table
+			if (!is_null($partitionKeyValue)) {
+				foreach ($data as $item) {
+					if (isset($item['itemName']) && $item['itemName'] === $partitionKeyValue) {
+						return $item;
+					}
+				}
+				return null;  // Not found
+			}
+
 			return $data;
         } catch (Exception $e) {
             return [];

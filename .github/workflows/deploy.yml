@@ -28,6 +28,12 @@ jobs:
           ssh -i ~/.ssh/deploy_key bitnami@$HOST << 'EOF'
             cd ~/bakehouse
 
+            # Backup current code
+            BACKUP_DIR="backup"
+            mkdir -p $BACKUP_DIR
+            cp -r . $BACKUP_DIR/
+            echo "Backup created at $BACKUP_DIR"
+
             # Pull latest code
             git fetch origin prod
             git reset --hard origin/prod

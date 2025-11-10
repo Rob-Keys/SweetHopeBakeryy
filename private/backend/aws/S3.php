@@ -24,25 +24,29 @@ Class Bucket {
         $this->mailBucketName = 'bakehouse-emails';
 	}
 
-    public function uploadImage($filename) {
+    public function uploadImages($filenames) {
         try{
-            $tmpFilePath = $_FILES['image']['tmp_name'];
-            $this->client->putObject([
-                'Bucket' => $this->imageBucketName,
-                'Key' => $filename,
-                'Body' => fopen($tmpFilePath, 'rb'),
-                'ContentType' => mime_content_type($tmpFilePath)
-            ]);
+            foreach ($_FILES['images']['tmp_name'] as $index => $tmpFilePath) {
+                $this->client->putObject([
+                    'Bucket' => $this->imageBucketName,
+                    'Key' => $filenames[$index],
+                    'Body' => fopen($tmpFilePath, 'rb'),
+                    'ContentType' => mime_content_type($tmpFilePath)
+                ]);
+            }
         } catch(ValueError $e){
+            echo "Upload failed";
             return;
         }
     }
 
-    public function deleteImage($filename) {
-        $this->client->deleteObject([
-            'Bucket' => $this->imageBucketName,
-            'Key' => $filename
-        ]);
+    public function deleteImages($filenames) {
+        foreach($filenames as $filename){
+            $this->client->deleteObject([
+                'Bucket' => $this->imageBucketName,
+                'Key' => $filename
+            ]);
+        }
     }
 
     public function getInbox() {

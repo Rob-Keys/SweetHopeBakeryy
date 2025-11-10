@@ -30,7 +30,7 @@
                     <p> <?= $_SESSION[$pageName."_sections"][$i]["bodyText"] ?> </p>
                 </div>
                 <div class='col-2'>
-                    <p><img class='demo-photo' src='<?= $_SESSION[$pageName."_sections"][$i]["imageURL"] ?>' alt="S3 image"></img></p>
+                    <img class='demo-photo' src="<?= $_SESSION[$pageName."_sections"][$i]["imageURL"] ?>" alt="Section's associated image"></img>
                 </div>
                 <div class='col-2'>
                     <form method="post" action="/customize_remove_item">

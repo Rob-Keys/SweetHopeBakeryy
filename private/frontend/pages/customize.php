@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="styles/customize.css">
 
         <script src="js/customize.js"></script>
+        <script src="js/shared.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,14 +60,26 @@
                                 <p> <?php foreach($_SESSION["products"][$i]["customizations"] as $customization => $quantity){ echo $customization . ": " . $price . ", "; } ?> </p>
                             </div>
                             <div class='col-2'>
-                                <img class='demo-photo' src="<?= $_SESSION["products"][$i]["imageURL"] ?>" alt="S3 image"></img>
+                                <div class="slider-container">
+                                    <div class="slider-wrapper">
+                                        <?php foreach($_SESSION["products"][$i]["imageURLs"] as $url){
+                                            echo '<div class="slide"><img src="'.$url.'" alt="'.$_SESSION["products"][$i]["itemName"].' picture" class="product-image"></div>';
+                                        }
+                                        ?>
+                                    </div>
+                                    <?php if (sizeof($_SESSION["products"][$i]["imageURLs"]) > 1){
+                                        echo '<button class="arrow left">‹</button>';
+                                        echo '<button class="arrow right">›</button>';
+                                    }
+                                    ?>
+                                </div>
                             </div>
                             <div class='col-1'>
                                 <!-- <button type="button" class="btn btn-cookie button-2 mt-2 edit-item-btn">Edit Item</button> -->
                                 <form method="post" action="/customize_remove_item" class="remove-item-form">
                                     <input type="hidden" name="tableName" value="products"></input>
-                                    <input type="hidden" name="db_key" value="itemName"></input>
-                                    <input type="hidden" name="db_key_value" value="<?= $_SESSION["products"][$i]["itemName"] ?>"></input>
+                                    <input type="hidden" name="partitionKey" value="itemName"></input>
+                                    <input type="hidden" name="partitionKeyValue" value="<?= $_SESSION["products"][$i]["itemName"] ?>"></input>
                                     <button type="submit" class="btn btn-danger button-2 mt-2">Remove Item</button>
                                 </form>
                             </div>
@@ -74,19 +87,19 @@
                 <?php } ?>
                 <form method="post" action="/customize_add_item" class='row menu-row' enctype="multipart/form-data">
                     <div class='col-2'>
-                        <input type="text" name="partitionKeyValue" placeholder="Product Name"></input>
+                        <input type="text" name="partitionKeyValue" placeholder="Product Name" required></input>
                     </div>
                     <div class='col-2'>
                         <input type="text" name="description" placeholder="Product description"></input>
                     </div>
                     <div class='col-2'>
-                        <input type="text" name="csvPrices" placeholder="qnty: price, qnty: price, ..."></input>
+                        <input type="text" name="csvPrices" placeholder="qnty: price, qnty: price, ..." required></input>
                     </div>
                     <div class='col-2'>
                         <input type="text" name="csvCustomizations" placeholder="cstm: price, cstm: price, ..."></input>
                     </div>
                     <div class='col-2'>
-                        <input type="file" name="image"></input>
+                        <input type="file" name="images[]" multiple accept="image/*" required></input>
                     </div>
                     <div class='col-1'>
                         <input type="hidden" name="tableName" value="products"></input>

@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/order.css">
         <script src="js/order.js"></script>
+        <script src="js/shared.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
