@@ -34,13 +34,24 @@ Class Database {
         $this->contact_page = $this->getTable("contact_page");
 	}
 
-	public function getTable($tableName) {
+	public function getTable($tableName, $partitionKeyValue = null) {
         try {
 			$jsonData = file_get_contents(__DIR__ . "/data/" . $tableName . ".json");
 			$data = json_decode($jsonData, true);
 			if (!is_array($data)) {
 				$data = [];
 			}
+
+			// If the second optional parameter is set, return the specific item from the table
+			if (!is_null($partitionKeyValue)) {
+				foreach ($data as $item) {
+					if (isset($item['itemName']) && $item['itemName'] === $partitionKeyValue) {
+						return $item;
+					}
+				}
+				return null;  // Not found
+			}
+
 			return $data;
         } catch (Exception $e) {
             return [];

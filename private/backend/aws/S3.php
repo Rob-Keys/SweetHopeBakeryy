@@ -35,6 +35,7 @@ Class Bucket {
                 ]);
             }
         } catch(ValueError $e){
+            echo "Upload failed";
             return;
         }
     }

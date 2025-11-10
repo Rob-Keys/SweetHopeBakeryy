@@ -78,8 +78,8 @@
                                 <!-- <button type="button" class="btn btn-cookie button-2 mt-2 edit-item-btn">Edit Item</button> -->
                                 <form method="post" action="/customize_remove_item" class="remove-item-form">
                                     <input type="hidden" name="tableName" value="products"></input>
-                                    <input type="hidden" name="db_key" value="itemName"></input>
-                                    <input type="hidden" name="db_key_value" value="<?= $_SESSION["products"][$i]["itemName"] ?>"></input>
+                                    <input type="hidden" name="partitionKey" value="itemName"></input>
+                                    <input type="hidden" name="partitionKeyValue" value="<?= $_SESSION["products"][$i]["itemName"] ?>"></input>
                                     <button type="submit" class="btn btn-danger button-2 mt-2">Remove Item</button>
                                 </form>
                             </div>

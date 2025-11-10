@@ -257,46 +257,55 @@ class Controller {
 		exit;
 	}
 
-
-	// Helper functions only below
-
 	public function customizeRemoveItem(){
-		$this->s3->deleteImages($this->get_s3_image_names($_POST['partitionKeyValue']));
+		$this->s3->deleteImages($this->get_image_keys_for_deletion($_POST['partitionKeyValue']));
 		$this->db->removeItem($_POST['tableName'], $_POST['partitionKeyValue']);
 		$this->refresh_db_session($_POST['tableName']);
 		header("Location: /customize", true, 303);
 	}
 
 	public function customizeAddItem(){
-		if(!isset($_POST['partitionKeyValue'])){
+		// Ensure required fields are set
+		if(!isset($_POST['partitionKeyValue']) || $_POST['partitionKeyValue'] == "" || !isset($_FILES['images'])){
 			header("Location: /customize", true, 303);
 			exit;
 		}
+
+		$item = [];
+
+		// Set the item name or page section index
 		$item[$_POST['partitionKey']] = $_POST['partitionKeyValue'];
-		if(isset($_POST['images[]'])){
-			$filepaths = $this->get_s3_image_names($_POST['partitionKeyValue']);
-			$this->s3->uploadImages($filepaths);
-			$item = [];
-			foreach($filepaths as $filepath){
-				$item['imageURLs'][] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
-			}
+
+		// Upload images to s3 and get their URLs
+		$filepaths = $this->get_s3_image_names($_POST['partitionKeyValue']);
+		$this->s3->uploadImages($filepaths);
+
+		foreach($filepaths as $filepath){
+			$item['imageURLs'][] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
 		}
 
+		if(isset($_POST['description'])){
+			$item['description'] = $_POST['description'];
+		}
 		if(isset($_POST['headerText'])){
 			$item['headerText'] = $_POST['headerText'];
 		}
 		if(isset($_POST['bodyText'])){
 			$item['bodyText'] = $_POST['bodyText'];
 		}
+
+		// Parse and set Prices
 		if(isset($_POST['csvPrices'])){
 			$pairs = explode(",",$_POST['csvPrices']);
 			$prices = [];
 			foreach($pairs as $pair){
 				$split = explode(":",$pair);
-				$prices[trim($split[0])] = trim($split[1]);
+				$prices[trim($split[0])] = (int)trim($split[1]);
 			}
 			$item['prices'] = $prices;
 		}
+
+		// Parse and set customizations
 		if(isset($_POST['csvCustomizations']) && $_POST['csvCustomizations'] != ""){
 			$pairs = explode(",",$_POST['csvCustomizations']);
 			$customizations = [];
@@ -312,15 +321,31 @@ class Controller {
 		header("Location: /customize", true, 303);
 	}
 
-	function get_s3_image_names($rootName){
+	// Helper functions only below
+
+	private function get_s3_image_names($partitionKeyValue){
 		$names = [];
-		foreach ($_FILES['images[]']['tmp_name'] as $imageIndex => $tmpFilePath) {
-			$names[] = $_POST['tableName'] . '/'. str_replace(' ', '_', $rootName) . '_' . $imageIndex . 'jpg';
+		$delimiter = bin2hex(random_bytes(4));  // Random 8 character string
+		foreach ($_FILES['images']['name'] as $imageIndex => $fileName) {
+			$names[] = $_POST['tableName'] . '/'. str_replace(' ', '_', $partitionKeyValue) . '_' . $imageIndex . '_' . $delimiter . '.jpg';
 		}
 		return $names;
 	}
 
-	function get_products_from_database(){
+	private function get_image_keys_for_deletion($partitionKeyValue){
+		$results = $this->db->getTable('products', $partitionKeyValue);
+		$imageURLs = $results['imageURLs'];
+		$names = [];
+
+		foreach($imageURLs as $url){
+			$parsed = parse_url($url);
+			$names[] = ltrim($parsed['path'], '/'); // Remove leading slash to get S3 object key
+		}
+
+		return $names;
+	}
+
+	private function get_products_from_database(){
 		$results = $this->db->getTable('products');
 
 		$_SESSION["products"] = [];
@@ -336,10 +361,13 @@ class Controller {
 			}
 			ksort($price_array);
 			
-			$customizations = $product['customizations'];
 			$customization_array = [];
-			foreach ($customizations as $name => $price) {
-				$customization_array[$name] = $price;
+			if(isset($product['customizations'])){
+				$customizations = $product['customizations'];
+				$customization_array = [];
+				foreach ($customizations as $name => $price) {
+					$customization_array[$name] = $price;
+				}
 			}
 
 			$_SESSION["products"][] = [
@@ -352,7 +380,7 @@ class Controller {
 		}
 	}
 
-	function get_page_sections_from_database($pageName){
+	private function get_page_sections_from_database($pageName){
 		$_SESSION[$pageName.'_sections'] = [];
 		$results = $this->db->getTable($pageName);
 		ksort($results);
@@ -367,7 +395,7 @@ class Controller {
 		}
 	}
 
-	function refresh_db_session($tableName){
+	private function refresh_db_session($tableName){
 		$_POST = [];
 		switch($tableName){
 			case "products":
@@ -391,7 +419,7 @@ class Controller {
 	 * @param int $qty
 	 * @param float $price
 	 */
-	function add_to_cart($name, $qty, $price) {
+	private function add_to_cart($name, $qty, $price) {
 		if (isset($_SESSION['cart'][$name])) {
 			$_SESSION['cart'][$name]['quantity'] += $qty;
 			$_SESSION['cart'][$name]['price'] += $price;
@@ -406,7 +434,7 @@ class Controller {
 	/**
 	 * Calculate cart total
 	 */
-	function cart_total() {
+	private function cart_total() {
 		$total = 0;
 		foreach ($_SESSION['cart'] as $item) {
 			$total += $item['price'];
@@ -427,7 +455,7 @@ class Controller {
 		return $dt->format('m-d-Y');
 	}
 
-	function send_email_receipt(){
+	private function send_email_receipt(){
 		$emailBody = "<h3>Thank you for your order!</h3>\n\n";
 		if($_SESSION['acquisition_method'] === "delivery"){
 			$emailBody .= "<h4>Delivery Details:</h4>";
