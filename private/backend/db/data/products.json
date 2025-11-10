@@ -12,7 +12,9 @@
             "Dairy Free": 2,
             "Rainbow Sprinkles": 0
         },
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cupcakes.jpg"
+        "imageURLs": [
+            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cupcakes.jpg"
+        ]
     },
     {
         "itemName": "Cookies & Cream Cupcakes",
@@ -24,7 +26,9 @@
             "Gluten Free": 45,
             "Dairy Free": 45
         },
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cookies_&_Cream_Cupcakes.jpg"
+        "imageURLs": [
+            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cookies_&_Cream_Cupcakes.jpg"
+        ]
     },
     {
         "itemName": "Cake Doughnuts",
@@ -36,7 +40,9 @@
             "Gluten Free": 45,
             "Dairy Free": 45
         },
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cake_Doughnuts.jpg"
+        "imageURLs": [
+            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cake_Doughnuts.jpg"
+        ]
     },
     {
         "itemName": "Snickerdoodles",
@@ -46,7 +52,9 @@
         "customizations": {
             "Gluten Free & Dairy Free": 26
         },
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Snickerdoodles.jpg"
+        "imageURLs": [
+            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Snickerdoodles.jpg"
+        ]
     },
     {
         "itemName": "S’mores Bars",
@@ -57,6 +65,8 @@
         "customizations": {
             "Dairy Free": 10
         },
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/S’mores_Bars.jpg"
+        "imageURLs": [
+            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/S’mores_Bars.jpg"
+        ]
     }
 ]

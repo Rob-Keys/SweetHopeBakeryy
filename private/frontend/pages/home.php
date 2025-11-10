@@ -45,8 +45,11 @@
                             <img style="width: 100%;" src=<?= $section['imageURL'] ?>>
                         </div>
                         <div class="col-7 d-flex align-items-center">
-                            <h3 class="image-caption"><?= $section['bodyText'] ?></p>
-                            <a href="/order" class="btn btn-lg btn-cookie">Order Now</a>
+                            <h3 class="image-caption">
+                                <?= $section['bodyText'] ?>
+                                <p></p>
+                                <a href="/order" class="btn btn-lg btn-cookie">Order Now</a>
+                            </h3>
                         </div>
                     </div>
             <?php } ?>

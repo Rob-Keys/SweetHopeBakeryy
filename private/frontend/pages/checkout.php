@@ -15,7 +15,6 @@
 
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/checkout.css">
-        <link rel="stylesheet" href="styles/stripe.css">
 
         <script src="https://js.stripe.com/basil/stripe.js"></script>
         <script src="js/stripe/checkout.js" defer></script>

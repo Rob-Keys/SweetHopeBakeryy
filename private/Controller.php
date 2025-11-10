@@ -261,19 +261,26 @@ class Controller {
 	// Helper functions only below
 
 	public function customizeRemoveItem(){
-		$this->s3->deleteImage($this->get_s3_image_name($_POST['db_key_value']));
-		$this->db->removeItem($_POST['tableName'], $_POST['db_key_value']);
+		$this->s3->deleteImages($this->get_s3_image_names($_POST['partitionKeyValue']));
+		$this->db->removeItem($_POST['tableName'], $_POST['partitionKeyValue']);
 		$this->refresh_db_session($_POST['tableName']);
 		header("Location: /customize", true, 303);
 	}
 
 	public function customizeAddItem(){
-		$filepath = $this->get_s3_image_name($_POST['partitionKeyValue']);
-		$this->s3->uploadImage($filepath);
-
-		$item = [];
+		if(!isset($_POST['partitionKeyValue'])){
+			header("Location: /customize", true, 303);
+			exit;
+		}
 		$item[$_POST['partitionKey']] = $_POST['partitionKeyValue'];
-		$item['imageURL'] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+		if(isset($_POST['images[]'])){
+			$filepaths = $this->get_s3_image_names($_POST['partitionKeyValue']);
+			$this->s3->uploadImages($filepaths);
+			$item = [];
+			foreach($filepaths as $filepath){
+				$item['imageURLs'][] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+			}
+		}
 
 		if(isset($_POST['headerText'])){
 			$item['headerText'] = $_POST['headerText'];
@@ -290,7 +297,7 @@ class Controller {
 			}
 			$item['prices'] = $prices;
 		}
-		if(isset($_POST['csvCustomizations'])){
+		if(isset($_POST['csvCustomizations']) && $_POST['csvCustomizations'] != ""){
 			$pairs = explode(",",$_POST['csvCustomizations']);
 			$customizations = [];
 			foreach($pairs as $pair){
@@ -302,11 +309,15 @@ class Controller {
 
 		$this->db->putItem($_POST['tableName'], $item);
 		$this->refresh_db_session($_POST['tableName']);
-		include(__DIR__ . "/frontend/pages/customize.php");
+		header("Location: /customize", true, 303);
 	}
 
-	function get_s3_image_name($rootName){
-		return $_POST['tableName'] . '/'. str_replace(' ', '_', $rootName) . '.jpg';
+	function get_s3_image_names($rootName){
+		$names = [];
+		foreach ($_FILES['images[]']['tmp_name'] as $imageIndex => $tmpFilePath) {
+			$names[] = $_POST['tableName'] . '/'. str_replace(' ', '_', $rootName) . '_' . $imageIndex . 'jpg';
+		}
+		return $names;
 	}
 
 	function get_products_from_database(){
@@ -315,7 +326,7 @@ class Controller {
 		$_SESSION["products"] = [];
 		foreach ($results as $product) {
 			$product_name = $product['itemName'];
-			$product_image = $product['imageURL'];
+			$product_images = $product['imageURLs'];
 			$product_description = isset($product['description']) ? $product['description'] : "";
 
 			$prices = $product['prices'];
@@ -334,7 +345,7 @@ class Controller {
 			$_SESSION["products"][] = [
 				'itemName' => $product_name,
 				'description' => $product_description,
-				'imageURL' => $product_image,
+				'imageURLs' => $product_images,
 				'prices' => $price_array,
 				'customizations' => $customization_array
 			];

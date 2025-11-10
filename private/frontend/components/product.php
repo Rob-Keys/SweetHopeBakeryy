@@ -1,13 +1,25 @@
 <?php
     $name = $_SESSION["products"][$i]['itemName'];
-    $image = $_SESSION["products"][$i]['imageURL'];
+    $images = $_SESSION["products"][$i]['imageURLs'];
     $prices = $_SESSION["products"][$i]['prices'];
     $description = $_SESSION["products"][$i]['description'];
     $customizations = $_SESSION["products"][$i]['customizations'];
 ?>
 <div class="product-card mb-4 p-3 rounded">
     <h3 class="product-name"><?=$name?></h3>
-    <img src="<?=$image?>" class="product-image mb-2">
+    <div class="slider-container">
+        <div class="slider-wrapper">
+            <?php foreach($images as $url){
+                echo '<div class="slide"><img src="'.$url.'" alt="'.$name.' picture" class="product-image"></div>';
+            }
+            ?>
+        </div>
+        <?php if (sizeof($images) > 1){
+            echo '<button class="arrow left">‹</button>';
+            echo '<button class="arrow right">›</button>';
+        }
+        ?>
+    </div>
     <?php 
     if($description != ""){
         echo "<h5>".$description."</h5>";
