@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function makeCartVisible(){
 	if(window.innerWidth < 991 && !document.querySelector('.cart-container-wrapper').classList.contains("visible")){
-		document.querySelector('.cart-container-wrapper').classList.add("visible");
+		document.querySelector('.cart-container-wrapper').classList.add("on-screen");
 		document.querySelector('.products').classList.add("extra-padding");
 		setTimeout(() => {
 			const cart = document.getElementById('your-cart');
