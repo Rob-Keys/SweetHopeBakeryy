@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				 	}
 					if(!existing){
 						const newItemHTML =`
-						<li class="list-group-item d-flex justify-content-between align-items-center" style="animation: fadeIn 0.6s ease;">
+						<li class="list-group-item d-flex justify-content-between align-items-center">
 							<p>${data["name"]} : (${data["quantity"]})</p>
 							<div class="d-flex justify-content-end align-items-center price-container">
 								<p class="me-3 price">$${parseFloat(data["price"]).toFixed(2)}</p>
@@ -55,6 +55,14 @@ document.addEventListener('DOMContentLoaded', () => {
 						`;
 						const cart = document.getElementById("cart-list");
 						cart.insertAdjacentHTML('beforeend', newItemHTML);
+
+						const lastElement = cart.lastElementChild;
+						if(window.innerWidth < 991){
+							lastElement.scrollIntoView({ behavior: 'smooth' });
+						} else {
+							lastElement.style.animation = 'fadeIn 0.6s ease';
+						}
+
 						let empty_cart_text = document.getElementById("empty-cart");
 						if(empty_cart_text){
 							empty_cart_text.remove();
@@ -94,5 +102,26 @@ function makeCartVisible(){
 	if(window.innerWidth < 991 && !document.querySelector('.cart-container-wrapper').classList.contains("visible")){
 		document.querySelector('.cart-container-wrapper').classList.add("visible");
 		document.querySelector('.products').classList.add("extra-padding");
+		setTimeout(() => {
+			const cart = document.getElementById('your-cart');
+			if (cart) {
+				cart.style.transition = 'opacity 0.5s ease';
+				cart.style.opacity = '0';
+				
+				setTimeout(() => {
+					const p = document.createElement('h5');
+					p.textContent = cart.textContent;
+					p.style.opacity = '0';
+					p.style.marginBottom = '0';
+					cart.replaceWith(p);
+					
+					// Fade in the p
+					requestAnimationFrame(() => {
+						p.style.transition = 'opacity 0.5s ease';
+						p.style.opacity = '1';
+					});
+				}, 500);
+			}
+		}, 3000);
 	}
 }
