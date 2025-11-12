@@ -44,7 +44,7 @@
             <div class="fade-in-up">
                 <a href="https://www.linkedin.com/in/rob-keys/" class="row rob-card" target="_blank" rel="noopener noreferrer" aria-label="Rob — LinkedIn profile">
                     <div class="col-3">
-                        <img src="/images/rob.jpg" alt="Rob, Web Developer" class="rob-image">
+                        <img src="/images/about/rob.avif" alt="Rob, Web Developer" class="rob-image">
                     </div>
                     <div class="col-9">
                         <h2>Meet Rob</h2>
