@@ -19,6 +19,32 @@ class ImageSlider {
       this.leftArrow.addEventListener('click', () => this.prevSlide());
       this.rightArrow.addEventListener('click', () => this.nextSlide());
     }
+    
+    // Add touch support
+    this.touchStartX = 0;
+    this.touchEndX = 0;
+    
+    this.container.addEventListener('touchstart', (e) => {
+      this.touchStartX = e.changedTouches[0].screenX;
+    });
+    
+    this.container.addEventListener('touchend', (e) => {
+      this.touchEndX = e.changedTouches[0].screenX;
+      this.handleSwipe();
+    });
+  }
+
+  handleSwipe() {
+    const swipeThreshold = 50; // Minimum distance for a swipe
+    const diff = this.touchStartX - this.touchEndX;
+    
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        this.nextSlide(); // Swiped left
+      } else {
+        this.prevSlide(); // Swiped right
+      }
+    }
   }
   
   updateSlider() {

@@ -63,6 +63,12 @@
   display: none; /* hidden by default, shown on mobile */
 }
 
+div > h2{
+  text-align: center;
+}
+div > h5{
+  text-align: center;
+}
 @media (max-width: 991px) {
   .content {
     margin: 1rem;
@@ -70,10 +76,6 @@
   div > h2{
     margin-top: 1rem;
     margin-bottom: 2rem;
-    text-align: center;
-  }
-  div > h5{
-    text-align: center;
   }
   .rob-card {
     text-align: center;

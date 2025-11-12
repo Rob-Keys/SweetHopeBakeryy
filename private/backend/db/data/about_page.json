@@ -1,20 +1,20 @@
 [
     {
         "sectionIndex": 0,
-        "bodyText": "Growing up in Arlington, Caroline spent every Saturday in her grandmother’s kitchen, learning the art of scratch baking. From rolling out pie dough to piping perfect buttercream roses, she found joy in every swirl and sprinkle.",
-        "headerText": "A love for baking from Day One",
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_about/0.jpg"
+        "bodyText": "Caroline grew up in Arlington spending every Saturday morning in her grandmother's kitchen. Together they'd bake everything from flaky pie crusts to perfectly decorated cakes, and she fell in love with every moment of it.",
+        "headerText": "A Love for Baking from Day One",
+        "imageURL": "/images/about/caroline_and_nona.jpg"
     },
     {
         "sectionIndex": 1,
-        "bodyText": "Two years after graduating college with a Business &amp; Entrepreneurship degree, Caroline pooled her savings and vision to launch 703 Bakehouse. She built her first brick-and-mortar pop-up at the local farmers market, selling out her almond croissants every week.",
-        "headerText": "From Diploma to Dough!",
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_about/1.jpg"
+        "bodyText": "After graduating with a degree in Business & Entrepreneurship, Caroline knew exactly what she wanted to do. She started 703 Bakehouse with a pop-up stand at the local farmers market, where her almond croissants sold out every single week.",
+        "headerText": "From Diploma to Dough",
+        "imageURL": "/images/about/caroline_vt.jpg"
     },
     {
         "sectionIndex": 2,
-        "bodyText": "Whether it’s hosting seasonal pop-up tastings or collaborating with local farms on new flavors, Caroline’s mission is simple: bring people together through wholesome, handcrafted treats. Every loaf tells a story of hometown warmth.",
+        "bodyText": "Caroline loves connecting with the community through seasonal tastings and working with local farms to create new flavors. Her goal is simple: bring people together with delicious, homemade treats that feel like home.",
         "headerText": "Baking with Heart and Community",
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_about/2.jpg"
+        "imageURL": "/images/about/thanksgiving.jpg"
     }
 ]

@@ -1,14 +1,14 @@
 [
     {
         "sectionIndex": 0,
-        "bodyText": "Local pickup in Arlington, VA. Custom orders + event boxes available. Always made fresh, never frozen.",
+        "bodyText": "Local pickup available in Arlington, VA. Custom orders and event boxes welcome. Everything is baked fresh to order—never frozen.",
         "headerText": "",
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_front_page/1.jpg"
+        "imageURL": "/images/home/collage.jpg"
     },
     {
         "sectionIndex": 1,
-        "bodyText": "Whether you’re celebrating something sweet or just treating yourself, I offer small-batch, made-to-order baked goods that taste like home—with options for gluten-free and dairy-free diets, too.",
+        "bodyText": "Whether celebrating something special or simply craving a treat, 703 Bakehouse offers small-batch, made-to-order baked goods with options for gluten-free and dairy-free diets.",
         "headerText": "Baked from scratch. Shared with love.",
-        "imageURL": "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_front_page/0.jpg"
+        "imageURL": "/images/home/allergy.jpg"
     }
 ]
