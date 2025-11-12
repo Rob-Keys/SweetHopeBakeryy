@@ -14,17 +14,8 @@
 	right: 3rem;
 	top: 6rem;
 	padding: 1rem;
-}
-.total-background{
-	display: none;
-	background-color: white;
-	position:fixed;
-	top:0;
-	left:0;
-	width:100vw;
-	height:100vh;
-	opacity:50%;
-	z-index:1;
+	background-color: #DDDDDD;
+	border: 1px solid #3f2a14;
 }
 .product-image{
 	width: 95%;
@@ -38,7 +29,9 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
+div.mobile-container{
+	display: none !important;
+}
 @media (min-width: 500px) {
 	#dropdownButton{
 		display: none;
@@ -69,39 +62,36 @@
 	.products{
 		position: absolute;
 		top: 0;
-	}
-	.cart-dropdown {
-		position: fixed;
-		top: 20vh;
-		right: 5vw;
-		z-index: 99999;
-	}
-	.dropdown-content {
-		display: none; /* Hidden by default */
-		position: absolute;
-		background-color: white;
-		min-width: 160px;
-		box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
-		z-index: 10;
-	}
-	.show {
-		display: block !important;
+		padding-bottom: 200px;
 	}
 	.cart-container{
-		top:6vh;
-		max-height: 91vh;
-		right:10vw;
-		width: 80vw !important;
+		position: relative;
+		top: 0;
+		right: 0;
+		padding: 0.2rem 0.2rem 0.2rem 0.2rem;
+		margin-bottom: 0.1rem;
+		width: 100%;
+		max-height: 200px;
+		border: none;
+		background-color: white;
+	}
+	.cart-container-wrapper{
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		background-color: white;
+		padding: 0 0 1rem 0;
+		border: 1px solid #3f2a14;
+	}
+	.btn-container{
+		display: none;
+	}
+	div.mobile-container{
+		display: flex!important;
+	}
+	#cart-list {
+		margin-bottom: 0.2rem !important;
+		max-height: 100px;
 		overflow-y: scroll;
-	}
-	.cart-container::-webkit-scrollbar {
-		display: none; /* Disable scrollbar for WebKit browsers */
-	}
-	#dropdownButton{
-		font-size: 2.5rem;
-		color: black;
-		background-color: #F0F0F0;
-		padding: 1.1rem 1.5rem 1.1rem 1.5rem;
-		border-radius:9999px;
 	}
 }

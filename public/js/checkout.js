@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({
                     acquisition_method: acquisition_method,
                     acquisition_date: document.getElementById('pickup-date').value,
-                    customer_phone: document.getElementById('phone').value
+                    customer_phone: document.getElementById('phone').value,
+                    customer_name: document.getElementById('name').value,
                 }),
                 headers: {
                     'Content-Type': 'application/json'

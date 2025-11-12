@@ -254,6 +254,9 @@ class Controller {
 		if (isset($data['customer_phone'])) {
 			$_SESSION['customer_phone'] = $data['customer_phone'];
 		}
+		if (isset($data['customer_name'])) {
+			$_SESSION['customer_name'] = $data['customer_name'];
+		}
 		exit;
 	}
 
@@ -496,6 +499,7 @@ class Controller {
 
 		$caroline_email_body = "<h3>New order received with the following details:</h3>\n\n";
 		$caroline_email_body .= "<h4>Customer Contact Info:</h4>";
+		$caroline_email_body .= "<p>Name: " . htmlspecialchars($_SESSION['customer_name']) . "</p>";
 		$caroline_email_body .= "<p>Email: " . htmlspecialchars($_SESSION['customer_email']) . "</p>";
 		$caroline_email_body .= "<p>Phone: " . htmlspecialchars($_SESSION['customer_phone']) . "</p>";
 		$caroline_email_body .= $emailBody;
