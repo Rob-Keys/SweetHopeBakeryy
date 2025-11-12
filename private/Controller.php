@@ -200,7 +200,7 @@ class Controller {
 					    'price'=> $price
 				]);
 				// To actually upate cart
-				$this->add_to_cart($_POST['name'],$quantity,$price);
+				$this->add_to_cart($_POST['name'],$quantity);
 				exit;
 			}
 			else if($_POST['action']==='clear'){
@@ -422,16 +422,16 @@ class Controller {
 	 * @param int $qty
 	 * @param float $price
 	 */
-	private function add_to_cart($name, $qty, $price) {
-		// Get the menu item real data
+	private function add_to_cart($name, $qty) {
+		// Get the menu item price from db
 		$menuItem = $this->db->getTable('products', $name);
-		
-		// Validate the price matches expected price
-		if ($price != $menuItem['prices'][$qty]) {
-			throw new Exception("Price mismatch detected");
+		$price = $menuItem['prices'][$qty];
+
+		if ($price === null) {
+			throw new Exception("Price not found for item: $name with quantity: $qty");
 		}
-		
-		// Price is valid, add to cart
+
+		// Add or update the cart item
 		if (isset($_SESSION['cart'][$name])) {
 			$_SESSION['cart'][$name]['quantity'] += $qty;
 			$_SESSION['cart'][$name]['price'] += $price;
