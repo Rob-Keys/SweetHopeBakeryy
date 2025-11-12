@@ -62,6 +62,8 @@ div.mobile-container{
 	.products{
 		position: absolute;
 		top: 0;
+	}
+	.extra-padding{
 		padding-bottom: 200px;
 	}
 	.cart-container{
