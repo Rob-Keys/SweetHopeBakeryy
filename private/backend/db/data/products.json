@@ -8,8 +8,8 @@
             "12": 20
         },
         "imageURLs": [
-            "/images/products/map1.jpg",
-            "/images/products/map2.jpg"
+            "/images/products/map1.avif",
+            "/images/products/map2.avif"
         ]
     },
     {
@@ -20,8 +20,8 @@
             "12": 40
         },
         "imageURLs": [
-            "/images/products/snick1.jpg",
-            "/images/products/snick2.jpg"
+            "/images/products/snick1.avif",
+            "/images/products/snick2.avif"
         ]
     },
     {
@@ -32,8 +32,8 @@
             "12": 38
         },
         "imageURLs": [
-            "/images/products/prot1.jpg",
-            "/images/products/prot2.jpg"
+            "/images/products/prot1.avif",
+            "/images/products/prot2.avif"
         ]
     },
     {
@@ -45,8 +45,8 @@
             "12": 30
         },
         "imageURLs": [
-            "/images/products/muff1.jpg",
-            "/images/products/muff2.jpg"
+            "/images/products/muff1.avif",
+            "/images/products/muff2.avif"
         ]
     },
     {
@@ -57,8 +57,8 @@
             "12": 38
         },
         "imageURLs": [
-            "/images/products/cinn1.jpg",
-            "/images/products/cinn2.jpg"
+            "/images/products/cinn1.avif",
+            "/images/products/cinn2.avif"
         ]
     }
 ]

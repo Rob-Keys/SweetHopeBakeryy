@@ -2,11 +2,6 @@
 	margin-top: 2rem;
 }
 .front-page {
-	/*
-	background-image: url("https://img.freepik.com/premium-photo/stack-cookies-with-blurry-background-lights-them_662214-117383.jpg");	
-	background-size: cover;
-	background-position: center;
-	*/
 	background: none;
 	position: relative;
 	overflow: hidden;
@@ -27,7 +22,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/images/left.jpg");
+  background-image: url("/images/left.avif");
   background-size: contain;
   background-position: left;
   clip-path: polygon(0 0, 40% 0, 20% 100%, 0 100%);
@@ -41,7 +36,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/images/middle.jpg");
+  background-image: url("/images/middle.avif");
   background-size: contain;
   background-position: center;
   clip-path: polygon(40% 0, 80% 0, 60% 100%, 20% 100%);
@@ -54,7 +49,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("/images/right.jpg");
+  background-image: url("/images/right.avif");
   background-size: contain;
   background-position: right;
   clip-path: polygon(80% 0, 100% 0, 100% 100%, 60% 100%);
