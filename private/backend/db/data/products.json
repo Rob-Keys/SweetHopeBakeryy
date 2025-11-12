@@ -1,72 +1,64 @@
 [
     {
-        "itemName": "Cupcakes",
-        "description": "Some cupcakes with yellow cake and chocolate frosting",
+        "itemName": "Maple Brown Sugar Cookies",
+        "description": "Soft cookies with maple syrup and brown sugar. Sweet with a hint of caramel flavor.",
         "prices": {
             "3": 10,
             "6": 15,
             "12": 20
         },
-        "customizations": {
-            "Gluten Free": 3,
-            "Dairy Free": 2,
-            "Rainbow Sprinkles": 0
-        },
         "imageURLs": [
-            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cupcakes.jpg"
-        ]
-    },
-    {
-        "itemName": "Cookies & Cream Cupcakes",
-        "prices": {
-            "6": 25,
-            "12": 40
-        },
-        "customizations": {
-            "Gluten Free": 45,
-            "Dairy Free": 45
-        },
-        "imageURLs": [
-            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cookies_&_Cream_Cupcakes.jpg"
-        ]
-    },
-    {
-        "itemName": "Cake Doughnuts",
-        "prices": {
-            "6": 20,
-            "12": 38
-        },
-        "customizations": {
-            "Gluten Free": 45,
-            "Dairy Free": 45
-        },
-        "imageURLs": [
-            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Cake_Doughnuts.jpg"
+            "/images/products/map1.jpg",
+            "/images/products/map2.jpg"
         ]
     },
     {
         "itemName": "Snickerdoodles",
+        "description": "Classic cinnamon-sugar cookies with a soft center and crispy edges.",
         "prices": {
-            "12": 20
-        },
-        "customizations": {
-            "Gluten Free & Dairy Free": 26
+            "6": 25,
+            "12": 40
         },
         "imageURLs": [
-            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/Snickerdoodles.jpg"
+            "/images/products/snick1.jpg",
+            "/images/products/snick2.jpg"
         ]
     },
     {
-        "itemName": "S’mores Bars",
+        "itemName": "Protein Cookies",
+        "description": "Cookies made with protein powder for a healthier treat. Good for snacking or post-workout.",
         "prices": {
             "6": 20,
-            "12": 35
-        },
-        "customizations": {
-            "Dairy Free": 10
+            "12": 38
         },
         "imageURLs": [
-            "https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_menu/S’mores_Bars.jpg"
+            "/images/products/prot1.jpg",
+            "/images/products/prot2.jpg"
+        ]
+    },
+    {
+        "itemName": "Double Chocolate Muffins",
+        "description": "Moist chocolate muffins with chocolate chips throughout. Rich and satisfying.",
+        "prices": {
+            "3": 10,
+            "6": 18,
+            "12": 30
+        },
+        "imageURLs": [
+            "/images/products/muff1.jpg",
+            "/images/products/muff2.jpg"
+        ]
+    },
+    {
+        "itemName": "Cinnamon Cookies",
+        "description": "Buttery cookies with cinnamon. Crispy outside, soft inside.",
+        "prices": {
+            "6": 20,
+            "12": 38
+        },
+        "imageURLs": [
+            "/images/products/cinn1.jpg",
+            "/images/products/cinn2.jpg"
         ]
     }
 ]

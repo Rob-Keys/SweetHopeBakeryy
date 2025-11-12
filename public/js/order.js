@@ -93,15 +93,4 @@ document.addEventListener('DOMContentLoaded', () => {
 			})
 		});
 	};
-
-	const customizations = document.querySelectorAll(".customization");
-	if(customizations != null){
-		customizations.forEach(customization => {
-			customization.addEventListener("click", () => {
-				if(customization.textContent != "--"){
-					customization.classList.toggle("selectedCustomization");
-				}
-			});
-		});
-	};
 });
