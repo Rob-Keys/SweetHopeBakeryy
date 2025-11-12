@@ -82,6 +82,7 @@ div.mobile-container{
 		background-color: white;
 		padding: 0 0 1rem 0;
 		border: 1px solid #3f2a14;
+		visibility: hidden;
 	}
 	.btn-container{
 		display: none;

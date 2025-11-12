@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+	let empty_cart_text = document.getElementById("empty-cart");
+	if(!empty_cart_text){
+		if(window.innerWidth < 991 && !document.querySelector('.cart-container-wrapper').classList.contains("visible")){
+			document.querySelector('.cart-container-wrapper').classList.add("visible");
+		}
+	}
 	const forms = document.querySelectorAll('.add-to-cart-form');
 	if(forms.length!=0){
 		for (let i=0; i<forms.length; i++){
@@ -43,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 							<div class="d-flex justify-content-end align-items-center price-container">
 								<p class="me-3 price">$${parseFloat(data["price"]).toFixed(2)}</p>
 								<span><form method="post" action="/order">
-										<input type="hidden" name="removed_name" value="<?= ${data["name"]}>">
+										<input type="hidden" name="removed_name" value="${data["name"]}">
 										<button type="submit" name="action" value="remove" style="color: red; background: none; border: none;"><p>X</p></button>
 								</form></span>
 							</div>
@@ -54,6 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
 						let empty_cart_text = document.getElementById("empty-cart");
 						if(empty_cart_text){
 							empty_cart_text.remove();
+							if(window.innerWidth < 991 && !document.querySelector('.cart-container-wrapper').classList.contains("visible")){
+								document.querySelector('.cart-container-wrapper').classList.add("visible");
+							}
 						}
 					}
 
