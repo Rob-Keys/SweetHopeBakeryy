@@ -86,7 +86,7 @@ function add_fade_in_effects(){
   elements.forEach(el => observer.observe(el));
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   add_image_slider();
   add_fade_in_effects();
 });
