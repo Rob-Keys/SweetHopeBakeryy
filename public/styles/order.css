@@ -29,11 +29,17 @@
 .product-image{
 	width: 95%;
 	border: 8px #3f2a14 solid;
+	z-index: 999;
 }
 .order-title{
 	padding: 2vh 0 2vh 2vw !important;
 }
-@media (min-width: 991px) {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (min-width: 500px) {
 	#dropdownButton{
 		display: none;
 	}
@@ -87,6 +93,9 @@
 		right:10vw;
 		width: 80vw !important;
 		overflow-y: scroll;
+	}
+	.cart-container::-webkit-scrollbar {
+		display: none; /* Disable scrollbar for WebKit browsers */
 	}
 	#dropdownButton{
 		font-size: 2.5rem;

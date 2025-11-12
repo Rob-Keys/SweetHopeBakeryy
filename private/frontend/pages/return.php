@@ -17,7 +17,7 @@
         <?php include(__DIR__ . "/../components/header.php"); ?>
 
         <div class="row m-5">
-            <div class="col-md-5">
+            <div class="col-md-5 fade-in-right">
                 <div class="card">
                     <div class="card-header">
                         <h2>Order Summary</h2>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="col-md-1"></div>
-            <div class="col-md-5">
+            <div class="col-md-5 fade-in-left">
                 <h2> Thanks for your order! </h2>
                 <h4> A receipt has been sent to <?= $_SESSION['customer_email']; ?>. </h4>
             </div>

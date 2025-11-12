@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				 	}
 					if(!existing){
 						const newItemHTML =`
-						<li class="list-group-item d-flex justify-content-between align-items-center">
+						<li class="list-group-item d-flex justify-content-between align-items-center" style="animation: fadeIn 0.6s ease;">
 							<p>${data["name"]} : (${data["quantity"]})</p>
 							<div class="d-flex justify-content-end align-items-center price-container">
 								<p class="me-3 price">$${parseFloat(data["price"]).toFixed(2)}</p>

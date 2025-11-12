@@ -37,9 +37,30 @@ class ImageSlider {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function add_image_slider(){
   const sliders = document.querySelectorAll('.slider-container');
 	sliders.forEach(slider => {
 		new ImageSlider(slider);
 	});
+}
+
+function add_fade_in_effects(){
+    const elements = document.querySelectorAll('.fade-in-up, .fade-in-right, .fade-in-left');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-visible');
+      }
+    });
+  }, {
+    threshold: 0.2 // Trigger when 20% of the element is visible
+  });
+
+  elements.forEach(el => observer.observe(el));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  add_image_slider();
+  add_fade_in_effects();
 });

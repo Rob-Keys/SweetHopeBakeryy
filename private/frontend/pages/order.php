@@ -58,7 +58,7 @@
                 <div class="cart-dropdown d-flex justify-content-end me-2">
                     <button id="dropdownButton"><i class="fa-solid fa-cart-shopping"></i></button>
                     <div id="dropdownContent" class="dropdown-content">
-                        <div id="normal-cart" class="col-md-3 cart-container border rounded bg-light">
+                        <div id="normal-cart" class="col-md-3 cart-container border rounded bg-light fade-in-left">
                             <h3>Your Cart</h3>
                             <ul class="list-group mb-3" id="cart-list">
                                 <?php foreach ($_SESSION['cart'] as $name => $item): ?>

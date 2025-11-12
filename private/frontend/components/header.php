@@ -4,16 +4,16 @@
         <div class="container-fluid">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 d-flex flex-row justify-content-evenly w-100">
                 <li class="nav-item">
-                    <a class="nav-link text-light active" aria-current="page" href="/">Home</a>
+                    <a class="nav-link text-light active" aria-current="page" href="/"><h5 class="p-0 m-0">Home</h5></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/about">About Us</a>
+                    <a class="nav-link text-light" href="/about"><h5 class="p-0 m-0">About Us</h5></a>
                 </li>
                 <li>
-                    <a class="nav-link text-light" href="/order">Order</a>
+                    <a class="nav-link text-light" href="/order"><h5 class="p-0 m-0">Order</h5></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-light" href="/contact">Contact</a>
+                    <a class="nav-link text-light" href="/contact"><h5 class="p-0 m-0">Contact</h5></a>
                 </li>
             </ul>
             <!-- Brand logo on the left -->
