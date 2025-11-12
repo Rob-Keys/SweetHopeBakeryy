@@ -1,9 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 	let empty_cart_text = document.getElementById("empty-cart");
 	if(!empty_cart_text){
-		if(window.innerWidth < 991 && !document.querySelector('.cart-container-wrapper').classList.contains("visible")){
-			document.querySelector('.cart-container-wrapper').classList.add("visible");
-		}
+		makeCartVisible();
 	}
 	const forms = document.querySelectorAll('.add-to-cart-form');
 	if(forms.length!=0){
@@ -60,9 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 						let empty_cart_text = document.getElementById("empty-cart");
 						if(empty_cart_text){
 							empty_cart_text.remove();
-							if(window.innerWidth < 991 && !document.querySelector('.cart-container-wrapper').classList.contains("visible")){
-								document.querySelector('.cart-container-wrapper').classList.add("visible");
-							}
+							makeCartVisible();
 						}
 					}
 
@@ -93,3 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 });
+
+function makeCartVisible(){
+	if(window.innerWidth < 991 && !document.querySelector('.cart-container-wrapper').classList.contains("visible")){
+		document.querySelector('.cart-container-wrapper').classList.add("visible");
+		document.querySelector('.products').classList.add("extra-padding");
+	}
+}
