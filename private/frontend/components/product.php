@@ -5,7 +5,7 @@
     $description = $_SESSION["products"][$i]['description'];
     $customizations = $_SESSION["products"][$i]['customizations'];
 ?>
-<div class="product-card mb-4 p-3 rounded">
+<div class="product-card mb-4 p-3 rounded fade-in-up">
     <h3 class="product-name"><?=$name?></h3>
     <div class="slider-container">
         <div class="slider-wrapper">
@@ -22,7 +22,7 @@
     </div>
     <?php 
     if($description != ""){
-        echo "<h5>".$description."</h5>";
+        echo "<h5 class='mt-2 mb-2'>".$description."</h5>";
     }
     ?>
     <form class="add-to-cart-form" method="POST" action="/order">

@@ -17,6 +17,8 @@
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/home.css">
 
+        <script src="js/shared.js"></script>
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
@@ -28,28 +30,28 @@
         <main>
             <div class="d-flex justify-content-center front-holder">
                 <div class="front-page text-center">
-                    <h1 class="pb-3 welcome mt-5">The 703 Bakehouse</h1>
-                    <p class="mb-5 subwelcome">Made-To-Order Baking in Arlington, VA</p>
-                    <a href="/order" class="btn btn-lg btn-cookie">Order Now</a>
+                    <div class="bg-third"></div>
+                    <h1 class="pb-3 welcome mt-5 fade-in-up">The 703 Bakehouse</h1>
+                    <p class="mb-5 subwelcome fade-in-up">Made-To-Order Baking in Arlington, VA</p>
                 </div>
             </div>
             <div class="mt-5 mb-5">
                 <div class="justify-content-center text-center">
-                    <h3 class="rhombus text-center">World Class Baking Since 2002</h2>
+                    <h2 class="rhombus text-center">World Class Baking Since 2002</h2>
+                    <a href="/order" class="btn btn-lg btn-cookie fade-in-up mobile-button">Order Now</a>
                 </div>
             </div>
             <?php
-                foreach($_SESSION['home_page_sections'] as $section){ ?>
-                    <div class="row mb-5">
-                        <div class="col-5">
+                foreach($_SESSION['home_page_sections'] as $index => $section){ ?>
+                    <div class="<?= $index%2==0 ? "row mb-5" : "row row-reverse mb-5"?>">
+                        <div class="col-5 <?= $index%2==0 ? "fade-in-right": "fade-in-left"?>">
                             <img style="width: 100%;" src=<?= $section['imageURL'] ?>>
                         </div>
-                        <div class="col-7 d-flex align-items-center">
-                            <h3 class="image-caption">
-                                <?= $section['bodyText'] ?>
-                                <p></p>
-                                <a href="/order" class="btn btn-lg btn-cookie">Order Now</a>
-                            </h3>
+                        <div class="col-6 d-flex align-items-center <?= $index%2==0 ? "fade-in-left": "fade-in-right"?>">
+                            <div class="image-caption d-flex flex-column align-items-center">
+                                <h3><?= $section['bodyText'] ?></h3>
+                                <a href="/order" class="btn btn-lg btn-cookie mt-5">Order Now</a>
+                            </div>
                         </div>
                     </div>
             <?php } ?>

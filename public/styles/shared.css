@@ -2,7 +2,11 @@ html, body {
 	margin: 0;
 	padding: 0;
 	overflow-x: hidden;
+	overflow-y: scroll;
 	height: 100%;
+}
+body::-webkit-scrollbar {
+  display: none; /* Disable scrollbar for WebKit browsers */
 }
 body {
 	font-family: "Tagesschrift", serif !important;
@@ -37,7 +41,6 @@ footer {
 
 .nav-link{
 	color: #AAAAAA;
-	font-size: 1.3rem !important;
 }
 .nav-link:hover {
        color: #FFFFFF;
@@ -109,6 +112,10 @@ footer {
 
 /* End image slider */
 
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
 h1 {
 	font-size: 4rem !important;
 }
@@ -128,55 +135,46 @@ p {
 	font-size: 1rem !important;
 }
 
+/* Responsive design for modern feel */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.fade-in-up.fade-visible, .fade-in-right.fade-visible, .fade-in-left.fade-visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0);
+}
+
 @media (max-width: 991px) {
 	.btn-lg{
 		padding: 0.4rem 0.8rem !important;
 		font-size:1.5rem !important;
 	}
-	/*
-	h1 {
-		font-size: 10rem !important;
-	}
-	h2 {
-		font-size: 8rem !important;
-	}
-	h3 {
-		font-size: 6rem !important;
-	}
-	h4 {
-		font-size: 4rem !important;
-	}
-	h5 {
-		font-size: 3.5rem !important;
-	}
-	p {
-		font-size: 3rem !important;
-	}
-	.small-text {
-		font-size: 2rem !important;
-	}
-	header{
-		height: 10rem;
-		border-radius: 0;
-		margin: 0;
-		display: flex;
-		align-content: center;
-		width: 100vw !important;
-	}
-	.navbar{
-		width: 100vw !important;
-	}
-	.nav-link{
-		font-size: 3rem !important;
-		padding-top: 2px;
-		padding-bottom: 2px;
-	}
-		
-		*/
 	.navbar-brand{
-		display: none;
+		display: none !important;
 	}
 	[class*="col-"]{
 		width: 100% !important;
+	}
+	.fade-in-right, .fade-in-left {
+		opacity: 0;
+  		transform: translateY(30px);
+  		transition: opacity 1s ease, transform 1s ease;
+	}
+	.fade-in-right.fade-visible, .fade-in-left.fade-visible {
+  		opacity: 1;
+  		transform: translateY(0);
 	}
 }

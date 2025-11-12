@@ -2,9 +2,6 @@
   margin: 2rem 4rem 2rem 4rem;
   color: #3f2a14;
 }
-.row-reverse {
-  flex-direction: row-reverse;
-}
 .caroline-image {
   width: 100%;
   height: auto;
@@ -67,14 +64,19 @@
 }
 
 @media (max-width: 991px) {
+  .content {
+    margin: 1rem;
+  }
   div > h2{
     margin-top: 1rem;
-    font-size: 4rem;
     margin-bottom: 2rem;
+    text-align: center;
   }
-  /* removed empty rule for div > h1 */
-  p{
-    font-size: 3rem;
+  div > h5{
+    text-align: center;
+  }
+  .rob-card {
+    text-align: center;
   }
   .rob-card > .col-3 {
     display: flex;

@@ -16,6 +16,8 @@
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/checkout.css">
 
+        <script src="/js/shared.js"></script>
+
         <script src="https://js.stripe.com/basil/stripe.js"></script>
         <script src="js/stripe/checkout.js" defer></script>
         <script src="js/checkout.js" defer></script>
@@ -29,7 +31,7 @@
         <?php include(__DIR__ . "/../components/header.php"); ?>
 
         <div class="row mx-2 my-4">
-            <div class="col-md-5 left-side">
+            <div class="col-md-5 left-side fade-in-right">
                 <div class="card">
                     <div class="card-header">
                         <h2>Order Summary</h2>
@@ -53,7 +55,7 @@
             </div>
 
             <div class="col-md-1"></div>
-            <div class="col-md-5">
+            <div class="col-md-5 fade-in-left">
                 <h4 class="m-0 p-0"> Email: </h4>
                 <input type="email" id="email" class="m-0 p-0" style="width: 100%" required></input>
                 <div id="email-errors" class="mb-2"></div>

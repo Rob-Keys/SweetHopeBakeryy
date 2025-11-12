@@ -16,6 +16,8 @@
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/contact.css">
 
+        <script src="js/shared.js"></script>
+
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Tagesschrift&display=swap" rel="stylesheet">
@@ -25,7 +27,7 @@
     <body>
         <?php include(__DIR__ . "/../components/header.php"); ?>
         <div class="wrapper">
-            <div class="content mt-5 mb-5">
+            <div class="content mt-5 mb-5 fade-in-up">
                 <h2 class="subtitle"><?= $_SESSION['contact_page_sections'][0]['headerText']?></h2>
                 <h5 class="description"><?= $_SESSION['contact_page_sections'][0]['bodyText']?></h5>
                 <div class="contact-info">
