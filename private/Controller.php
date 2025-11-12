@@ -330,7 +330,8 @@ class Controller {
 		$names = [];
 		$delimiter = bin2hex(random_bytes(4));  // Random 8 character string
 		foreach ($_FILES['images']['name'] as $imageIndex => $fileName) {
-			$names[] = $_POST['tableName'] . '/'. str_replace(' ', '_', $partitionKeyValue) . '_' . $imageIndex . '_' . $delimiter . '.jpg';
+			$extension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+			$names[] = $_POST['tableName'] . '/'. str_replace(' ', '_', $partitionKeyValue) . '_' . $imageIndex . '_' . $delimiter . $extension;
 		}
 		return $names;
 	}
