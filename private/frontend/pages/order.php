@@ -57,7 +57,7 @@
                 <div class="col-3"></div>
                 <div class="d-flex justify-content-end me-2 cart-container-wrapper">
                     <div id="normal-cart" class="col-md-3 cart-container rounded fade-in-left">
-                        <h3>Your Cart</h3>
+                        <h3 id="your-cart">Your Cart</h3>
                         <ul class="list-group mb-3" id="cart-list">
                             <?php foreach ($_SESSION['cart'] as $name => $item): ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
