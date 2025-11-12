@@ -60,7 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
 					const total_price = document.getElementById("total-price");
 					total_price.textContent = "Total: $" + (parseFloat(total_price.textContent.replace(/[^\d.-]/g,"")) + parseFloat(data["price"])).toFixed(2);
 
-					const message = document.createElement('p');
+					const mobile_total_price = document.getElementById("mobile-total-price");
+					mobile_total_price.textContent = "Total: $" + (parseFloat(mobile_total_price.textContent.replace(/[^\d.-]/g,"")) + parseFloat(data["price"])).toFixed(2);
+
+					const message = document.createElement('h5');
 					message.textContent = "Added Successfully!";
 					message.classList.add('fade-in-out');
 					form.appendChild(message);
@@ -79,18 +82,5 @@ document.addEventListener('DOMContentLoaded', () => {
 				});
 			});
 		}
-	}	
-
-	//just for mobile cart button and cart
-	const dropdownButton = document.getElementById("dropdownButton");
-	if(dropdownButton != null){
-		dropdownButton.addEventListener("click", () => {
-			document.getElementById("dropdownContent").classList.toggle("show");
-			document.querySelector(".total-background").classList.toggle("show");
-			document.querySelector(".total-background").addEventListener("click",()=>{
-				document.getElementById("dropdownContent").classList.remove("show");
-				document.querySelector(".total-background").classList.remove("show");
-			})
-		});
-	};
+	}
 });

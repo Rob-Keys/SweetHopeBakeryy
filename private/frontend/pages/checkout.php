@@ -56,6 +56,8 @@
 
             <div class="col-md-1"></div>
             <div class="col-md-5 fade-in-left">
+                <h4 class="m-0 p-0"> Name: </h4>
+                <input type="text" id="name" class="m-0 p-0 mb-2" style="width: 100%" required></input>
                 <h4 class="m-0 p-0"> Email: </h4>
                 <input type="email" id="email" class="m-0 p-0" style="width: 100%" required></input>
                 <div id="email-errors" class="mb-2"></div>
