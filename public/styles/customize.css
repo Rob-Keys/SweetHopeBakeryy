@@ -11,3 +11,43 @@
     width: 100%;
     height: auto;
 }
+
+/* Image editing styles */
+.edit-images-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.edit-image-item {
+    position: relative;
+    display: inline-block;
+}
+
+.edit-image-item img {
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+.edit-image-item .remove-image-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-align {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+}

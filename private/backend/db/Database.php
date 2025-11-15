@@ -44,13 +44,9 @@ Class Database {
 
 			// If the second optional parameter is set, return the specific item from the table
 			if (!is_null($partitionKeyValue)) {
-				if($tableName == "products"){
-					$partitionKey = 'itemName';
-				} else {
-					$partitionKey = 'sectionIndex';
-				}
+				$partitionKey = ($tableName == 'products' ? 'itemName' : 'sectionIndex');
 				foreach ($data as $item) {
-					if (isset($item[$partitionKey]) && $item[$partitionKey] === $partitionKeyValue) {
+					if (isset($item[$partitionKey]) && $item[$partitionKey] == $partitionKeyValue) {
 						return $item;
 					}
 				}
@@ -71,40 +67,60 @@ Class Database {
 
 		$table =& $this->{$tableName};
 
-		// If the item specifies a sectionIndex, insert at that index and bump others
-		if (isset($item['sectionIndex'])) {
-			$newIndex = (int)$item['sectionIndex'];
+		// Determine the partition key for this table
+		$partitionKey = ($tableName == 'products') ? 'itemName' : 'sectionIndex';
 
-			// Normalize existing items: ensure we can compare sectionIndex
-			usort($table, function($a, $b) {
-				$ai = isset($a['sectionIndex']) ? (int)$a['sectionIndex'] : PHP_INT_MAX;
-				$bi = isset($b['sectionIndex']) ? (int)$b['sectionIndex'] : PHP_INT_MAX;
-				return $ai - $bi;
-			});
-
-			// Bump items with sectionIndex >= $newIndex (iterate from end to avoid double bumps)
-			for ($i = count($table) - 1; $i >= 0; $i--) {
-				if (!isset($table[$i]['sectionIndex'])) continue;
-				if ((int)$table[$i]['sectionIndex'] >= $newIndex) {
-					$table[$i]['sectionIndex'] = (int)$table[$i]['sectionIndex'] + 1;
+		// Check if an item with this partition key already exists
+		$existingIndex = null;
+		if (isset($item[$partitionKey])) {
+			foreach ($table as $index => $existingItem) {
+				if (isset($existingItem[$partitionKey]) && $existingItem[$partitionKey] == $item[$partitionKey]) {
+					$existingIndex = $index;
+					break;
 				}
 			}
+		}
 
-			// Add the new item
-			$table[] = $item;
-
-			// Sort by sectionIndex so ordering is preserved
-			usort($table, function($a, $b) {
-				$ai = isset($a['sectionIndex']) ? (int)$a['sectionIndex'] : PHP_INT_MAX;
-				$bi = isset($b['sectionIndex']) ? (int)$b['sectionIndex'] : PHP_INT_MAX;
-				return $ai - $bi;
-			});
-
-			// Reindex numeric keys
-			$table = array_values($table);
+		// If item exists, replace it; otherwise, add it
+		if ($existingIndex !== null) {
+			// Replace existing item
+			$table[$existingIndex] = $item;
 		} else {
-			// Default behavior: append to the table (for products or items without sectionIndex)
-			$table[] = $item;
+			// If the item specifies a sectionIndex, insert at that index and bump others
+			if (isset($item['sectionIndex'])) {
+				$newIndex = (int)$item['sectionIndex'];
+
+				// Normalize existing items: ensure we can compare sectionIndex
+				usort($table, function($a, $b) {
+					$ai = isset($a['sectionIndex']) ? (int)$a['sectionIndex'] : PHP_INT_MAX;
+					$bi = isset($b['sectionIndex']) ? (int)$b['sectionIndex'] : PHP_INT_MAX;
+					return $ai - $bi;
+				});
+
+				// Bump items with sectionIndex >= $newIndex (iterate from end to avoid double bumps)
+				for ($i = count($table) - 1; $i >= 0; $i--) {
+					if (!isset($table[$i]['sectionIndex'])) continue;
+					if ((int)$table[$i]['sectionIndex'] >= $newIndex) {
+						$table[$i]['sectionIndex'] = (int)$table[$i]['sectionIndex'] + 1;
+					}
+				}
+
+				// Add the new item
+				$table[] = $item;
+
+				// Sort by sectionIndex so ordering is preserved
+				usort($table, function($a, $b) {
+					$ai = isset($a['sectionIndex']) ? (int)$a['sectionIndex'] : PHP_INT_MAX;
+					$bi = isset($b['sectionIndex']) ? (int)$b['sectionIndex'] : PHP_INT_MAX;
+					return $ai - $bi;
+				});
+
+				// Reindex numeric keys
+				$table = array_values($table);
+			} else {
+				// Default behavior: append to the table (for products or items without sectionIndex)
+				$table[] = $item;
+			}
 		}
 
 		$this->writeTableToFile($tableName);
