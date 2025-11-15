@@ -337,7 +337,7 @@ class Controller {
 	}
 
 	private function get_image_keys_for_deletion($partitionKeyValue){
-		$results = $this->db->getTable('products', $partitionKeyValue);
+		$results = $this->db->getTable($_POST['tableName'], $partitionKeyValue);
 		$imageURLs = $results['imageURLs'];
 		$names = [];
 
@@ -394,7 +394,7 @@ class Controller {
 				"sectionIndex" => $section['sectionIndex'],
 				"headerText" => $section['headerText'],
 				"bodyText" => $section['bodyText'],
-				"imageURL" => $section['imageURL']
+				"imageURL" => $section['imageURLs'][0]
 			];
 		}
 	}

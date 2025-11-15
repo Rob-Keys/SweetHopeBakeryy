@@ -44,8 +44,13 @@ Class Database {
 
 			// If the second optional parameter is set, return the specific item from the table
 			if (!is_null($partitionKeyValue)) {
+				if($tableName == "products"){
+					$partitionKey = 'itemName';
+				} else {
+					$partitionKey = 'sectionIndex';
+				}
 				foreach ($data as $item) {
-					if (isset($item['itemName']) && $item['itemName'] === $partitionKeyValue) {
+					if (isset($item[$partitionKey]) && $item[$partitionKey] === $partitionKeyValue) {
 						return $item;
 					}
 				}
