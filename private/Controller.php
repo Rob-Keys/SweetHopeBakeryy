@@ -57,6 +57,12 @@ class Controller {
 			case "/customize_add_item":
 				$this->customizeAddItem();
 				break;
+			case "/customize_edit_item":
+				$this->customizeEditItem();
+				break;
+			case "/customize_edit_section":
+				$this->customizeEditSection();
+				break;
 			case "/mail":
 				$this->showMail();
 				break;
@@ -267,6 +273,196 @@ class Controller {
 		header("Location: /customize", true, 303);
 	}
 
+	public function customizeEditSection(){
+		// Ensure required fields are set
+		if(!isset($_POST['originalPartitionKeyValue']) || !isset($_POST['tableName'])){
+			header("Location: /customize", true, 303);
+			exit;
+		}
+
+		$sectionIndex = $_POST['originalPartitionKeyValue'];
+
+		// Get the existing section from database
+		$existingSection = $this->db->getTable($_POST['tableName'], $sectionIndex);
+		if(!$existingSection){
+			header("Location: /customize", true, 303);
+			exit;
+		}
+
+		$section = $existingSection;
+
+		// Section index cannot be changed - keep original
+		$section['sectionIndex'] = $sectionIndex;
+
+		// Update headerText if provided
+		if(isset($_POST['headerText'])){
+			$section['headerText'] = $_POST['headerText'];
+		}
+
+		// Update bodyText if provided
+		if(isset($_POST['bodyText'])){
+			$section['bodyText'] = $_POST['bodyText'];
+		}
+
+		// Handle image updates
+		$currentImages = $section['imageURLs'];
+		
+		// Remove image if marked for deletion
+		if(isset($_POST['imageToRemove']) && $_POST['imageToRemove'] != ''){
+			$imageUrl = $_POST['imageToRemove'];
+			// Extract S3 key and delete from S3
+			$parsed = parse_url($imageUrl);
+			$s3Key = ltrim($parsed['path'], '/');
+			$this->s3->deleteImages([$s3Key]);
+			
+			// Remove from current images array
+			$currentImages = array_filter($currentImages, function($url) use ($imageUrl) {
+				return $url !== $imageUrl;
+			});
+			$currentImages = array_values($currentImages); // Reindex
+		}
+		
+		// Upload new image if provided
+		if(isset($_FILES['newImage']) && !empty($_FILES['newImage']['name'])){
+			// Set up $_FILES structure for get_s3_image_names
+			$_FILES['images'] = array(
+				'name' => array($_FILES['newImage']['name']),
+				'type' => array($_FILES['newImage']['type']),
+				'tmp_name' => array($_FILES['newImage']['tmp_name']),
+				'error' => array($_FILES['newImage']['error']),
+				'size' => array($_FILES['newImage']['size'])
+			);
+			$_POST['tableName'] = $_POST['tableName'];
+			
+			$filepaths = $this->get_s3_image_names($sectionIndex);
+			$this->s3->uploadImages($filepaths);
+			
+			foreach($filepaths as $filepath){
+				$currentImages[] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+			}
+		}
+		
+		// Update the section's images
+		$section['imageURLs'] = $currentImages;
+
+		// Update the section in the database (in-place, no index change)
+		$this->db->putItem($_POST['tableName'], $section);
+		$this->refresh_db_session($_POST['tableName']);
+		header("Location: /customize", true, 303);
+	}
+
+	public function customizeEditItem(){
+		// Ensure required fields are set
+		if(!isset($_POST['partitionKeyValue']) || $_POST['partitionKeyValue'] == "" || !isset($_POST['originalPartitionKeyValue'])){
+			header("Location: /customize", true, 303);
+			exit;
+		}
+
+		$newItemName = $_POST['partitionKeyValue'];
+		$originalItemName = $_POST['originalPartitionKeyValue'];
+		$itemNameChanged = ($newItemName !== $originalItemName);
+
+		// Get the existing item from database using the original name
+		$existingItem = $this->db->getTable($_POST['tableName'], $originalItemName);
+		if(!$existingItem){
+			header("Location: /customize", true, 303);
+			exit;
+		}
+
+		$item = $existingItem;
+
+		// Set the partition key (potentially new name)
+		$item[$_POST['partitionKey']] = $newItemName;
+
+		// Update description if provided
+		if(isset($_POST['description'])){
+			$item['description'] = $_POST['description'];
+		}
+
+		// Parse and update Prices
+		if(isset($_POST['csvPrices'])){
+			$pairs = explode(",",$_POST['csvPrices']);
+			$prices = [];
+			foreach($pairs as $pair){
+				$split = explode(":",$pair);
+				if(count($split) == 2){
+					$prices[trim($split[0])] = (int)trim($split[1]);
+				}
+			}
+			$item['prices'] = $prices;
+		}
+
+		// Parse and update customizations
+		if(isset($_POST['csvCustomizations'])){
+			if($_POST['csvCustomizations'] != ""){
+				$pairs = explode(",",$_POST['csvCustomizations']);
+				$customizations = [];
+				foreach($pairs as $pair){
+					$split = explode(":",$pair);
+					if(count($split) == 2){
+						$customizations[trim($split[0])] = trim($split[1]);
+					}
+				}
+				$item['customizations'] = $customizations;
+			} else {
+				$item['customizations'] = [];
+			}
+		}
+
+		// Handle image updates
+		$currentImages = $item['imageURLs'];
+		
+		// Remove images that were marked for deletion
+		if(isset($_POST['imagesToRemove']) && $_POST['imagesToRemove'] != ''){
+			$imagesToRemove = json_decode($_POST['imagesToRemove'], true);
+			if(is_array($imagesToRemove)){
+				// Extract S3 keys and delete from S3
+				$s3KeysToDelete = [];
+				foreach($imagesToRemove as $url){
+					$parsed = parse_url($url);
+					$s3KeysToDelete[] = ltrim($parsed['path'], '/');
+				}
+				if(!empty($s3KeysToDelete)){
+					$this->s3->deleteImages($s3KeysToDelete);
+				}
+				
+				// Remove from current images array
+				$currentImages = array_filter($currentImages, function($url) use ($imagesToRemove) {
+					return !in_array($url, $imagesToRemove);
+				});
+				$currentImages = array_values($currentImages); // Reindex
+			}
+		}
+		
+		// Upload new images if any
+		if(isset($_FILES['newImages']) && !empty($_FILES['newImages']['name'][0])){
+			// Temporarily set up $_FILES structure for get_s3_image_names
+			$_FILES['images'] = $_FILES['newImages'];
+			$_POST['tableName'] = 'products';
+			
+			$filepaths = $this->get_s3_image_names($newItemName);
+			$this->s3->uploadImages($filepaths);
+			
+			foreach($filepaths as $filepath){
+				$currentImages[] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+			}
+		}
+		
+		// Update the item's images
+		$item['imageURLs'] = $currentImages;
+
+		// If the item name changed, delete the old item and create a new one
+		if($itemNameChanged){
+			// Delete the old item from database
+			$this->db->removeItem($_POST['tableName'], $originalItemName);
+		}
+
+		// Update or create the item in the database
+		$this->db->putItem($_POST['tableName'], $item);
+		$this->refresh_db_session($_POST['tableName']);
+		header("Location: /customize", true, 303);
+	}
+
 	public function customizeAddItem(){
 		// Ensure required fields are set
 		if(!isset($_POST['partitionKeyValue']) || $_POST['partitionKeyValue'] == "" || !isset($_FILES['images'])){
@@ -337,7 +533,7 @@ class Controller {
 	}
 
 	private function get_image_keys_for_deletion($partitionKeyValue){
-		$results = $this->db->getTable('products', $partitionKeyValue);
+		$results = $this->db->getTable($_POST['tableName'], $partitionKeyValue);
 		$imageURLs = $results['imageURLs'];
 		$names = [];
 
@@ -394,7 +590,7 @@ class Controller {
 				"sectionIndex" => $section['sectionIndex'],
 				"headerText" => $section['headerText'],
 				"bodyText" => $section['bodyText'],
-				"imageURL" => $section['imageURL']
+				"imageURL" => $section['imageURLs'][0]
 			];
 		}
 	}
