@@ -95,7 +95,7 @@
         </div>
         <?php if($pageName !== 'contact_page'){ ?>
             <div class='col-2'>
-                <input type="file" name="image"></input>
+                <input type="file" name="images[]"></input>
             </div>
         <?php } ?>
         <div class='col-2 right-align'>

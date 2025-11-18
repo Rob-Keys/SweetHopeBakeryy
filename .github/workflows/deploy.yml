@@ -39,6 +39,13 @@ jobs:
             git reset --hard origin/prod
             git pull origin prod --force
 
+            # Restore database from backup
+            cp -r $BACKUP_DIR/private/backend/db/data ~/bakehouse/private/backend/db/data
+
+            # Set file permissions for customize writing
+            sudo chown daemon:daemon ~/bakehouse/private/backend/db/data/*.json
+            sudo chmod 766 ~/bakehouse/private/backend/db/data/*.json
+
             composer install --no-dev --optimize-autoloader
 
             echo "Deployment completed at $(date)"
