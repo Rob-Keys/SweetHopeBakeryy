@@ -465,7 +465,7 @@ class Controller {
 
 	public function customizeAddItem(){
 		// Ensure required fields are set
-		if(!isset($_POST['partitionKeyValue']) || $_POST['partitionKeyValue'] == "" || !isset($_FILES['images'])){
+		if(!isset($_POST['partitionKeyValue']) || $_POST['partitionKeyValue'] == ""){
 			header("Location: /customize", true, 303);
 			exit;
 		}
