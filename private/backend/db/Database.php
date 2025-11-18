@@ -190,7 +190,14 @@ Class Database {
 
 	private function writeTableToFile($tableName){
 		$jsonData = json_encode($this->{$tableName}, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
-		file_put_contents(__DIR__ . "/data/" . $tableName . ".json", $jsonData);
+		$filePath = __DIR__ . "/data/" . $tableName . ".json";
+		
+		$result = file_put_contents($filePath, $jsonData, LOCK_EX);
+		
+		if ($result === false) {
+			error_log("Failed to write to file: " . $filePath);
+			error_log("PHP Error: " . print_r(error_get_last(), true));
+		}
 	}
 }
 
