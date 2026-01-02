@@ -21,7 +21,7 @@ Class Bucket {
 			]
 		]);
         $this->imageBucketName = 'sweethopebakeryy';
-        $this->mailBucketName = 'bakehouse-emails';
+        $this->mailBucketName = 'sweethopebakeryy-emails';
 	}
 
     public function uploadImages($filenames) {

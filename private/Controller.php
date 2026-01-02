@@ -683,7 +683,7 @@ class Controller {
 		$emailBody .= "<p>Total: $" . number_format($this->cart_total(), 2) . "</p>";
 		$emailBody .= "<hr><p>We appreciate your business!</p>";
 		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
-		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/bakehouse_pfp.jpg' alt='Sweet Hope Bakery Logo' style='width:200px;height:auto;'/>";
+		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy_pfp.jpg' alt='Sweet Hope Bakery Logo' style='width:200px;height:auto;'/>";
 
 		$email = [
 			"from" => "support@sweethopebakeryy.com",
