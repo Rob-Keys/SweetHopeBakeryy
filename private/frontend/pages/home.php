@@ -31,7 +31,7 @@
             <div class="d-flex justify-content-center front-holder">
                 <div class="front-page text-center">
                     <div class="bg-third"></div>
-                    <h1 class="pb-3 welcome mt-5 fade-in-up">The Sweet Hope Bakery</h1>
+                    <h1 class="pb-3 welcome mt-5 fade-in-up">Sweet Hope Bakery</h1>
                     <p class="mb-5 subwelcome fade-in-up">Made-To-Order Baking in Arlington, VA</p>
                 </div>
             </div>
