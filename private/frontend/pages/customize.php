@@ -4,8 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Customize</title>
-        <link rel="icon" type="image/x-icon" href="/images/bakehouselogo.ico">
-        <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
+        <link rel="icon" type="image/x-icon" href="/images/sweethopebakeryy.ico">
+        <link rel="apple-touch-icon" href="/images/sweethopebakeryy.ico">
 
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/customize.css">

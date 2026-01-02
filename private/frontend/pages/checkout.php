@@ -9,8 +9,8 @@
         <meta property="og:description" content="Secure checkout for custom cakes, cookies, donuts, and more in Arlington, Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com/checkout">
-        <link rel="icon" type="image/x-icon" href="/images/bakehouselogo.ico">
-        <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
+        <link rel="icon" type="image/x-icon" href="/images/sweethopebakeryy.ico">
+        <link rel="apple-touch-icon" href="/images/sweethopebakeryy.ico">
         <link rel="canonical" href="https://www.sweethopebakeryy.com/checkout" />
 
         <link rel="stylesheet" href="styles/shared.css">
