@@ -688,7 +688,7 @@ class Controller {
 		$email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$_SESSION['customer_email']],
-			"subject" => "Your 703 Bakehouse Receipt",
+			"subject" => "Your Sweet Hope Bakery Receipt",
 			"body" => $emailBody,
 			"date" => time()
 		];
