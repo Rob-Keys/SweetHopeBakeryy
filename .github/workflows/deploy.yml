@@ -26,7 +26,7 @@ jobs:
 
           # Execute deployment
           ssh -i ~/.ssh/deploy_key bitnami@$HOST << 'EOF'
-            cd ~/bakehouse
+            cd ~/sweethopebakeryy
 
             # Backup current code
             BACKUP_DIR="backup"
@@ -40,11 +40,11 @@ jobs:
             git pull origin prod --force
 
             # Restore database from backup
-            cp -r $BACKUP_DIR/private/backend/db/data ~/bakehouse/private/backend/db/data
+            cp -r $BACKUP_DIR/private/backend/db/data ~/sweethopebakeryy/private/backend/db/data
 
             # Set file permissions for customize writing
-            sudo chown daemon:daemon ~/bakehouse/private/backend/db/data/*.json
-            sudo chmod 766 ~/bakehouse/private/backend/db/data/*.json
+            sudo chown daemon:daemon ~/sweethopebakeryy/private/backend/db/data/*.json
+            sudo chmod 766 ~/sweethopebakeryy/private/backend/db/data/*.json
 
             composer install --no-dev --optimize-autoloader
 
