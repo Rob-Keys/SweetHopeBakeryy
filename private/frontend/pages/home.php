@@ -9,8 +9,8 @@
         <meta property="og:description" content="Custom cakes and cookies in Northern Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com">
-        <link rel="icon" type="image/x-icon" href="/images/bakehouselogo.ico">
-        <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
+        <link rel="icon" type="image/x-icon" href="/images/sweethopebakeryy.ico">
+        <link rel="apple-touch-icon" href="/images/sweethopebakeryy.ico">
         <link rel="canonical" href="https://www.sweethopebakeryy.com/" />
 
         <base href="/">
