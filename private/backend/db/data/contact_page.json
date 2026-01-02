@@ -3,17 +3,17 @@
         "sectionIndex": 0,
         "bodyText": "For custom orders, please email or DM us with a detailed description of your request, the desired delivery date, and your preferred method of payment (Paypal, Venmo, Zelle, Cash). For general inquiries, don't hesitate to connect with us on Instagram!",
         "headerText": "Get in Touch",
-        "imageURLs": ["https://703bakehouse.s3.us-east-1.amazonaws.com/bakehouse_contact/0.jpg"]
+        "imageURLs": ["https://sweethopebakeryy.s3.us-east-1.amazonaws.com/bakehouse_contact/0.jpg"]
     },
     {
         "sectionIndex": "1",
-        "imageURLs": ["https://703bakehouse.s3.us-east-1.amazonaws.com/contact_page/1.jpg"],
+        "imageURLs": ["https://sweethopebakeryy.s3.us-east-1.amazonaws.com/contact_page/1.jpg"],
         "headerText": "Email",
-        "bodyText": "support@703bakehouse.com"
+        "bodyText": "support@sweethopebakeryy.com"
     },
     {
         "sectionIndex": "2",
-        "imageURLs": ["https://703bakehouse.s3.us-east-1.amazonaws.com/contact_page/2.jpg"],
+        "imageURLs": ["https://sweethopebakeryy.s3.us-east-1.amazonaws.com/contact_page/2.jpg"],
         "headerText": "Instagram",
         "bodyText": " Follow us on instagram!"
     }

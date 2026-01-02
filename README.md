@@ -1,7 +1,7 @@
-# 703bakehouse
+# SweetHopeBakeryy
 A web application for my sister's potential small business bakery
 
-https://www.703bakehouse.com
+https://www.sweethopebakeryy.com
 
 
 ## Developing Locally
@@ -48,6 +48,6 @@ Due to Windows poor I/O speeds, it is HIGHLY RECOMMENDED to use WSL to run docke
 To open a VS code window:
 ```
 wsl
-cd ~/703bakehouse
+cd ~/SweetHopeBakeryy
 code .
 ```

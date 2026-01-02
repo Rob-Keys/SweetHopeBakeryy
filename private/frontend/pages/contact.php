@@ -8,10 +8,10 @@
         <meta property="og:title" content="Contact the 703 Bakehouse">
         <meta property="og:description" content="Custom cakes and cookies in Northern Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
-        <meta property="og:url" content="https://703bakehouse.com/contact">
+        <meta property="og:url" content="https://sweethopebakeryy.com/contact">
         <link rel="icon" type="image/x-icon" href="/images/bakehouselogo.ico">
         <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
-        <link rel="canonical" href="https://www.703bakehouse.com/contact" />
+        <link rel="canonical" href="https://www.sweethopebakeryy.com/contact" />
 
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/contact.css">
@@ -32,7 +32,7 @@
                 <h5 class="description"><?= $_SESSION['contact_page_sections'][0]['bodyText']?></h5>
                 <div class="contact-info">
                     <p class="contact-info-email"><strong><?= $_SESSION['contact_page_sections'][1]['headerText']?>:</strong> <a href="mailto:<?= $_SESSION['contact_page_sections'][1]['bodyText']?>" class="contact-page-link"><?= $_SESSION['contact_page_sections'][1]['bodyText']?></a></p>
-                    <p class="contact-info-instagram"><strong><?= $_SESSION['contact_page_sections'][2]['headerText']?>:</strong> <a href="https://www.instagram.com/703bakehouse/" target="_blank" class="contact-page-link"><?= $_SESSION['contact_page_sections'][2]['bodyText']?> <i class="fa-brands fa-instagram"></i></a></p>
+                    <p class="contact-info-instagram"><strong><?= $_SESSION['contact_page_sections'][2]['headerText']?>:</strong> <a href="https://www.instagram.com/sweethopebakeryy/" target="_blank" class="contact-page-link"><?= $_SESSION['contact_page_sections'][2]['bodyText']?> <i class="fa-brands fa-instagram"></i></a></p>
                 </div>
             </div>
         </div>

@@ -338,7 +338,7 @@ class Controller {
 			$this->s3->uploadImages($filepaths);
 			
 			foreach($filepaths as $filepath){
-				$currentImages[] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+				$currentImages[] = 'https://sweethopebakeryy.s3.us-east-1.amazonaws.com/'. $filepath;
 			}
 		}
 		
@@ -444,7 +444,7 @@ class Controller {
 			$this->s3->uploadImages($filepaths);
 			
 			foreach($filepaths as $filepath){
-				$currentImages[] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+				$currentImages[] = 'https://sweethopebakeryy.s3.us-east-1.amazonaws.com/'. $filepath;
 			}
 		}
 		
@@ -480,7 +480,7 @@ class Controller {
 		$this->s3->uploadImages($filepaths);
 
 		foreach($filepaths as $filepath){
-			$item['imageURLs'][] = 'https://703bakehouse.s3.us-east-1.amazonaws.com/'. $filepath;
+			$item['imageURLs'][] = 'https://sweethopebakeryy.s3.us-east-1.amazonaws.com/'. $filepath;
 		}
 
 		if(isset($_POST['description'])){
@@ -682,11 +682,11 @@ class Controller {
 		}
 		$emailBody .= "<p>Total: $" . number_format($this->cart_total(), 2) . "</p>";
 		$emailBody .= "<hr><p>We appreciate your business!</p>";
-		$emailBody .= "<p>For any questions, please contact support@703bakehouse.com</p>";
-		$emailBody .= "<img src='https://703bakehouse.s3.us-east-1.amazonaws.com/header/bakehouse_pfp.jpg' alt='703 Bakehouse Logo' style='width:200px;height:auto;'/>";
+		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
+		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/bakehouse_pfp.jpg' alt='703 Bakehouse Logo' style='width:200px;height:auto;'/>";
 
 		$email = [
-			"from" => "support@703bakehouse.com",
+			"from" => "support@sweethopebakeryy.com",
 			"to" => [$_SESSION['customer_email']],
 			"subject" => "Your 703 Bakehouse Receipt",
 			"body" => $emailBody,
@@ -701,7 +701,7 @@ class Controller {
 		$caroline_email_body .= "<p>Phone: " . htmlspecialchars($_SESSION['customer_phone']) . "</p>";
 		$caroline_email_body .= $emailBody;
 		$caroline_email = [
-			"from" => "support@703bakehouse.com",
+			"from" => "support@sweethopebakeryy.com",
 			"to" => [$this->config['caroline_email_address']],
 			"subject" => "New Order: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
@@ -710,8 +710,8 @@ class Controller {
 		$this->ses->sendEmail($caroline_email);
 
 		$documentation_email = [
-			"from" => "support@703bakehouse.com",
-			"to" => ["703bakehouse@gmail.com"],
+			"from" => "support@sweethopebakeryy.com",
+			"to" => ["sweethopebakeryy@gmail.com"],
 			"subject" => "New Order Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
