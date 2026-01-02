@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sweet Hope Bakery</title>
-        <meta name="description" content="Sweet Hope Bakery offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
-        <meta property="og:title" content="Sweet Hope Bakery">
+        <title>703 Bakehouse</title>
+        <meta name="description" content="703 Bakehouse offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
+        <meta property="og:title" content="703 Bakehouse">
         <meta property="og:description" content="Custom cakes and cookies in Northern Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com">
@@ -31,7 +31,7 @@
             <div class="d-flex justify-content-center front-holder">
                 <div class="front-page text-center">
                     <div class="bg-third"></div>
-                    <h1 class="pb-3 welcome mt-5 fade-in-up">Sweet Hope Bakery</h1>
+                    <h1 class="pb-3 welcome mt-5 fade-in-up">The 703 Bakehouse</h1>
                     <p class="mb-5 subwelcome fade-in-up">Made-To-Order Baking in Arlington, VA</p>
                 </div>
             </div>
