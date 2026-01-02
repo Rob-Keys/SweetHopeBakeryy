@@ -8,10 +8,10 @@
         <meta property="og:title" content="703 Bakehouse">
         <meta property="og:description" content="Custom cakes and cookies in Northern Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
-        <meta property="og:url" content="https://703bakehouse.com/about">
+        <meta property="og:url" content="https://sweethopebakeryy.com/about">
         <link rel="icon" type="image/x-icon" href="/images/bakehouselogo.ico">
         <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
-        <link rel="canonical" href="https://www.703bakehouse.com/about" />
+        <link rel="canonical" href="https://www.sweethopebakeryy.com/about" />
 
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/about.css">

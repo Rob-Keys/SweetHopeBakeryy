@@ -8,10 +8,10 @@
         <meta property="og:title" content="Checkout - 703 Bakehouse">
         <meta property="og:description" content="Secure checkout for custom cakes, cookies, donuts, and more in Arlington, Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
-        <meta property="og:url" content="https://703bakehouse.com/checkout">
+        <meta property="og:url" content="https://sweethopebakeryy.com/checkout">
         <link rel="icon" type="image/x-icon" href="/images/bakehouselogo.ico">
         <link rel="apple-touch-icon" href="/images/bakehouselogo.ico">
-        <link rel="canonical" href="https://www.703bakehouse.com/checkout" />
+        <link rel="canonical" href="https://www.sweethopebakeryy.com/checkout" />
 
         <link rel="stylesheet" href="styles/shared.css">
         <link rel="stylesheet" href="styles/checkout.css">

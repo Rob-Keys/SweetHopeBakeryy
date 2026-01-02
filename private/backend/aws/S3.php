@@ -20,7 +20,7 @@ Class Bucket {
 				'secret' => $this->config['aws_db_secret']
 			]
 		]);
-        $this->imageBucketName = '703bakehouse';
+        $this->imageBucketName = 'sweethopebakeryy';
         $this->mailBucketName = 'bakehouse-emails';
 	}
 

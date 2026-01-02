@@ -1,8 +1,8 @@
 RewriteEngine On
 
 # 1. Redirect non-www to www
-RewriteCond %{HTTP_HOST} ^703bakehouse\.com$ [NC]
-RewriteRule ^(.*)$ https://www.703bakehouse.com/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^sweethopebakeryy\.com$ [NC]
+RewriteRule ^(.*)$ https://www.sweethopebakeryy.com/$1 [R=301,L]
 
 # 2. Let sitemap.xml load directly
 RewriteCond %{REQUEST_URI} ^/sitemap\.xml$ [NC]
