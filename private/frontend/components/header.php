@@ -17,7 +17,7 @@
                 </li>
             </ul>
             <!-- Brand logo on the left -->
-            <a href="/" class="pe-2 float-end"><img class="navbar-brand" src="https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy_pfp.jpg" alt="Sweet Hope Bakery Logo"></a>
+            <a href="/" class="pe-2 float-end"><img class="navbar-brand" src="https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy.avif" alt="Sweet Hope Bakery Logo"></a>
         </div>
     </nav>
 </header>
