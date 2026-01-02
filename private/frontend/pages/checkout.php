@@ -2,10 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Checkout - 703 Bakehouse</title>
+        <title>Checkout - Sweet Hope Bakery</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Complete your purchase of delicious baked goods from 703 Bakehouse. Enter shipping details, review your order, and place your order securely.">
-        <meta property="og:title" content="Checkout - 703 Bakehouse">
+        <meta name="description" content="Complete your purchase of delicious baked goods from Sweet Hope Bakery. Enter shipping details, review your order, and place your order securely.">
+        <meta property="og:title" content="Checkout - Sweet Hope Bakery">
         <meta property="og:description" content="Secure checkout for custom cakes, cookies, donuts, and more in Arlington, Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com/checkout">
