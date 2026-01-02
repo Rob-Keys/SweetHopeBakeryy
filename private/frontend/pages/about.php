@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>About 703 Bakehouse</title>
-        <meta name="description" content="703 Bakehouse offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
-        <meta property="og:title" content="703 Bakehouse">
+        <title>About Sweet Hope Bakery</title>
+        <meta name="description" content="Sweet Hope Bakery offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
+        <meta property="og:title" content="Sweet Hope Bakery">
         <meta property="og:description" content="Custom cakes and cookies in Northern Virginia.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com/about">
@@ -49,7 +49,7 @@
                     <div class="col-9">
                         <h2>Meet Rob</h2>
                         <h4>
-                        Caroline’s brother Rob is the tech brain behind 703 Bakehouse’s online home. He designed and developed this site to give you a seamless ordering experience—so you can focus on enjoying the pastries, not the click-throughs.
+                        Caroline’s brother Rob is the tech brain behind Sweet Hope Bakery’s online home. He designed and developed this site to give you a seamless ordering experience—so you can focus on enjoying the pastries, not the click-throughs.
                         </h4>
                     </div>
                 </a>
