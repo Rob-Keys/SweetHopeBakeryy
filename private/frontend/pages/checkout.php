@@ -4,9 +4,9 @@
         <meta charset="UTF-8">
         <title>Checkout - Sweet Hope Bakery</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Submit your request for delicious baked goods from Sweet Hope Bakery. Enter pickup details and submit your request. Payment is due at in-person pickup.">
-        <meta property="og:title" content="Request Form - Sweet Hope Bakery">
-        <meta property="og:description" content="Request custom cakes, cookies, donuts, and more in Arlington, Virginia. Payment at pickup only.">
+        <meta name="description" content="Submit your order request for delicious baked goods from Sweet Hope Bakery. Enter pickup details and submit your order request. Payment is due at in-person pickup.">
+        <meta property="og:title" content="Order Request Form - Sweet Hope Bakery">
+        <meta property="og:description" content="Order request for custom cakes, cookies, donuts, and more in Arlington, Virginia. Payment at pickup only.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com/checkout">
         <link rel="icon" type="image/x-icon" href="/images/sweethopebakeryy.ico">
@@ -35,7 +35,7 @@
             <div class="col-md-5 left-side fade-in-right">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Request Summary</h2>
+                        <h2>Order Request Summary</h2>
                     </div>
                     <ul class="list-group list-group-flush">
                         <?php $stripe_total = 0;
@@ -95,7 +95,7 @@
                     <strong>Important:</strong> Submitting this form does not constitute a sale. Payment is due at in-person pickup only.
                 </div>
 
-                <button id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Request</button>
+                <button id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Order Request</button>
                 <div id="confirm-errors"></div>
             </div>
         </div>
