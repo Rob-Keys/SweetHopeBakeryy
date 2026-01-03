@@ -691,7 +691,7 @@ class Controller {
 	}
 
 	private function send_email_receipt(){
-		$emailBody = "<h3>Thank you for your request!</h3>\n\n";
+		$emailBody = "<h3>Thank you for your order request!</h3>\n\n";
 		$emailBody .= "<div style='background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 15px 0;'>";
 		$emailBody .= "<strong>Important:</strong> This is NOT a confirmed sale. Payment is due at in-person pickup only.";
 		$emailBody .= "</div>\n\n";
@@ -705,7 +705,7 @@ class Controller {
 			$emailBody .= "<p>Requested Pickup Date: " . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
 			$emailBody .= "<p>Coordinate a pickup time on your chosen day by texting 703-996-9846.</p>";
 		}
-		$emailBody .= "<h4>Request Summary:</h4>";
+		$emailBody .= "<h4>Order Request Summary:</h4>";
 		foreach ($_SESSION['cart'] as $name => $item) {
 			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
 		}
@@ -718,15 +718,15 @@ class Controller {
 		$email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$_SESSION['customer_email']],
-			"subject" => "Your Sweet Hope Bakery Request Confirmation",
+			"subject" => "Your Sweet Hope Bakery Order Request Confirmation",
 			"body" => $emailBody,
 			"date" => time()
 		];
 		$this->ses->sendEmail($email);
 
-		$caroline_email_body = "<h3>New request received with the following details:</h3>\n\n";
+		$caroline_email_body = "<h3>New order request received with the following details:</h3>\n\n";
 		$caroline_email_body .= "<div style='background-color: #d1ecf1; border: 1px solid #0c5460; padding: 15px; margin: 15px 0;'>";
-		$caroline_email_body .= "<strong>Reminder:</strong> This is a REQUEST, not a sale. Payment will be collected at pickup.";
+		$caroline_email_body .= "<strong>Reminder:</strong> This is an ORDER REQUEST, not a sale. Payment will be collected at pickup.";
 		$caroline_email_body .= "</div>\n\n";
 		$caroline_email_body .= "<h4>Customer Contact Info:</h4>";
 		$caroline_email_body .= "<p>Name: " . htmlspecialchars($_SESSION['customer_name']) . "</p>";
@@ -736,7 +736,7 @@ class Controller {
 		$caroline_email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$this->config['caroline_email_address']],
-			"subject" => "New Request: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"subject" => "New Order Request: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
 		];
@@ -745,7 +745,7 @@ class Controller {
 		$documentation_email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => ["sweethopebakeryy@gmail.com"],
-			"subject" => "New Request Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"subject" => "New Order Request Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
 		];

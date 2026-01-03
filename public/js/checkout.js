@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const pickup_button = document.getElementById('pickup-button');
-    // const delivery_button = document.getElementById('delivery-button');
-    // const method_container = document.getElementById('method-container');
-    const pay_button = document.getElementById('pay-button');
     let acquisition_method = "pickup"; // default
 
     function getFutureDate(daysAhead) {
@@ -17,27 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         minDate.setDate(minDate.getDate() + daysAhead);
         return selectedDate >= minDate;
     }
-
-    // Keep a reference to the current pay-button validation handler so it can be removed
-    let currentValidationHandler = null;
-
-    // Named validation handlers so removeEventListener works
-    function validatePickup(e) {
-        const pickupDateInput = document.getElementById('pickup-date');
-        if (!pickupDateInput || !isDateValid(pickupDateInput, 2)) {
-            e.preventDefault();
-            alert('Pickup date must be at least 3 days from today.');
-        }
-    }
-    /*
-    function validateDelivery(e) {
-        const deliveryDateInput = document.getElementById('delivery-date');
-        if (!deliveryDateInput || !isDateValid(deliveryDateInput, 6)) {
-            e.preventDefault();
-            alert('Delivery date must be at least 7 days from today.');
-        }
-    }
-    */
 
     const log_customer_info = () => {
             fetch('/log_customer_info_api', {
@@ -81,31 +56,85 @@ document.addEventListener('DOMContentLoaded', () => {
         const emailInput = document.getElementById('email');
         emailInput.addEventListener('change', log_customer_info);
 
-        // Replace any existing validation handler with the pickup validator
-        if (currentValidationHandler) {
-            pay_button.removeEventListener('click', currentValidationHandler);
-        }
-        currentValidationHandler = validatePickup;
-        pay_button.addEventListener('click', currentValidationHandler);
+        // Validation is now handled in the submit button handler below
+        // No need for separate validation handler
     }
 
     // Add submit handler for the request button
     const submitButton = document.getElementById('pay-button');
     if (submitButton) {
-        submitButton.addEventListener('click', function(e) {
-            // Validation will run first from validatePickup
-            // If validation passes, submit the form
+        submitButton.addEventListener('click', async function(e) {
+            // Don't prevent default if validation already failed
+            if (e.defaultPrevented) return;
+
             const nameInput = document.getElementById('name');
             const emailInput = document.getElementById('email');
             const phoneInput = document.getElementById('phone');
             const pickupDateInput = document.getElementById('pickup-date');
+            const errors = document.getElementById('confirm-errors');
 
-            if (nameInput.value && emailInput.value && phoneInput.value && pickupDateInput.value) {
-                // Save customer info and redirect to return page
-                log_customer_info();
-                setTimeout(() => {
-                    window.location.href = '/return';
-                }, 500); // Give the API call time to complete
+            // Clear any previous errors
+            errors.textContent = '';
+
+            // Check all required fields
+            if (!nameInput.value.trim()) {
+                errors.textContent = 'Please enter your name.';
+                nameInput.focus();
+                return;
+            }
+
+            // Validate email format
+            const emailValue = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailValue)) {
+                errors.textContent = 'Please enter a valid email address.';
+                emailInput.focus();
+                return;
+            }
+
+            // Validate phone
+            const phoneValue = phoneInput.value || '';
+            const digitCount = (phoneValue.match(/\d/g) || []).length;
+            if (digitCount < 10) {
+                errors.textContent = 'Please enter a valid phone number with at least 10 digits.';
+                phoneInput.focus();
+                return;
+            }
+
+            // Validate pickup date
+            if (!pickupDateInput.value) {
+                errors.textContent = 'Please select a pickup date.';
+                pickupDateInput.focus();
+                return;
+            }
+
+            // Check if date is at least 3 days from today
+            if (!isDateValid(pickupDateInput, 2)) {
+                errors.textContent = 'Pickup date must be at least 3 days from today.';
+                pickupDateInput.focus();
+                return;
+            }
+
+            // All validation passed - save info and redirect
+            try {
+                await fetch('/log_customer_info_api', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        acquisition_method: acquisition_method,
+                        acquisition_date: pickupDateInput.value,
+                        customer_phone: phoneInput.value,
+                        customer_name: nameInput.value,
+                        customer_email: emailInput.value,
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                // Redirect to return page
+                window.location.href = '/return';
+            } catch (error) {
+                errors.textContent = 'An error occurred. Please try again.';
             }
         });
     }
