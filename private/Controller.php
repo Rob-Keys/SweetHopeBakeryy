@@ -181,7 +181,7 @@ class Controller {
 		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
 		// Payment verification is no longer needed since payment is at pickup
 		// if($this->stripe->did_checkout_succeed()){
-		if(isset($_SESSION['customer_email'])){
+		if(isset($_SESSION['customer_email']) && isset($_SESSION['completed_order'])){
 			include(__DIR__ . "/frontend/pages/return.php");
 		} else {
 			header("Location: /order", true, 303);
@@ -688,6 +688,10 @@ class Controller {
 	}
 
 	private function send_email_receipt(){
+		// Use completed_order data since cart will be cleared after this
+		$cart = isset($_SESSION['completed_order']) ? $_SESSION['completed_order']['cart'] : $_SESSION['cart'];
+		$cart_total = isset($_SESSION['completed_order']) ? $_SESSION['completed_order']['cart_total'] : $_SESSION['cart_total'];
+
 		$emailBody = "<h3>Thank you for your order request!</h3>\n\n";
 		if($_SESSION['acquisition_method'] === "delivery"){
 			$emailBody .= "<h4>Delivery Details:</h4>";
@@ -700,10 +704,10 @@ class Controller {
 			$emailBody .= "<p>Coordinate a pickup time on your chosen day by texting 703-996-9846.</p>";
 		}
 		$emailBody .= "<h4>Order Request Summary:</h4>";
-		foreach ($_SESSION['cart'] as $name => $item) {
+		foreach ($cart as $name => $item) {
 			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
 		}
-		$emailBody .= "<p>Estimated Total: $" . number_format($this->cart_total(), 2) . " (payment at pickup)</p>";
+		$emailBody .= "<p>Estimated Total: $" . number_format($cart_total, 2) . " (payment at pickup)</p>";
 		$emailBody .= "<hr><p>We appreciate your interest!</p>";
 		$emailBody .= "<p>We will contact you to confirm availability and coordinate pickup details.</p>";
 		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
