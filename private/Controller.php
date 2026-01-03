@@ -138,33 +138,53 @@ class Controller {
 		include(__DIR__ . "/frontend/pages/authenticate.php");
 	}
 	public function showReturn(){
-		if(!isset($_SESSION['cart']) || !isset($_SESSION['cart_total'])){
-			header("Location: /order", true, 303);
-			exit;
-		}
+		// Handle POST submission from checkout form (Post-Redirect-Get pattern)
+		if($_SERVER['REQUEST_METHOD'] === 'POST'){
+			if(!isset($_SESSION['cart']) || !isset($_SESSION['cart_total'])){
+				header("Location: /order", true, 303);
+				exit;
+			}
 
-		// Handle POST submission from checkout form
-		if(isset($_POST['customer_name']) && isset($_POST['customer_email']) && isset($_POST['customer_phone']) && isset($_POST['acquisition_date'])){
-			$_SESSION['customer_name'] = $_POST['customer_name'];
-			$_SESSION['customer_email'] = $_POST['customer_email'];
-			$_SESSION['customer_phone'] = $_POST['customer_phone'];
-			$_SESSION['acquisition_date'] = $_POST['acquisition_date'];
-			$_SESSION['acquisition_method'] = isset($_POST['acquisition_method']) ? $_POST['acquisition_method'] : 'pickup';
-			if(isset($_POST['delivery_address'])){
-				$_SESSION['delivery_address'] = $_POST['delivery_address'];
+			if(isset($_POST['customer_name']) && isset($_POST['customer_email']) && isset($_POST['customer_phone']) && isset($_POST['acquisition_date'])){
+				$_SESSION['customer_name'] = $_POST['customer_name'];
+				$_SESSION['customer_email'] = $_POST['customer_email'];
+				$_SESSION['customer_phone'] = $_POST['customer_phone'];
+				$_SESSION['acquisition_date'] = $_POST['acquisition_date'];
+				$_SESSION['acquisition_method'] = isset($_POST['acquisition_method']) ? $_POST['acquisition_method'] : 'pickup';
+				if(isset($_POST['delivery_address'])){
+					$_SESSION['delivery_address'] = $_POST['delivery_address'];
+				}
+
+				// Preserve cart and total for display on return page
+				$_SESSION['completed_order'] = [
+					'cart' => $_SESSION['cart'],
+					'cart_total' => $_SESSION['cart_total']
+				];
+
+				// Send email receipt
+				$this->send_email_receipt();
+
+				// Clear cart after sending email
+				$_SESSION['cart'] = [];
+				unset($_SESSION['line_items']);
+
+				// Redirect to GET request (Post-Redirect-Get pattern)
+				header("Location: /return", true, 303);
+				exit;
+			} else {
+				header("Location: /checkout", true, 303);
+				exit;
 			}
 		}
 
+		// Handle GET request - display confirmation page
 		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
 		// Payment verification is no longer needed since payment is at pickup
 		// if($this->stripe->did_checkout_succeed()){
 		if(isset($_SESSION['customer_email'])){
 			include(__DIR__ . "/frontend/pages/return.php");
-			$this->send_email_receipt();
-			$_SESSION['cart'] = [];
-			unset($_SESSION['line_items']);
 		} else {
-			header("Location: /checkout", true, 303);
+			header("Location: /order", true, 303);
 		}
 	}
 
@@ -669,9 +689,6 @@ class Controller {
 
 	private function send_email_receipt(){
 		$emailBody = "<h3>Thank you for your order request!</h3>\n\n";
-		$emailBody .= "<div style='background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 15px 0;'>";
-		$emailBody .= "<strong>Important:</strong> This is NOT a confirmed sale. Payment is due at in-person pickup only.";
-		$emailBody .= "</div>\n\n";
 		if($_SESSION['acquisition_method'] === "delivery"){
 			$emailBody .= "<h4>Delivery Details:</h4>";
 			$emailBody .= "<p>Delivery Address: " . htmlspecialchars($_SESSION['delivery_address']) . "</p>";
@@ -690,7 +707,10 @@ class Controller {
 		$emailBody .= "<hr><p>We appreciate your interest!</p>";
 		$emailBody .= "<p>We will contact you to confirm availability and coordinate pickup details.</p>";
 		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
-		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy_pfp.jpg' alt='Sweet Hope Bakery Logo' style='width:200px;height:auto;'/>";
+		$emailBody .= "<div style='background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 15px 0;'>";
+		$emailBody .= "<strong>Important:</strong> This is NOT a confirmed sale. Payment is due at in-person pickup only.";
+		$emailBody .= "</div>\n\n";
+		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy.avif' alt='Sweet Hope Bakery Logo' style='width:200px;height:auto;'/>";
 
 		$email = [
 			"from" => "support@sweethopebakeryy.com",

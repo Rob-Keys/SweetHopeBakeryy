@@ -23,7 +23,7 @@
                         <h2>Order Request Summary</h2>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <?php foreach ($_SESSION['cart'] as $name => $item): ?>
+                        <?php foreach ($_SESSION['completed_order']['cart'] as $name => $item): ?>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <p>
                                     <strong><?=$item['quantity']." ".$name ?></strong>
@@ -33,7 +33,7 @@
                         <?php endforeach; ?>
                     </ul>
                     <div class="card-body">
-                        <h5 class="card-title">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h5>
+                        <h5 class="card-title">Total: <?php echo "$" . number_format($_SESSION['completed_order']['cart_total'], 2); ?></h5>
                     </div>
                 </div>
             </div>
