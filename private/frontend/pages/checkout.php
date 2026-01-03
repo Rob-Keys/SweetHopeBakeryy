@@ -57,46 +57,50 @@
 
             <div class="col-md-1"></div>
             <div class="col-md-5 fade-in-left">
-                <h4 class="m-0 p-0"> Name: </h4>
-                <input type="text" id="name" class="m-0 p-0 mb-2" style="width: 100%" required></input>
-                <h4 class="m-0 p-0"> Email: </h4>
-                <input type="email" id="email" class="m-0 p-0" style="width: 100%" required></input>
-                <div id="email-errors" class="mb-2"></div>
-                <h4 class="m-0 p-0"> Phone Number: </h4>
-                <input type="tel" id="phone" class="m-0 p-0" style="width: 100%" required></input>
-                <div id="phone-errors" class="mb-4"></div>
+                <form method="post" action="/return">
+                    <h4 class="m-0 p-0"> Name: </h4>
+                    <input type="text" name="customer_name" id="name" class="m-0 p-0 mb-2" style="width: 100%" required>
 
-                <h4 class="m-0 p-0"> Pickup Details: </h4>
-                <div class="pickup-details-container">
-                    <!-- 
-                    <div class="row mb-3">
-                        <button class="col-12 order-method-button selected" id="pickup-button"> In-Person Pickup</button>
-                        <div class="col-1"></div>
-                        <button class="col-md-5 order-method-button" id="delivery-button"> Delivery </button>
+                    <h4 class="m-0 p-0"> Email: </h4>
+                    <input type="email" name="customer_email" id="email" class="m-0 p-0 mb-2" style="width: 100%" required>
+
+                    <h4 class="m-0 p-0"> Phone Number: </h4>
+                    <input type="tel" name="customer_phone" id="phone" class="m-0 p-0 mb-4" style="width: 100%" required>
+
+                    <h4 class="m-0 p-0"> Pickup Details: </h4>
+                    <div class="pickup-details-container">
+                        <!--
+                        <div class="row mb-3">
+                            <button class="col-12 order-method-button selected" id="pickup-button"> In-Person Pickup</button>
+                            <div class="col-1"></div>
+                            <button class="col-md-5 order-method-button" id="delivery-button"> Delivery </button>
+                        </div>
+                        <div id="method-container"></div>
+                        -->
+                        <h5><strong>Arlington, VA, 22207</strong> </h5>
+                        <div class="row">
+                            <p class="col-md-6">Pickup Date:</p>
+                            <input type="date" name="acquisition_date" id="pickup-date" class="col-md-6" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 m-0 p-0"></div>
+                            <p class="col-6 m-0 p-0 small-text" style="text-align: end"> * Final pickup time to be coordinated through direct communication post-order. </p>
+                        </div>
                     </div>
-                    <div id="method-container"></div>
-                    -->
-                    <h5><strong>Arlington, VA, 22207</strong> </h5>
-                    <div class="row">
-                        <p class="col-md-6">Pickup Date:</p>
-                        <input type="date" id="pickup-date" class="col-md-6" required>
+
+                    <input type="hidden" name="acquisition_method" value="pickup">
+
+                    <!-- STRIPE PAYMENT COMMENTED OUT - Virginia cottage law compliance -->
+                    <!-- <h4 class="m-0 p-0"> Payment Method: </h4> -->
+                    <!-- <div id="payment-element"></div> -->
+
+                    <div class="alert alert-warning mt-3" role="alert">
+                        <strong>Important:</strong> Submitting this form does not constitute a sale. Payment is due at in-person pickup only.
                     </div>
-                    <div class="row">
-                                <div class="col-6 m-0 p-0"></div>
-                                <p class="col-6 m-0 p-0 small-text" style="text-align: end"> * Final pickup time to be coordinated through direct communication post-order. </p>
-                    </div>
-                </div>
 
-                <!-- STRIPE PAYMENT COMMENTED OUT - Virginia cottage law compliance -->
-                <!-- <h4 class="m-0 p-0"> Payment Method: </h4> -->
-                <!-- <div id="payment-element"></div> -->
-
-                <div class="alert alert-warning mt-3" role="alert">
-                    <strong>Important:</strong> Submitting this form does not constitute a sale. Payment is due at in-person pickup only.
-                </div>
-
-                <button id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Order Request</button>
-                <div id="confirm-errors"></div>
+                    <button type="submit" id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Order Request</button>
+                    <div id="confirm-errors"></div>
+                </form>
             </div>
         </div>
 
