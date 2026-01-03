@@ -8,6 +8,7 @@ return [
     'stripe_secret' => getenv('STRIPE_SECRET_KEY'),
     'stripe_public_key' => getenv('STRIPE_PUBLIC_KEY'),
     'caroline_email_address' => getenv('CAROLINE_EMAIL_ADDRESS'),
+    'developer_email_address' => getenv('DEVELOPER_EMAIL_ADDRESS'),
     'pickup_address' => getenv('PICKUP_ADDRESS'),
 ];
 ?>
