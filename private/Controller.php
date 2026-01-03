@@ -708,12 +708,12 @@ class Controller {
 			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
 		}
 		$emailBody .= "<p>Estimated Total: $" . number_format($cart_total, 2) . " (payment at pickup)</p>";
-		$emailBody .= "<hr><p>We appreciate your interest!</p>";
-		$emailBody .= "<p>We will contact you to confirm availability and coordinate pickup details.</p>";
-		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
 		$emailBody .= "<div style='background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 15px 0;'>";
 		$emailBody .= "<strong>Important:</strong> This is NOT a confirmed sale. Payment is due at in-person pickup only.";
 		$emailBody .= "</div>\n\n";
+		$emailBody .= "<hr><p>We appreciate your interest!</p>";
+		$emailBody .= "<p>We will contact you to confirm availability and coordinate pickup details.</p>";
+		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
 		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy.avif' alt='Sweet Hope Bakery Logo' style='width:200px;height:auto;'/>";
 
 		$email = [
@@ -751,5 +751,14 @@ class Controller {
 			"date" => time()
 		];
 		$this->ses->sendEmail($documentation_email);
+
+		$developer_email = [
+			"from" => "support@sweethopebakeryy.com",
+			"to" => [$this->config['developer_email_address']],
+			"subject" => "New Order Request Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"body" => $caroline_email_body,
+			"date" => time()
+		];
+		$this->ses->sendEmail($developer_email);
 	}
 }
