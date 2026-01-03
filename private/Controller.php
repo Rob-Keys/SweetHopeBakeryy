@@ -70,11 +70,8 @@ class Controller {
 			case "/mail":
 				$this->showMail();
 				break;
-			case strpos($uri, '/return') === 0:   // catches /return and any query string after, preserves Stripe session id
+			case strpos($uri, '/return') === 0:   // catches /return and any query string after
 				$this->showReturn();
-				break;
-			case "/log_customer_info_api":
-				$this->log_customer_info_api();
 				break;
 			// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
 			// case "/get_stripe_public_key":
@@ -145,6 +142,19 @@ class Controller {
 			header("Location: /order", true, 303);
 			exit;
 		}
+
+		// Handle POST submission from checkout form
+		if(isset($_POST['customer_name']) && isset($_POST['customer_email']) && isset($_POST['customer_phone']) && isset($_POST['acquisition_date'])){
+			$_SESSION['customer_name'] = $_POST['customer_name'];
+			$_SESSION['customer_email'] = $_POST['customer_email'];
+			$_SESSION['customer_phone'] = $_POST['customer_phone'];
+			$_SESSION['acquisition_date'] = $_POST['acquisition_date'];
+			$_SESSION['acquisition_method'] = isset($_POST['acquisition_method']) ? $_POST['acquisition_method'] : 'pickup';
+			if(isset($_POST['delivery_address'])){
+				$_SESSION['delivery_address'] = $_POST['delivery_address'];
+			}
+		}
+
 		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
 		// Payment verification is no longer needed since payment is at pickup
 		// if($this->stripe->did_checkout_succeed()){
@@ -258,39 +268,6 @@ class Controller {
 		include(__DIR__ . "/frontend/pages/order.php");
 	}
 
-	function log_customer_info_api(){
-		// Support both traditional form-encoded POSTs (in $_POST)
-		// and JSON POST bodies (Content-Type: application/json).
-		$data = $_POST;
-
-		if (empty($data)) {
-			$raw = file_get_contents('php://input');
-			$decoded = json_decode($raw, true);
-			if (is_array($decoded)) {
-				$data = $decoded;
-			}
-		}
-
-		if (isset($data['acquisition_method'])) {
-			$_SESSION['acquisition_method'] = $data['acquisition_method'];
-		}
-		if (isset($data['acquisition_date'])) {
-			$_SESSION['acquisition_date'] = $data['acquisition_date'];
-		}
-		if (isset($data['delivery_address'])) {
-			$_SESSION['delivery_address'] = $data['delivery_address'];
-		}
-		if (isset($data['customer_phone'])) {
-			$_SESSION['customer_phone'] = $data['customer_phone'];
-		}
-		if (isset($data['customer_name'])) {
-			$_SESSION['customer_name'] = $data['customer_name'];
-		}
-		if (isset($data['customer_email'])) {
-			$_SESSION['customer_email'] = $data['customer_email'];
-		}
-		exit;
-	}
 
 	public function customizeRemoveItem(){
 		$this->s3->deleteImages($this->get_image_keys_for_deletion($_POST['partitionKeyValue']));
