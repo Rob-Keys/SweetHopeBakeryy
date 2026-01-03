@@ -7,6 +7,46 @@ document.addEventListener('DOMContentLoaded', () => {
         pickupDateInput.min = minDate.toISOString().split('T')[0];
     }
 
+    // Load saved form data from sessionStorage
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+
+    if (nameInput && sessionStorage.getItem('checkout_name')) {
+        nameInput.value = sessionStorage.getItem('checkout_name');
+    }
+    if (emailInput && sessionStorage.getItem('checkout_email')) {
+        emailInput.value = sessionStorage.getItem('checkout_email');
+    }
+    if (phoneInput && sessionStorage.getItem('checkout_phone')) {
+        phoneInput.value = sessionStorage.getItem('checkout_phone');
+    }
+    if (pickupDateInput && sessionStorage.getItem('checkout_pickup_date')) {
+        pickupDateInput.value = sessionStorage.getItem('checkout_pickup_date');
+    }
+
+    // Save form data to sessionStorage on input
+    if (nameInput) {
+        nameInput.addEventListener('input', (e) => {
+            sessionStorage.setItem('checkout_name', e.target.value);
+        });
+    }
+    if (emailInput) {
+        emailInput.addEventListener('input', (e) => {
+            sessionStorage.setItem('checkout_email', e.target.value);
+        });
+    }
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            sessionStorage.setItem('checkout_phone', e.target.value);
+        });
+    }
+    if (pickupDateInput) {
+        pickupDateInput.addEventListener('change', (e) => {
+            sessionStorage.setItem('checkout_pickup_date', e.target.value);
+        });
+    }
+
     // Validate form on submit
     const form = document.querySelector('form');
     if (form) {

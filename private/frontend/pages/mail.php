@@ -58,7 +58,10 @@
         <div class="row">
             <form method="post" action="/mail" class="col-md-6 m-3 d-flex flex-column">
                 <input type="hidden" name="send-mail" value="true"></input>
-                <input type="text" name="sender" placeholder="From (full email address)" required></input>
+                <input type="hidden" name="sender" value="support@sweethopebakeryy.com"></input>
+                <div class="mb-2">
+                    <strong>From:</strong> support@sweethopebakeryy.com
+                </div>
                 <input type="text" name="recipients" placeholder="Comma seperated Recipient email addresses" required></input>
                 <input type="text" name="subject" placeholder="Subject" required></input>
                 <input type="text" name="body" id="body-input" placeholder="Body (HTML)" required></input>
