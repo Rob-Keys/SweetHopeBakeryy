@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     acquisition_date: document.getElementById('pickup-date').value,
                     customer_phone: document.getElementById('phone').value,
                     customer_name: document.getElementById('name').value,
+                    customer_email: document.getElementById('email').value,
                 }),
                 headers: {
                     'Content-Type': 'application/json'
@@ -77,12 +78,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const phoneInput = document.getElementById('phone');
         phoneInput.addEventListener('change', log_customer_info);
 
+        const emailInput = document.getElementById('email');
+        emailInput.addEventListener('change', log_customer_info);
+
         // Replace any existing validation handler with the pickup validator
         if (currentValidationHandler) {
             pay_button.removeEventListener('click', currentValidationHandler);
         }
         currentValidationHandler = validatePickup;
         pay_button.addEventListener('click', currentValidationHandler);
+    }
+
+    // Add submit handler for the request button
+    const submitButton = document.getElementById('pay-button');
+    if (submitButton) {
+        submitButton.addEventListener('click', function(e) {
+            // Validation will run first from validatePickup
+            // If validation passes, submit the form
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const pickupDateInput = document.getElementById('pickup-date');
+
+            if (nameInput.value && emailInput.value && phoneInput.value && pickupDateInput.value) {
+                // Save customer info and redirect to return page
+                log_customer_info();
+                setTimeout(() => {
+                    window.location.href = '/return';
+                }, 500); // Give the API call time to complete
+            }
+        });
     }
 
     //pickup_button.addEventListener('click', pickup_handler);

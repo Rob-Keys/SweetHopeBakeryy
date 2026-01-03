@@ -1,3 +1,10 @@
+/*
+ * STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+ * This file is preserved for future reference but is not currently in use.
+ * The site now uses a request-based system with payment at pickup only.
+ */
+
+/*
 document.addEventListener('DOMContentLoaded', () => {
   initialize();
 });
@@ -22,7 +29,7 @@ async function initialize() {
     const emailErrors = document.getElementById('email-errors');
     const phoneInput = document.getElementById('phone');
     const phoneErrors = document.getElementById('phone-errors');
-  
+
     emailInput.addEventListener('blur', () => {
       const newEmail = emailInput.value;
       checkout.updateEmail(newEmail).then((result) => {
@@ -81,3 +88,4 @@ async function initialize() {
     paymentElement.mount('#payment-element');
   });
 }
+*/

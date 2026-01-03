@@ -4,9 +4,9 @@
         <meta charset="UTF-8">
         <title>Checkout - Sweet Hope Bakery</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Complete your purchase of delicious baked goods from Sweet Hope Bakery. Enter shipping details, review your order, and place your order securely.">
-        <meta property="og:title" content="Checkout - Sweet Hope Bakery">
-        <meta property="og:description" content="Secure checkout for custom cakes, cookies, donuts, and more in Arlington, Virginia.">
+        <meta name="description" content="Submit your request for delicious baked goods from Sweet Hope Bakery. Enter pickup details and submit your request. Payment is due at in-person pickup.">
+        <meta property="og:title" content="Request Form - Sweet Hope Bakery">
+        <meta property="og:description" content="Request custom cakes, cookies, donuts, and more in Arlington, Virginia. Payment at pickup only.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com/checkout">
         <link rel="icon" type="image/x-icon" href="/images/sweethopebakeryy.ico">
@@ -18,8 +18,9 @@
 
         <script src="/js/shared.js"></script>
 
-        <script src="https://js.stripe.com/basil/stripe.js"></script>
-        <script src="js/stripe/checkout.js" defer></script>
+        <!-- STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance -->
+        <!-- <script src="https://js.stripe.com/basil/stripe.js"></script> -->
+        <!-- <script src="js/stripe/checkout.js" defer></script> -->
         <script src="js/checkout.js" defer></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +35,7 @@
             <div class="col-md-5 left-side fade-in-right">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Order Summary</h2>
+                        <h2>Request Summary</h2>
                     </div>
                     <ul class="list-group list-group-flush">
                         <?php $stripe_total = 0;
@@ -86,10 +87,15 @@
                     </div>
                 </div>
 
-                <h4 class="m-0 p-0"> Payment Method: </h4>
-                <div id="payment-element"></div>
+                <!-- STRIPE PAYMENT COMMENTED OUT - Virginia cottage law compliance -->
+                <!-- <h4 class="m-0 p-0"> Payment Method: </h4> -->
+                <!-- <div id="payment-element"></div> -->
 
-                <button id="pay-button" class='btn-cookie btn-lg mt-3'>Pay</button>
+                <div class="alert alert-warning mt-3" role="alert">
+                    <strong>Important:</strong> Submitting this form does not constitute a sale. Payment is due at in-person pickup only.
+                </div>
+
+                <button id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Request</button>
                 <div id="confirm-errors"></div>
             </div>
         </div>
