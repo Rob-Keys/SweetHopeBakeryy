@@ -500,7 +500,13 @@ class Controller {
 
 		// Upload images to s3 and get their URLs
 		$filepaths = $this->get_s3_image_names($_POST['partitionKeyValue']);
-		$this->s3->uploadImages($filepaths);
+		try {
+			$this->s3->uploadImages($filepaths);
+		} catch (Exception $e) {
+			echo "S3 Upload Error: " . $e->getMessage();
+			error_log("S3 Upload failed: " . $e->getMessage());
+			return;
+		}
 
 		foreach($filepaths as $filepath){
 			$item['imageURLs'][] = 'https://sweethopebakeryy.s3.us-east-1.amazonaws.com/'. $filepath;
