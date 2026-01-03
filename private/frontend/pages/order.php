@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Order from Sweet Hope Bakery</title>
-        <meta name="description" content="Sweet Hope Bakery offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Order your treats today!">
-        <meta property="og:title" content="Order from Sweet Hope Bakery">
-        <meta property="og:description" content="Custom cakes and cookies in Northern Virginia.">
+        <title>Request from Sweet Hope Bakery</title>
+        <meta name="description" content="Sweet Hope Bakery offers custom cakes, cookies, donuts, and more baked goods in Arlington, Virginia. Gluten-free, dairy-free, and other allergy restrictions can all be incorporated. Request your treats today! Payment at pickup only.">
+        <meta property="og:title" content="Request from Sweet Hope Bakery">
+        <meta property="og:description" content="Custom cakes and cookies in Northern Virginia. Request items for pickup.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
         <meta property="og:url" content="https://sweethopebakeryy.com/order">
         <link rel="icon" type="image/x-icon" href="/images/sweethopebakeryy.ico">
@@ -30,7 +30,7 @@
         <?php include(__DIR__ . "/../components/header.php"); ?>
         <div>
             <div>
-                <h2 class="col-md-8 order-title">Order Your Sweet Treats</h2>
+                <h2 class="col-md-8 order-title">Request Your Sweet Treats</h2>
             </div>
             <div class="order-content">
                 <div class="col-8 border rounded bg-light products mb-3">

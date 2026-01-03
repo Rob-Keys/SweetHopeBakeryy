@@ -2,13 +2,15 @@
 require_once __DIR__ . '/backend/db/Database.php';
 require_once __DIR__ . '/backend/aws/S3.php';
 require_once __DIR__ . '/backend/aws/SES.php';
-require_once __DIR__ . '/backend/stripe/stripe.php';
+// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+// require_once __DIR__ . '/backend/stripe/stripe.php';
 
 class Controller {
 	private $db;
 	private $s3;
 	private $ses;
-	private $stripe;
+	// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+	// private $stripe;
 	private $config;
 
 	public function __construct() {
@@ -23,7 +25,8 @@ class Controller {
 		$this->db = new Database();
 		$this->s3 = new Bucket();
 		$this->ses = new SES();
-		$this->stripe = new Stripe();
+		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+		// $this->stripe = new Stripe();
 		$this->config = include(__DIR__ . '/backend/config.php');
 	}
 
@@ -45,9 +48,10 @@ class Controller {
 			case "/checkout":
 				$this->showCheckout();
 				break;
-			case "/checkoutAPI":
-				$this->getCheckoutAPI();
-				break;
+			// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+			// case "/checkoutAPI":
+			// 	$this->getCheckoutAPI();
+			// 	break;
 			case "/customize":
 				$this->showCustomize();
 				break;
@@ -72,9 +76,10 @@ class Controller {
 			case "/log_customer_info_api":
 				$this->log_customer_info_api();
 				break;
-			case "/get_stripe_public_key":
-				echo $this->config['stripe_public_key'];
-				break;
+			// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+			// case "/get_stripe_public_key":
+			// 	echo $this->config['stripe_public_key'];
+			// 	break;
 			case "/dev_clear_session": // remove in production
 				session_destroy();
 			case "/":
@@ -102,20 +107,35 @@ class Controller {
 			exit;
 		}
 		$_SESSION['cart_total'] = $this->cart_total();
-		$this->stripe->checkout();
+		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+		// $this->stripe->checkout();
+		// Manually create line items without Stripe
+		$_SESSION['line_items'] = [];
+		foreach($_SESSION['cart'] as $name => $item){
+			$_SESSION['line_items'][] = [
+				'price_data' => [
+					'currency' => 'usd',
+					'product_data' => ['name' => $name],
+					'unit_amount' => $item['price'] * 100, /* Price per unit in cents */
+				],
+				'quantity' => 1,
+				'actual_quantity' => $item['quantity']
+			];
+		}
 		if(!isset($_SESSION['line_items']) || sizeof($_SESSION['line_items'])==0){
 			header("Location: /order", true, 303);
 			exit;
 		}
 		include(__DIR__ . "/frontend/pages/checkout.php");
 	}
-	public function getCheckoutAPI(){
-		if(!isset($_SESSION['cart'])){
-			header("Location: /order", true, 303);
-			exit;
-		}
-		echo $this->stripe->create_stripe_checkout();
-	}
+	// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+	// public function getCheckoutAPI(){
+	// 	if(!isset($_SESSION['cart'])){
+	// 		header("Location: /order", true, 303);
+	// 		exit;
+	// 	}
+	// 	echo $this->stripe->create_stripe_checkout();
+	// }
 	public function showAuthenticationPage($desiredPage){
 		$_SESSION["desired_page"] = $desiredPage;
 		include(__DIR__ . "/frontend/pages/authenticate.php");
@@ -125,7 +145,10 @@ class Controller {
 			header("Location: /order", true, 303);
 			exit;
 		}
-		if($this->stripe->did_checkout_succeed()){
+		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
+		// Payment verification is no longer needed since payment is at pickup
+		// if($this->stripe->did_checkout_succeed()){
+		if(isset($_SESSION['customer_email'])){
 			include(__DIR__ . "/frontend/pages/return.php");
 			$this->send_email_receipt();
 			$_SESSION['cart'] = [];
@@ -262,6 +285,9 @@ class Controller {
 		}
 		if (isset($data['customer_name'])) {
 			$_SESSION['customer_name'] = $data['customer_name'];
+		}
+		if (isset($data['customer_email'])) {
+			$_SESSION['customer_email'] = $data['customer_email'];
 		}
 		exit;
 	}
@@ -665,36 +691,43 @@ class Controller {
 	}
 
 	private function send_email_receipt(){
-		$emailBody = "<h3>Thank you for your order!</h3>\n\n";
+		$emailBody = "<h3>Thank you for your request!</h3>\n\n";
+		$emailBody .= "<div style='background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 15px 0;'>";
+		$emailBody .= "<strong>Important:</strong> This is NOT a confirmed sale. Payment is due at in-person pickup only.";
+		$emailBody .= "</div>\n\n";
 		if($_SESSION['acquisition_method'] === "delivery"){
 			$emailBody .= "<h4>Delivery Details:</h4>";
 			$emailBody .= "<p>Delivery Address: " . htmlspecialchars($_SESSION['delivery_address']) . "</p>";
-			$emailBody .= "<p>Delivery on " . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
+			$emailBody .= "<p>Requested Delivery on " . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
 		} else {
 			$emailBody .= "<h4>Pickup Details:</h4>";
 			$emailBody .= "<p>" . htmlspecialchars($this->config['pickup_address']) . "</p>";
-			$emailBody .= "<p>" . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
-			$emailBody .= "<p> Coordinate a pickup time on your chosen day by texting 703-996-9846.</p>";
+			$emailBody .= "<p>Requested Pickup Date: " . $this->formatDateForDisplay($_SESSION['acquisition_date']) . "</p>";
+			$emailBody .= "<p>Coordinate a pickup time on your chosen day by texting 703-996-9846.</p>";
 		}
-		$emailBody .= "<h4>Order Summary:</h4>";
+		$emailBody .= "<h4>Request Summary:</h4>";
 		foreach ($_SESSION['cart'] as $name => $item) {
 			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
 		}
-		$emailBody .= "<p>Total: $" . number_format($this->cart_total(), 2) . "</p>";
-		$emailBody .= "<hr><p>We appreciate your business!</p>";
+		$emailBody .= "<p>Estimated Total: $" . number_format($this->cart_total(), 2) . " (payment at pickup)</p>";
+		$emailBody .= "<hr><p>We appreciate your interest!</p>";
+		$emailBody .= "<p>We will contact you to confirm availability and coordinate pickup details.</p>";
 		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
 		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy_pfp.jpg' alt='Sweet Hope Bakery Logo' style='width:200px;height:auto;'/>";
 
 		$email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$_SESSION['customer_email']],
-			"subject" => "Your Sweet Hope Bakery Receipt",
+			"subject" => "Your Sweet Hope Bakery Request Confirmation",
 			"body" => $emailBody,
 			"date" => time()
 		];
 		$this->ses->sendEmail($email);
 
-		$caroline_email_body = "<h3>New order received with the following details:</h3>\n\n";
+		$caroline_email_body = "<h3>New request received with the following details:</h3>\n\n";
+		$caroline_email_body .= "<div style='background-color: #d1ecf1; border: 1px solid #0c5460; padding: 15px; margin: 15px 0;'>";
+		$caroline_email_body .= "<strong>Reminder:</strong> This is a REQUEST, not a sale. Payment will be collected at pickup.";
+		$caroline_email_body .= "</div>\n\n";
 		$caroline_email_body .= "<h4>Customer Contact Info:</h4>";
 		$caroline_email_body .= "<p>Name: " . htmlspecialchars($_SESSION['customer_name']) . "</p>";
 		$caroline_email_body .= "<p>Email: " . htmlspecialchars($_SESSION['customer_email']) . "</p>";
@@ -703,7 +736,7 @@ class Controller {
 		$caroline_email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$this->config['caroline_email_address']],
-			"subject" => "New Order: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"subject" => "New Request: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
 		];
@@ -712,7 +745,7 @@ class Controller {
 		$documentation_email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => ["sweethopebakeryy@gmail.com"],
-			"subject" => "New Order Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"subject" => "New Request Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
 		];
