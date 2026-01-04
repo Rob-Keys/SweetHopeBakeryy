@@ -57,7 +57,7 @@
                 <div class="col-3"></div>
                 <div class="d-flex justify-content-end me-2 cart-container-wrapper">
                     <div id="normal-cart" class="col-md-3 cart-container rounded fade-in-left">
-                        <h3 id="your-cart">Your Cart</h3>
+                        <h3 id="your-cart">Your List</h3>
                         <ul class="list-group mb-3" id="cart-list">
                             <?php foreach ($_SESSION['cart'] as $name => $item): ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -83,15 +83,16 @@
                                 <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
                             </form>
                             <form class="d-flex justify-content-end" method="post" action="/menu">
-                                <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear Cart</button>
+                                <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear List</button>
                             </form>
                         </div>
                         <div class="mobile-container d-flex justify-content-between align-items-end">
                             <h4 id="mobile-total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h4>
                             <form class="d-flex justify-content-end" method="post" action="/checkout">
-                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
+                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Proceed</button>
                             </form>
                         </div>
+                        <p class="text-muted small mt-3 mb-0" style="font-size: 0.75rem; line-height: 1.3;">*Your list is used to express interest to Sweet Hope Bakery and gauge public desire. Your list does not constitute an official order. All orders must be placed in person.</p>
                     </div>
                 </div>
             </div>
