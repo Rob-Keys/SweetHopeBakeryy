@@ -88,7 +88,7 @@
                         </div>
                         <div class="row">
                             <div class="col-6 m-0 p-0"></div>
-                            <p class="col-6 m-0 p-0 small-text" style="text-align: end"> * Final pickup time and address to be coordinated through direct communication post-order. </p>
+                            <p class="col-6 m-0 p-0 small-text mt-1" style="text-align: end"> * Final pickup time and address to be coordinated through direct communication post-order. </p>
                         </div>
                     </div>
 
