@@ -80,7 +80,7 @@
                         <div class="float-end btn-container">
                             <h4 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h4>
                             <form class="d-flex justify-content-end" method="post" action="/checkout">
-                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
+                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Proceed</button>
                             </form>
                             <form class="d-flex justify-content-end" method="post" action="/menu">
                                 <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear List</button>
@@ -91,9 +91,7 @@
                             <form class="d-flex justify-content-end" method="post" action="/checkout">
                                 <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Proceed</button>
                             </form>
-                        </div>
-                        <p class="text-muted small mt-3 mb-0" style="font-size: 0.75rem; line-height: 1.3;">*Your list is used to express interest to Sweet Hope Bakery and gauge public desire. Your list does not constitute an official order. All orders must be placed in person.</p>
-                    </div>
+                        </div></div>
                 </div>
             </div>
         </div>
