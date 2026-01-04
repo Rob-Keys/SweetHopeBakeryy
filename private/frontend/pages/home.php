@@ -38,7 +38,7 @@
             <div class="mt-5 mb-5">
                 <div class="justify-content-center text-center">
                     <h2 class="rhombus text-center">World Class Baking Since 2002</h2>
-                    <a href="/order" class="btn btn-lg btn-cookie fade-in-up mobile-button">Order Now</a>
+                    <a href="/menu" class="btn btn-lg btn-cookie fade-in-up mobile-button">See Our Menu</a>
                 </div>
             </div>
             <?php
@@ -50,7 +50,7 @@
                         <div class="col-6 d-flex align-items-center <?= $index%2==0 ? "fade-in-left": "fade-in-right"?>">
                             <div class="image-caption d-flex flex-column align-items-center">
                                 <h3><?= $section['bodyText'] ?></h3>
-                                <a href="/order" class="btn btn-lg btn-cookie mt-5">Order Now</a>
+                                <a href="/menu" class="btn btn-lg btn-cookie mt-5">See Our Menu</a>
                             </div>
                         </div>
                     </div>

@@ -25,7 +25,7 @@
         echo "<h5 class='mt-2 mb-2'>".$description."</h5>";
     }
     ?>
-    <form class="add-to-cart-form" method="POST" action="/order">
+    <form class="add-to-cart-form" method="POST" action="/menu">
         <input type="hidden" name="name" value="<?=$name?>">
         <div class="mb-2 product-quantity"><label>Quantity:</label> 
             <select name="quantity" class="form-select d-inline-block w-auto product-select">;

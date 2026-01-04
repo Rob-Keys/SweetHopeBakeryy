@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				e.preventDefault(); // Prevent actual page reload
 				const formData = new FormData(form);
 
-				fetch('/order', {
+				fetch('/menu', {
 				  method: 'POST',
 				  body: formData
 				})
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 							<p>${data["name"]} : (${data["quantity"]})</p>
 							<div class="d-flex justify-content-end align-items-center price-container">
 								<p class="me-3 price">$${parseFloat(data["price"]).toFixed(2)}</p>
-								<span><form method="post" action="/order">
+								<span><form method="post" action="/menu">
 										<input type="hidden" name="removed_name" value="${data["name"]}">
 										<button type="submit" name="action" value="remove" style="color: red; background: none; border: none;"><p>X</p></button>
 								</form></span>
