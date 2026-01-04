@@ -39,7 +39,7 @@ class Controller {
 			case "/about":
 				$this->showAbout();
 				break;
-			case "/order":
+			case "/menu":
 				$this->showOrder();
 				break;
 			case "/contact":
@@ -100,7 +100,7 @@ class Controller {
 	}
 	public function showCheckout(){
 		if(!isset($_SESSION['cart']) || sizeof($_SESSION['cart'])==0){
-			header("Location: /order", true, 303);
+			header("Location: /menu", true, 303);
 			exit;
 		}
 		$_SESSION['cart_total'] = $this->cart_total();
@@ -120,7 +120,7 @@ class Controller {
 			];
 		}
 		if(!isset($_SESSION['line_items']) || sizeof($_SESSION['line_items'])==0){
-			header("Location: /order", true, 303);
+			header("Location: /menu", true, 303);
 			exit;
 		}
 		include(__DIR__ . "/frontend/pages/checkout.php");
@@ -128,7 +128,7 @@ class Controller {
 	// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
 	// public function getCheckoutAPI(){
 	// 	if(!isset($_SESSION['cart'])){
-	// 		header("Location: /order", true, 303);
+	// 		header("Location: /menu", true, 303);
 	// 		exit;
 	// 	}
 	// 	echo $this->stripe->create_stripe_checkout();
@@ -141,7 +141,7 @@ class Controller {
 		// Handle POST submission from checkout form (Post-Redirect-Get pattern)
 		if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			if(!isset($_SESSION['cart']) || !isset($_SESSION['cart_total'])){
-				header("Location: /order", true, 303);
+				header("Location: /menu", true, 303);
 				exit;
 			}
 
@@ -184,7 +184,7 @@ class Controller {
 		if(isset($_SESSION['customer_email']) && isset($_SESSION['completed_order'])){
 			include(__DIR__ . "/frontend/pages/return.php");
 		} else {
-			header("Location: /order", true, 303);
+			header("Location: /menu", true, 303);
 		}
 	}
 
@@ -270,13 +270,13 @@ class Controller {
 			}
 			
 			$_SESSION['cart_total']= $this->cart_total();
-			header("Location: /order");
+			header("Location: /menu");
 			return;
 		}
 		// If this is not the first GET of the session, simplest case
 		if (isset($_SESSION["products"])) {
 			if(sizeof($_SESSION["products"])!=0){
-				include(__DIR__ . "/frontend/pages/order.php");
+				include(__DIR__ . "/frontend/pages/menu.php");
 				exit;
 			}
 		}
@@ -285,7 +285,7 @@ class Controller {
 		//Populate the session variable from the database
 		$this->get_products_from_database();
 		
-		include(__DIR__ . "/frontend/pages/order.php");
+		include(__DIR__ . "/frontend/pages/menu.php");
 	}
 
 

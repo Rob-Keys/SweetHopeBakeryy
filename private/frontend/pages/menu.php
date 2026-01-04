@@ -8,14 +8,14 @@
         <meta property="og:title" content="Order Request from Sweet Hope Bakery">
         <meta property="og:description" content="Custom cakes and cookies in Northern Virginia. Submit an order request for pickup.">
         <meta property="og:image" content="https://example.com/your-cake-photo.jpg">
-        <meta property="og:url" content="https://sweethopebakeryy.com/order">
+        <meta property="og:url" content="https://sweethopebakeryy.com/menu">
         <link rel="icon" type="image/x-icon" href="/images/sweethopebakeryy.ico">
         <link rel="apple-touch-icon" href="/images/sweethopebakeryy.ico">
-        <link rel="canonical" href="https://www.sweethopebakeryy.com/order" />
+        <link rel="canonical" href="https://www.sweethopebakeryy.com/menu" />
 
         <link rel="stylesheet" href="styles/shared.css">
-        <link rel="stylesheet" href="styles/order.css">
-        <script src="js/order.js"></script>
+        <link rel="stylesheet" href="styles/menu.css">
+        <script src="js/menu.js"></script>
         <script src="js/shared.js"></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
         <?php include(__DIR__ . "/../components/header.php"); ?>
         <div>
             <div>
-                <h2 class="col-md-8 order-title">Request Your Sweet Treats</h2>
+                <h2 class="col-md-8 order-title">Our Menu</h2>
             </div>
             <div class="order-content">
                 <div class="col-8 border rounded bg-light products mb-3">
@@ -57,7 +57,7 @@
                 <div class="col-3"></div>
                 <div class="d-flex justify-content-end me-2 cart-container-wrapper">
                     <div id="normal-cart" class="col-md-3 cart-container rounded fade-in-left">
-                        <h3 id="your-cart">Your Cart</h3>
+                        <h3 id="your-cart">Your List</h3>
                         <ul class="list-group mb-3" id="cart-list">
                             <?php foreach ($_SESSION['cart'] as $name => $item): ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -67,7 +67,7 @@
                                             <?php echo "\$" . number_format($item['price'], 2); ?>
                                         </p>
                                         <p>
-                                            <form method="post" action="/order">
+                                            <form method="post" action="/menu">
                                                 <input type="hidden" name="removed_name" value="<?= $name ?>">
                                                 <button type="submit" name="action" value="remove" style="color: red; background: none; border: none;"><p>X</p></button>
                                             </form>
@@ -82,16 +82,17 @@
                             <form class="d-flex justify-content-end" method="post" action="/checkout">
                                 <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
                             </form>
-                            <form class="d-flex justify-content-end" method="post" action="/order">
-                                <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear Cart</button>
+                            <form class="d-flex justify-content-end" method="post" action="/menu">
+                                <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear List</button>
                             </form>
                         </div>
                         <div class="mobile-container d-flex justify-content-between align-items-end">
                             <h4 id="mobile-total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h4>
                             <form class="d-flex justify-content-end" method="post" action="/checkout">
-                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
+                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Proceed</button>
                             </form>
                         </div>
+                        <p class="text-muted small mt-3 mb-0" style="font-size: 0.75rem; line-height: 1.3;">*Your list is used to express interest to Sweet Hope Bakery and gauge public desire. Your list does not constitute an official order. All orders must be placed in person.</p>
                     </div>
                 </div>
             </div>

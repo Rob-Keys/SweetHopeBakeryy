@@ -10,7 +10,7 @@
                     <a class="nav-link text-light" href="/about"><h5 class="p-0 m-0">About Us</h5></a>
                 </li>
                 <li>
-                    <a class="nav-link text-light" href="/order"><h5 class="p-0 m-0">Order</h5></a>
+                    <a class="nav-link text-light" href="/menu"><h5 class="p-0 m-0">Menu</h5></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="/contact"><h5 class="p-0 m-0">Contact</h5></a>

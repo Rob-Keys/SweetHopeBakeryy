@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Checkout - Sweet Hope Bakery</title>
+        <title>Selection Summary</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Submit your order request for delicious baked goods from Sweet Hope Bakery. Enter pickup details and submit your order request. Payment is due at in-person pickup.">
         <meta property="og:title" content="Order Request Form - Sweet Hope Bakery">
@@ -35,7 +35,7 @@
             <div class="col-md-5 left-side fade-in-right">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Order Request Summary</h2>
+                        <h2>Selection Summary</h2>
                     </div>
                     <ul class="list-group list-group-flush">
                         <?php $stripe_total = 0;
@@ -77,14 +77,18 @@
                         </div>
                         <div id="method-container"></div>
                         -->
-                        <h5><strong>Arlington, VA, 22207</strong> </h5>
+                        <div class="row">
+                            <p class="col-md-6">Pickup Location:</p>
+                            <h5 class="col-md-6"><strong>Arlington, VA, 22207</strong> </h5>
+                        </div>
+                        
                         <div class="row">
                             <p class="col-md-6">Pickup Date:</p>
                             <input type="date" name="acquisition_date" id="pickup-date" class="col-md-6" required>
                         </div>
                         <div class="row">
                             <div class="col-6 m-0 p-0"></div>
-                            <p class="col-6 m-0 p-0 small-text" style="text-align: end"> * Final pickup time to be coordinated through direct communication post-order. </p>
+                            <p class="col-6 m-0 p-0 small-text" style="text-align: end"> * Final pickup time and address to be coordinated through direct communication post-order. </p>
                         </div>
                     </div>
 
@@ -98,7 +102,7 @@
                         <strong>Important:</strong> Submitting this form does not constitute a sale. Payment is due at in-person pickup only.
                     </div>
 
-                    <button type="submit" id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Order Request</button>
+                    <button type="submit" id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Item and Date Selection</button>
                     <div id="confirm-errors"></div>
                 </form>
             </div>
