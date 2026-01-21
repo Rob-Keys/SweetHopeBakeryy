@@ -2,15 +2,13 @@
 require_once __DIR__ . '/backend/db/Database.php';
 require_once __DIR__ . '/backend/aws/S3.php';
 require_once __DIR__ . '/backend/aws/SES.php';
-// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-// require_once __DIR__ . '/backend/stripe/stripe.php';
+require_once __DIR__ . '/backend/stripe/stripe.php';
 
 class Controller {
 	private $db;
 	private $s3;
 	private $ses;
-	// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-	// private $stripe;
+	private $stripe;
 	private $config;
 
 	public function __construct() {
@@ -25,8 +23,7 @@ class Controller {
 		$this->db = new Database();
 		$this->s3 = new Bucket();
 		$this->ses = new SES();
-		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-		// $this->stripe = new Stripe();
+		$this->stripe = new Stripe();
 		$this->config = include(__DIR__ . '/backend/config.php');
 	}
 
@@ -48,10 +45,12 @@ class Controller {
 			case "/checkout":
 				$this->showCheckout();
 				break;
-			// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-			// case "/checkoutAPI":
-			// 	$this->getCheckoutAPI();
-			// 	break;
+			case "/checkoutAPI":
+				$this->getCheckoutAPI();
+				break;
+			case "/saveCustomerDetails":
+				$this->saveCustomerDetails();
+				break;
 			case "/customize":
 				$this->showCustomize();
 				break;
@@ -73,10 +72,9 @@ class Controller {
 			case strpos($uri, '/return') === 0:   // catches /return and any query string after
 				$this->showReturn();
 				break;
-			// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-			// case "/get_stripe_public_key":
-			// 	echo $this->config['stripe_public_key'];
-			// 	break;
+			case "/get_stripe_public_key":
+				echo $this->config['stripe_public_key'];
+				break;
 			case "/dev_clear_session": // remove in production
 				session_destroy();
 			case "/":
@@ -104,84 +102,59 @@ class Controller {
 			exit;
 		}
 		$_SESSION['cart_total'] = $this->cart_total();
-		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-		// $this->stripe->checkout();
-		// Manually create line items without Stripe
-		$_SESSION['line_items'] = [];
-		foreach($_SESSION['cart'] as $name => $item){
-			$_SESSION['line_items'][] = [
-				'price_data' => [
-					'currency' => 'usd',
-					'product_data' => ['name' => $name],
-					'unit_amount' => $item['price'] * 100, /* Price per unit in cents */
-				],
-				'quantity' => 1,
-				'actual_quantity' => $item['quantity']
-			];
-		}
+		$this->stripe->checkout();
 		if(!isset($_SESSION['line_items']) || sizeof($_SESSION['line_items'])==0){
 			header("Location: /menu", true, 303);
 			exit;
 		}
 		include(__DIR__ . "/frontend/pages/checkout.php");
 	}
-	// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-	// public function getCheckoutAPI(){
-	// 	if(!isset($_SESSION['cart'])){
-	// 		header("Location: /menu", true, 303);
-	// 		exit;
-	// 	}
-	// 	echo $this->stripe->create_stripe_checkout();
-	// }
+	public function getCheckoutAPI(){
+		if(!isset($_SESSION['cart'])){
+			header("Location: /menu", true, 303);
+			exit;
+		}
+		echo $this->stripe->create_stripe_checkout();
+	}
 	public function showAuthenticationPage($desiredPage){
 		$_SESSION["desired_page"] = $desiredPage;
 		include(__DIR__ . "/frontend/pages/authenticate.php");
 	}
-	public function showReturn(){
-		// Handle POST submission from checkout form (Post-Redirect-Get pattern)
+	public function saveCustomerDetails(){
+		// Save customer details to session before Stripe payment
 		if($_SERVER['REQUEST_METHOD'] === 'POST'){
-			if(!isset($_SESSION['cart']) || !isset($_SESSION['cart_total'])){
-				header("Location: /menu", true, 303);
-				exit;
-			}
-
-			if(isset($_POST['customer_name']) && isset($_POST['customer_email']) && isset($_POST['customer_phone']) && isset($_POST['acquisition_date'])){
-				$_SESSION['customer_name'] = $_POST['customer_name'];
-				$_SESSION['customer_email'] = $_POST['customer_email'];
-				$_SESSION['customer_phone'] = $_POST['customer_phone'];
-				$_SESSION['acquisition_date'] = $_POST['acquisition_date'];
-				$_SESSION['acquisition_method'] = isset($_POST['acquisition_method']) ? $_POST['acquisition_method'] : 'pickup';
-				if(isset($_POST['delivery_address'])){
-					$_SESSION['delivery_address'] = $_POST['delivery_address'];
+			$data = json_decode(file_get_contents('php://input'), true);
+			if($data){
+				$_SESSION['customer_name'] = $data['customer_name'] ?? '';
+				$_SESSION['customer_phone'] = $data['customer_phone'] ?? '';
+				$_SESSION['acquisition_date'] = $data['acquisition_date'] ?? '';
+				$_SESSION['acquisition_method'] = $data['acquisition_method'] ?? 'pickup';
+				if(isset($data['delivery_address'])){
+					$_SESSION['delivery_address'] = $data['delivery_address'];
 				}
-
-				// Preserve cart and total for display on return page
-				$_SESSION['completed_order'] = [
-					'cart' => $_SESSION['cart'],
-					'cart_total' => $_SESSION['cart_total']
-				];
-
-				// Send email receipt
-				$this->send_email_receipt();
-
-				// Clear cart after sending email
-				$_SESSION['cart'] = [];
-				unset($_SESSION['line_items']);
-
-				// Redirect to GET request (Post-Redirect-Get pattern)
-				header("Location: /return", true, 303);
-				exit;
+				echo json_encode(['success' => true]);
 			} else {
-				header("Location: /checkout", true, 303);
-				exit;
+				http_response_code(400);
+				echo json_encode(['success' => false, 'error' => 'Invalid data']);
 			}
 		}
+	}
+	public function showReturn(){
+		// Handle GET request with Stripe session_id - verify payment succeeded
+		if($this->stripe->did_checkout_succeed()){
+			// Preserve cart and total for display on return page
+			$_SESSION['completed_order'] = [
+				'cart' => $_SESSION['cart'],
+				'cart_total' => $_SESSION['cart_total']
+			];
 
-		// Handle GET request - display confirmation page
-		// STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
-		// Payment verification is no longer needed since payment is at pickup
-		// if($this->stripe->did_checkout_succeed()){
-		if(isset($_SESSION['customer_email']) && isset($_SESSION['completed_order'])){
+			// Send email receipt
+			$this->send_email_receipt();
+
+			// Clear cart after sending email
+			$_SESSION['cart'] = [];
+			unset($_SESSION['line_items']);
+
 			include(__DIR__ . "/frontend/pages/return.php");
 		} else {
 			header("Location: /menu", true, 303);
@@ -698,7 +671,10 @@ class Controller {
 		$cart = isset($_SESSION['completed_order']) ? $_SESSION['completed_order']['cart'] : $_SESSION['cart'];
 		$cart_total = isset($_SESSION['completed_order']) ? $_SESSION['completed_order']['cart_total'] : $_SESSION['cart_total'];
 
-		$emailBody = "<h3>Thank you for your order request with Sweet Hope Bakery!</h3>\n\n";
+		$emailBody = "<h3>Thank you for your order with Sweet Hope Bakery!</h3>\n\n";
+		$emailBody .= "<div style='background-color: #d4edda; border: 1px solid #28a745; padding: 15px; margin: 15px 0;'>";
+		$emailBody .= "<strong>Payment successful!</strong> Your order has been confirmed.";
+		$emailBody .= "</div>\n\n";
 		if($_SESSION['acquisition_method'] === "delivery"){
 			$emailBody .= "<h4>Delivery Details:</h4>";
 			$emailBody .= "<p>Delivery Address: " . htmlspecialchars($_SESSION['delivery_address']) . "</p>";
@@ -713,27 +689,24 @@ class Controller {
 		foreach ($cart as $name => $item) {
 			$emailBody .= "<p>" . $item['quantity'] . " x " . $name . ": $" . number_format($item['price'], 2) . "</p>";
 		}
-		$emailBody .= "<p>Estimated Total: $" . number_format($cart_total, 2) . " (payment at pickup)</p>";
-		$emailBody .= "<div style='background-color: #fff3cd; border: 1px solid #ffc107; padding: 15px; margin: 15px 0;'>";
-		$emailBody .= "<strong>Important:</strong> This is NOT a completed sale. Payment is due at in-person pickup only.";
-		$emailBody .= "</div>\n\n";
-		$emailBody .= "<hr><p>We appreciate your interest!</p>";
-		$emailBody .= "<p>We will contact you to confirm availability and coordinate pickup details.</p>";
+		$emailBody .= "<p><strong>Total: $" . number_format($cart_total, 2) . "</strong></p>";
+		$emailBody .= "<hr><p>Thank you for your business!</p>";
+		$emailBody .= "<p>We will contact you to coordinate pickup details.</p>";
 		$emailBody .= "<p>For any questions, please contact support@sweethopebakeryy.com</p>";
 		$emailBody .= "<img src='https://sweethopebakeryy.s3.us-east-1.amazonaws.com/header/sweethopebakeryy.avif' alt='Sweet Hope Bakery Logo' style='width:200px;height:auto;'/>";
 
 		$email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$_SESSION['customer_email']],
-			"subject" => "Your Sweet Hope Bakery Order Request Confirmation",
+			"subject" => "Your Sweet Hope Bakery Order Confirmation",
 			"body" => $emailBody,
 			"date" => time()
 		];
 		$this->ses->sendEmail($email);
 
-		$caroline_email_body = "<h3>New order request received with the following details:</h3>\n\n";
-		$caroline_email_body .= "<div style='background-color: #d1ecf1; border: 1px solid #0c5460; padding: 15px; margin: 15px 0;'>";
-		$caroline_email_body .= "<strong>Reminder:</strong> This is an ORDER REQUEST, not a sale. Payment will be collected at pickup.";
+		$caroline_email_body = "<h3>New order received with the following details:</h3>\n\n";
+		$caroline_email_body .= "<div style='background-color: #d4edda; border: 1px solid #28a745; padding: 15px; margin: 15px 0;'>";
+		$caroline_email_body .= "<strong>Payment received via Stripe!</strong>";
 		$caroline_email_body .= "</div>\n\n";
 		$caroline_email_body .= "<h4>Customer Contact Info:</h4>";
 		$caroline_email_body .= "<p>Name: " . htmlspecialchars($_SESSION['customer_name']) . "</p>";
@@ -743,7 +716,7 @@ class Controller {
 		$caroline_email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$this->config['caroline_email_address']],
-			"subject" => "New Order Request: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"subject" => "New Order: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
 		];
@@ -752,7 +725,7 @@ class Controller {
 		$documentation_email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => ["sweethopebakeryy@gmail.com"],
-			"subject" => "New Order Request Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"subject" => "New Order Documentation: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
 		];
@@ -761,7 +734,7 @@ class Controller {
 		$developer_email = [
 			"from" => "support@sweethopebakeryy.com",
 			"to" => [$this->config['developer_email_address']],
-			"subject" => "New Order Request: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
+			"subject" => "New Order: " . $_SESSION['acquisition_method'] . ": " . $this->formatDateForDisplay($_SESSION['acquisition_date']),
 			"body" => $caroline_email_body,
 			"date" => time()
 		];

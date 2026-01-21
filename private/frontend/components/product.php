@@ -49,6 +49,6 @@
         </div>
     -->
 	    <input type="hidden" name="action" value="add">
-        <button type="submit" class="btn btn-lg btn-cookie">Add to List</button>
+        <button type="submit" class="btn btn-lg btn-cookie">Add to Cart</button>
     </form>
 </div>

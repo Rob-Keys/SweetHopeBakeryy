@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Selection Summary</title>
+        <title>Order Summary</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="Submit your order request for delicious baked goods from Sweet Hope Bakery. Enter pickup details and submit your order request. Payment is due at in-person pickup.">
         <meta property="og:title" content="Order Request Form - Sweet Hope Bakery">
@@ -17,11 +17,10 @@
         <link rel="stylesheet" href="styles/checkout.css">
 
         <script src="/js/shared.js"></script>
+        <script src="/js/checkout.js"></script>
 
-        <!-- STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance -->
-        <!-- <script src="https://js.stripe.com/basil/stripe.js"></script> -->
-        <!-- <script src="js/stripe/checkout.js" defer></script> -->
-        <script src="js/checkout.js" defer></script>
+        <script src="https://js.stripe.com/basil/stripe.js"></script>
+        <script src="js/stripe/checkout.js" defer></script>
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,7 +34,7 @@
             <div class="col-md-5 left-side fade-in-right">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Selection Summary</h2>
+                        <h2>Order Summary</h2>
                     </div>
                     <ul class="list-group list-group-flush">
                         <?php $stripe_total = 0;
@@ -94,15 +93,13 @@
 
                     <input type="hidden" name="acquisition_method" value="pickup">
 
-                    <!-- STRIPE PAYMENT COMMENTED OUT - Virginia cottage law compliance -->
-                    <!-- <h4 class="m-0 p-0"> Payment Method: </h4> -->
-                    <!-- <div id="payment-element"></div> -->
+                    <h4 class="m-0 p-0"> Payment Method: </h4>
+                    <div id="payment-element"></div>
 
-                    <div class="alert alert-warning mt-3" role="alert">
-                        <strong>Important:</strong> Submitting this form does not constitute a sale. Payment is due at in-person pickup only.
-                    </div>
+                    <div id="email-errors" class="text-danger"></div>
+                    <div id="phone-errors" class="text-danger"></div>
 
-                    <button type="submit" id="pay-button" class='btn-cookie btn-lg mt-3'>Submit Item and Date Selection</button>
+                    <button type="button" id="pay-button" class='btn-cookie btn-lg mt-3'>Pay Now</button>
                     <div id="confirm-errors"></div>
                 </form>
             </div>
