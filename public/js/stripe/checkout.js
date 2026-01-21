@@ -1,10 +1,3 @@
-/*
- * STRIPE INTEGRATION COMMENTED OUT - Virginia cottage law compliance
- * This file is preserved for future reference but is not currently in use.
- * The site now uses a request-based system with payment at pickup only.
- */
-
-/*
 document.addEventListener('DOMContentLoaded', () => {
   initialize();
 });
@@ -29,6 +22,8 @@ async function initialize() {
     const emailErrors = document.getElementById('email-errors');
     const phoneInput = document.getElementById('phone');
     const phoneErrors = document.getElementById('phone-errors');
+    const nameInput = document.getElementById('name');
+    const dateInput = document.getElementById('pickup-date');
 
     emailInput.addEventListener('blur', () => {
       const newEmail = emailInput.value;
@@ -41,7 +36,7 @@ async function initialize() {
 
     const button = document.getElementById('pay-button');
     const errors = document.getElementById('confirm-errors');
-    button.addEventListener('click', (e) => {
+    button.addEventListener('click', async (e) => {
       // If another handler already called preventDefault, don't proceed
       if (e && e.defaultPrevented) return;
 
@@ -50,14 +45,18 @@ async function initialize() {
       phoneErrors.textContent = '';
       emailErrors.textContent = '';
 
+      // Validate name
+      const nameValue = (nameInput.value || '').trim();
+      if (!nameValue) {
+        errors.textContent = 'Please enter your name.';
+        nameInput.focus();
+        return;
+      }
+
       // Basic email validation (require something@something.something)
       const emailValue = (emailInput.value || '').trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(emailValue)) {
-        if (e) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-        }
         emailErrors.textContent = 'Please enter a valid email address.';
         emailInput.focus();
         return;
@@ -67,13 +66,44 @@ async function initialize() {
       const phoneValue = phoneInput.value || '';
       const digitCount = (phoneValue.match(/\d/g) || []).length;
       if (digitCount < 10) {
-        // Prevent other click handlers (including ones that may call checkout.confirm())
-        if (e) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-        }
         phoneErrors.innerHTML = "<p class='small-text'>Please enter a valid phone number with at least 10 digits.</p>";
         phoneInput.focus();
+        return;
+      }
+
+      // Validate pickup date
+      const dateValue = dateInput.value || '';
+      if (!dateValue) {
+        errors.textContent = 'Please select a pickup date.';
+        dateInput.focus();
+        return;
+      }
+
+      // Save customer details to session before payment
+      const acquisitionMethod = document.querySelector('input[name="acquisition_method"]')?.value || 'pickup';
+      const deliveryAddress = document.getElementById('delivery-address')?.value || '';
+
+      try {
+        const saveResponse = await fetch('/saveCustomerDetails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            customer_name: nameValue,
+            customer_phone: phoneValue,
+            acquisition_date: dateValue,
+            acquisition_method: acquisitionMethod,
+            delivery_address: deliveryAddress
+          })
+        });
+
+        if (!saveResponse.ok) {
+          errors.textContent = 'Failed to save customer details. Please try again.';
+          return;
+        }
+      } catch (err) {
+        errors.textContent = 'Failed to save customer details. Please try again.';
         return;
       }
 
@@ -88,4 +118,3 @@ async function initialize() {
     paymentElement.mount('#payment-element');
   });
 }
-*/

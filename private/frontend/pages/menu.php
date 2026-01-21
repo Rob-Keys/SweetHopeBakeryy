@@ -30,7 +30,7 @@
         <?php include(__DIR__ . "/../components/header.php"); ?>
         <div>
             <div>
-                <h2 class="col-md-8 order-title">Our Menu</h2>
+                <h2 class="col-md-8 order-title">Sweet Treat Central</h2>
             </div>
             <div class="order-content">
                 <div class="col-8 border rounded bg-light products mb-3">
@@ -57,7 +57,7 @@
                 <div class="col-3"></div>
                 <div class="d-flex justify-content-end me-2 cart-container-wrapper">
                     <div id="normal-cart" class="col-md-3 cart-container rounded fade-in-left">
-                        <h3 id="your-cart">Your List</h3>
+                        <h3 id="your-cart">Your Cart</h3>
                         <ul class="list-group mb-3" id="cart-list">
                             <?php foreach ($_SESSION['cart'] as $name => $item): ?>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -80,16 +80,16 @@
                         <div class="float-end btn-container">
                             <h4 id="total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h4>
                             <form class="d-flex justify-content-end" method="post" action="/checkout">
-                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Proceed</button>
+                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
                             </form>
                             <form class="d-flex justify-content-end" method="post" action="/menu">
-                                <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear List</button>
+                                <button type="submit" name="action" value="clear" class="btn btn-lg btn-danger mt-2">Clear Cart</button>
                             </form>
                         </div>
                         <div class="mobile-container d-flex justify-content-between align-items-end">
                             <h4 id="mobile-total-price">Total: <?php echo "$" . number_format($_SESSION['cart_total'], 2); ?></h4>
                             <form class="d-flex justify-content-end" method="post" action="/checkout">
-                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Proceed</button>
+                                <button type="submit" name="action" value="checkout" class="btn btn-lg btn-primary mt-2">Checkout</button>
                             </form>
                         </div></div>
                 </div>
