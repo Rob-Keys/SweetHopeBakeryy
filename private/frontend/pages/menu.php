@@ -29,9 +29,6 @@
     <body>
         <?php include(__DIR__ . "/../components/header.php"); ?>
         <div>
-            <div>
-                <h2 class="col-md-8 order-title">Sweet Treat Central</h2>
-            </div>
             <div class="order-content">
                 <div class="col-8 border rounded bg-light products mb-3">
                     <?php

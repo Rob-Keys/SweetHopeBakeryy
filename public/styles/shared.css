@@ -56,6 +56,10 @@ footer {
 	color: white !important;
 	background-color: #3f2a14 !important;
 }
+.btn-invert-cookie {
+	color: #3f2a14 !important;
+	background-color: white !important;
+}
 
 /* Image slider for products */
 .slider-container {

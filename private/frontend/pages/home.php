@@ -33,7 +33,7 @@
                     <div class="bg-third"></div>
                     <h1 class="pb-3 welcome mt-5 fade-in-up">Sweet Hope Bakery</h1>
                     <p class="mb-5 subwelcome fade-in-up">Made-To-Order Baking in Arlington, VA</p>
-                    <a href="/menu" class="btn btn-lg btn-cookie desktop-button">Order Now</a>
+                    <a href="/menu" class="btn btn-lg btn-invert-cookie desktop-button">Order Now</a>
                 </div>
             </div>
             <div class="mt-5 mb-5">
