@@ -1,8 +1,4 @@
-FROM php:8.3-apache
-
-# PHP2Shell (CVE-2026-109618 and CVE-2026-109619) requires PHP 8.3.36+.
-# Fail the build if the moving 8.3-apache tag has not picked up the security release yet.
-RUN php -r 'if (PHP_VERSION_ID < 80336) { fwrite(STDERR, "PHP 8.3.36+ is required; found " . PHP_VERSION . PHP_EOL); exit(1); }'
+FROM php:8.3.36-apache
 
 WORKDIR /var/www/html
 
