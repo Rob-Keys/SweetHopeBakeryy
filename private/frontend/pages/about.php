@@ -34,7 +34,7 @@
                             <img src="<?=$section['imageURL']?>" class="caroline-image">
                         </div>
                         <div class="col-6 d-flex flex-column justify-content-center <?= $index%2==0 ? "fade-in-right": "fade-in-left"?>">
-                            <h2><?=$section['headerText']?></h2>
+                            <h2 class="mb-3"><?=$section['headerText']?></h2>
                             <h5><?=$section['bodyText']?></h5>
                         </div>
                         <hr class="mobile-divider mt-3">
@@ -47,7 +47,7 @@
                         <img src="/images/about/rob.avif" alt="Rob, Web Developer" class="rob-image">
                     </div>
                     <div class="col-9">
-                        <h2>Meet Rob</h2>
+                        <h2 class="mb-3">Meet Rob</h2>
                         <h4>
                         Caroline’s brother Rob is the tech brain behind Sweet Hope Bakery’s online home. He designed and developed this site to give you a seamless ordering experience—so you can focus on enjoying the pastries, not the click-throughs.
                         </h4>
